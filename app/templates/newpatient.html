@@ -7,10 +7,16 @@
         <p>
             {{ form.pt_first.label }}<br>
             {{ form.pt_first(size=32) }}
+            {% for error in form.pt_first.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
         </p>
         <p>
             {{ form.pt_last.label }}<br>
             {{ form.pt_last(size=32) }}
+            {% for error in form.pt_last.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
         </p>
         <p>
             {{ form.pt_type.label }}<br>

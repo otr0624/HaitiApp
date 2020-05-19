@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect
+from flask import render_template, flash, redirect, url_for
 from app import app
 from app.forms import PatientForm
 
@@ -14,5 +14,5 @@ def newpatient():
     form = PatientForm()
     if form.validate_on_submit():
         flash('Post request submitted for new patient {} {}'.format(form.pt_first.data, form.pt_last.data))
-        return redirect('/index')
+        return redirect(url_for('index'))
     return render_template('newpatient.html', title="Create Patient", form=form)

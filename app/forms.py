@@ -8,6 +8,7 @@ class PatientForm(FlaskForm):
     pt_last = StringField('Last Name', validators=[DataRequired()])
     pt_dob = DateField('Date of Birth')
     pt_type = SelectField('Patient Status', choices=[
+        ('nochoice', ''),
         ('preop', 'Pre-Op'),
         ('postop', 'Post-Op'),
         ('follow', 'Following'),
