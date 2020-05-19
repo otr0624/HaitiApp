@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Create a Patient</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.pt_first.label }}<br>
+            {{ form.pt_first(size=32) }}
+        </p>
+        <p>
+            {{ form.pt_last.label }}<br>
+            {{ form.pt_last(size=32) }}
+        </p>
+        <p>
+            {{ form.pt_dob.label }}<br>
+            {{ form.pt_dob }}
+        </p>
+        <p>
+            {{ form.pt_type.label }}<br>
+            {{ form.pt_type }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
