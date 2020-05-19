@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    {% if title %}
-    <title>{{ title }}</title>
-    {% else %}
-    <title>HCA App</title>
-    {% endif %}
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
     <h1>HCA App Landing Page</h1>
-</body>
-</html>
+{% endblock %}
