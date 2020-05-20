@@ -13,6 +13,7 @@ patient_bp = Blueprint('patient_bp', __name__,
 def view_patient_list():
     return render_template('patients.html', title="Patient List")
 
+
 @patient_bp.route('/new', methods=['GET', 'POST'])
 def create_patient():
     form = CreatePatientForm()
