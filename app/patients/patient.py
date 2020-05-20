@@ -9,13 +9,17 @@ patient_bp = Blueprint('patient_bp', __name__,
                        static_url_path='assets')
 
 
-@patient_bp.route('/', methods=['GET', 'POST'])
+@patient_bp.route('/')
+def view_patient_list():
+    return render_template('patients.html', title="Patient List")
+
+@patient_bp.route('/new', methods=['GET', 'POST'])
 def create_patient():
     form = CreatePatientForm()
     if form.validate_on_submit():
         patient = Patient(first_name=form.pt_first.data, last_name=form.pt_last.data, status=form.pt_type.data)
         db.session.add(patient)
         db.session.commit()
-        flash('Patient added successfully.')
+        flash("Patient '{} {}' added successfully.".format(form.pt_first.data, form.pt_last.data))
         return redirect(url_for('index_bp.index'))
-    return render_template('patient.html', title="Patient Dashboard", form=form)
+    return render_template('new-patient.html', title="Add Patient", form=form)
