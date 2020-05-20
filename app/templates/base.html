@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     {% if title %}
-    <title>{{ title }}</title>
+    <title>HCA App: {{ title }}</title>
     {% else %}
     <title>HCA App</title>
     {% endif %}
@@ -11,7 +11,7 @@
 <body>
     <div>HCA App:
         <a href="{{ url_for('index') }}">Home</a>
-        <a href="{{ url_for('newpatient') }}">New Patient</a>
+        <a href="{{ url_for('patient') }}">Patients</a>
     </div>
     <hr>
     {% with messages = get_flashed_messages() %}

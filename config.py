@@ -9,7 +9,7 @@ class BaseConfig(object):
 
 
 class DevelopmentConfig(BaseConfig):
-    """Development environment-specific config class"""
+    """Development-environment-specific config class"""
     SECRET_KEY = 'qwerty'
     DEBUG = True
     TESTING = True
