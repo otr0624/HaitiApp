@@ -2,4 +2,10 @@
 
 {% block content %}
     <h1>Patient List</h1>
+    <hr>
+    {% for patient in patient_list %}
+    <p>
+        {{ patient.id }}. {{ patient.last_name }}, {{ patient.first_name }} ({{ patient.status }})
+    </p>
+    {% endfor %}
 {% endblock %}
