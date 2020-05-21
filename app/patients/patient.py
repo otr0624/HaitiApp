@@ -22,6 +22,6 @@ def create_patient():
         patient = Patient(first_name=form.pt_first.data, last_name=form.pt_last.data, status=form.pt_type.data)
         db.session.add(patient)
         db.session.commit()
-        flash("Patient '{} {}' added successfully.".format(form.pt_first.data, form.pt_last.data))
-        return redirect(url_for('index_bp.index'))
+        flash("Patient '{} {}' added successfully".format(form.pt_first.data, form.pt_last.data))
+        return redirect(url_for('patient_bp.view_patient_list'))
     return render_template('new-patient.html', title="Add Patient", form=form)

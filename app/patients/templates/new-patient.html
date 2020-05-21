@@ -1,27 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Add a Patient</h1>
-    <form action="" method="post" novalidate>
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.pt_first.label }}<br>
-            {{ form.pt_first(size=32) }}
-            {% for error in form.pt_first.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.pt_last.label }}<br>
-            {{ form.pt_last(size=32) }}
-            {% for error in form.pt_last.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.pt_type.label }}<br>
-            {{ form.pt_type }}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
+    <div class="container" style="margin-top: 4rem">
+        <div class="card">
+          <div class="card-header">
+              <b>Add a Patient</b>
+          </div>
+          <div class="card-body">
+            <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+                <p>
+                    {{ form.pt_first.label }}<br>
+                    {{ form.pt_first(size=32) }}
+                    {% for error in form.pt_first.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.pt_last.label }}<br>
+                    {{ form.pt_last(size=32) }}
+                    {% for error in form.pt_last.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.pt_type.label }}<br>
+                    {{ form.pt_type }}
+                </p>
+                <p>{{ form.submit() }}</p>
+            </form>
+          </div>
+        </div>
+
+    </div>
 {% endblock %}

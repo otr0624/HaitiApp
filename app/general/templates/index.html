@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>HCA App Landing Page</h1>
+<div class="container" style="margin-top: 10rem">
+    <div class="jumbotron">
+      <h1 class="display-4">HCA Data Dashboard</h1>
+      <p class="lead">Charts and user control buttons will go here.</p>
+      <hr class="my-4">
+      <a class="btn btn-primary" href="/patients" role="button" style="margin-right: 2rem">View Patients</a>
+      <a class="btn btn-primary" href="/patients/new" role="button">Add Patient</a>
+    </div>
+</div>
 {% endblock %}

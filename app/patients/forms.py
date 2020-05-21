@@ -7,10 +7,10 @@ class CreatePatientForm(FlaskForm):
     pt_first = StringField('First Name', validators=[DataRequired()])
     pt_last = StringField('Last Name', validators=[DataRequired()])
     pt_type = SelectField('Patient Status', choices=[
-        ('nochoice', ''),
-        ('preop', 'Pre-Op'),
-        ('postop', 'Post-Op'),
-        ('follow', 'Following'),
-        ('undet', 'Undetermined')
+        ('', ''),
+        ('Pre-Op', 'Pre-Op'),
+        ('Post-Op', 'Post-Op'),
+        ('Following', 'Following'),
+        ('Undetermined', 'Undetermined')
     ])
     submit = SubmitField('Create Patient')
