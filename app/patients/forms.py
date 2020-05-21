@@ -14,3 +14,4 @@ class CreatePatientForm(FlaskForm):
         ('Undetermined', 'Undetermined')
     ])
     submit = SubmitField('Create Patient')
+    submit_edit = SubmitField('Save Changes')

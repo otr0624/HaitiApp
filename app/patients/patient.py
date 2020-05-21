@@ -25,3 +25,9 @@ def create_patient():
         flash("Patient '{} {}' added successfully".format(form.pt_first.data, form.pt_last.data))
         return redirect(url_for('patient_bp.view_patient_list'))
     return render_template('new-patient.html', title="Add Patient", form=form)
+
+
+@patient_bp.route('/edit/<int:id>', methods=['GET', 'POST'])
+def edit_patient(id):
+    form = CreatePatientForm()
+    return render_template('edit-patient.html', title="Edit Patient", form=form)
