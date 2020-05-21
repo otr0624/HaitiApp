@@ -1,0 +1,7 @@
+Flask
+Flask-SQLAlchemy
+Flask-WTF
+Flask-Migrate
+Python-dotenv
+Pymysql
+uwsgi
