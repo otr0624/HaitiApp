@@ -27,7 +27,10 @@ def create_patient():
     return render_template('new-patient.html', title="Add Patient", form=form)
 
 
-@patient_bp.route('/edit/<int:id>', methods=['GET', 'POST'])
-def edit_patient(id):
+@patient_bp.route('/edit/<int:_id>', methods=['GET', 'PUT'])
+def edit_patient(_id):
     form = CreatePatientForm()
-    return render_template('edit-patient.html', title="Edit Patient", form=form)
+    # Add WTForms 'obj=' logic here
+    return render_template('edit-patient.html',
+                           title="Edit Patient",
+                           form=form)
