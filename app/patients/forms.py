@@ -3,7 +3,7 @@ from wtforms import StringField, SelectField, SubmitField
 from wtforms.validators import DataRequired
 
 
-class CreatePatientForm(FlaskForm):
+class PatientProfileForm(FlaskForm):
     pt_first = StringField('First Name', validators=[DataRequired()])
     pt_last = StringField('Last Name', validators=[DataRequired()])
     pt_type = SelectField('Patient Status', choices=[

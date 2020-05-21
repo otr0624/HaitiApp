@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from app import db
-from app.patients.forms import CreatePatientForm
+from app.patients.forms import PatientProfileForm
 from app.patients.patient_model import Patient
 
 patient_bp = Blueprint('patient_bp', __name__,
@@ -17,20 +17,35 @@ def view_patient_list():
 
 @patient_bp.route('/new', methods=['GET', 'POST'])
 def create_patient():
-    form = CreatePatientForm()
+    form = PatientProfileForm()
     if form.validate_on_submit():
         patient = Patient(first_name=form.pt_first.data, last_name=form.pt_last.data, status=form.pt_type.data)
         db.session.add(patient)
         db.session.commit()
-        flash("Patient '{} {}' added successfully".format(form.pt_first.data, form.pt_last.data))
+        flash("Patient '{} {}' successfully created".format(form.pt_first.data, form.pt_last.data))
         return redirect(url_for('patient_bp.view_patient_list'))
     return render_template('new-patient.html', title="Add Patient", form=form)
 
 
+@patient_bp.route('/delete/<int:_id>')
+def delete_patient(_id):
+    patient = Patient.query.filter_by(id=_id).first()
+    db.session.delete(patient)
+    db.session.commit()
+    flash("Patient successfully deleted")
+    return view_patient_list()
+
+
+# CODE BELOW THIS POINT IS NOT FUNCTIONAL
+
+
 @patient_bp.route('/edit/<int:_id>', methods=['GET', 'PUT'])
 def edit_patient(_id):
-    form = CreatePatientForm()
+    form = PatientProfileForm()
     # Add WTForms 'obj=' logic here
     return render_template('edit-patient.html',
                            title="Edit Patient",
                            form=form)
+
+
+
