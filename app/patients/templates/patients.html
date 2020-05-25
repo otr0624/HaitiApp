@@ -26,7 +26,7 @@
                       <td>{{ patient.last_name }}</td>
                       <td>{{ patient.first_name }}</td>
                       <td>{{ patient.status }}</td>
-                        <td style="text-align: center; vertical-align: middle"><a href="#"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                        <td style="text-align: center; vertical-align: middle"><a href="/patients/edit/{{patient.id}}"><span class="glyphicon glyphicon-pencil"></span></a></td>
                         <td style="text-align: center; vertical-align: middle"><a href="/patients/delete/{{ patient.id }}"><span class="glyphicon glyphicon-trash"></span></a></td>
                     </tr>
                   {% endfor %}

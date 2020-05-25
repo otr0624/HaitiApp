@@ -5,3 +5,4 @@ Flask-Migrate
 Python-dotenv
 Pymysql
 uwsgi
+WTForms-Alchemy

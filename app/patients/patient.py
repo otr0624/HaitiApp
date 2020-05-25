@@ -19,10 +19,10 @@ def view_patient_list():
 def create_patient():
     form = PatientProfileForm()
     if form.validate_on_submit():
-        patient = Patient(first_name=form.pt_first.data, last_name=form.pt_last.data, status=form.pt_type.data)
+        patient = Patient(first_name=form.first_name.data, last_name=form.last_name.data, patient_status=form.patient_status.data)
         db.session.add(patient)
         db.session.commit()
-        flash("Patient '{} {}' successfully created".format(form.pt_first.data, form.pt_last.data))
+        flash("Patient '{} {}' successfully created".format(form.first_name.data, form.last_name.data))
         return redirect(url_for('patient_bp.view_patient_list'))
     return render_template('new-patient.html', title="Add Patient", form=form)
 
@@ -36,13 +36,23 @@ def delete_patient(_id):
     return view_patient_list()
 
 
-# CODE BELOW THIS POINT IS NOT FUNCTIONAL
-
-
-@patient_bp.route('/edit/<int:_id>', methods=['GET', 'PUT'])
+@patient_bp.route('/edit/<int:_id>', methods=['GET', 'POST'])
 def edit_patient(_id):
-    form = PatientProfileForm()
+
+    from flask import request
+    patient_obj = db.session.query(Patient).get(_id)
+    #debugging app.logger.debug(f"patient to edit is {patient_obj}")
+    form = PatientProfileForm(obj=patient_obj)
     # Add WTForms 'obj=' logic here
+    if form.validate_on_submit():
+        #debugging app.logger.debug(f"last name would be set to {form.last_name.data}, first {form.first_name.data}, stat {form.patient_status.data.id}")
+        patient_obj.last_name      = form.last_name.data
+        patient_obj.first_name     = form.first_name.data
+        patient_obj.patient_status = form.patient_status.data
+        db.session.add(patient_obj)
+        db.session.commit()
+        flash("Patient '{} {}' successfully edited".format(form.first_name.data, form.last_name.data))
+        return redirect(url_for('patient_bp.view_patient_list'))
     return render_template('edit-patient.html',
                            title="Edit Patient",
                            form=form)
