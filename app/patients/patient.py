@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from app import db
+#debugging from app import app
 from app.patients.forms import PatientProfileForm
 from app.patients.patient_model import Patient
 
