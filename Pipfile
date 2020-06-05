@@ -15,7 +15,6 @@ pymysql = "*"
 wtforms-alchemy = "*"
 flask-bootstrap4 = "*"
 uwsgi = "*"
-uwsgi-pipenv = "*"
 
 [requires]
 python_version = "3.6"
