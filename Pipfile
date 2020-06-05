@@ -12,6 +12,8 @@ flask-wtf = "*"
 python-dotenv = "*"
 flask-migrate = "*"
 pymysql = "*"
+wtforms-alchemy = "*"
+flask-bootstrap4 = "*"
 
 [requires]
 python_version = "3.6"

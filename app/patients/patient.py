@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from app import db
-#debugging from app import app
+# debugging from app import app
 from app.patients.forms import PatientProfileForm
-from app.patients.patient_model import Patient
+from app.patients.patient_model import Patient, PatientStatus
 
 patient_bp = Blueprint('patient_bp', __name__,
                        template_folder='templates',
@@ -44,11 +44,10 @@ def edit_patient(_id):
     patient_obj = db.session.query(Patient).get(_id)
     #debugging app.logger.debug(f"patient to edit is {patient_obj}")
     form = PatientProfileForm(obj=patient_obj)
-    # Add WTForms 'obj=' logic here
     if form.validate_on_submit():
         #debugging app.logger.debug(f"last name would be set to {form.last_name.data}, first {form.first_name.data}, stat {form.patient_status.data.id}")
-        patient_obj.last_name      = form.last_name.data
-        patient_obj.first_name     = form.first_name.data
+        patient_obj.last_name = form.last_name.data
+        patient_obj.first_name = form.first_name.data
         patient_obj.patient_status = form.patient_status.data
         db.session.add(patient_obj)
         db.session.commit()
@@ -57,6 +56,3 @@ def edit_patient(_id):
     return render_template('edit-patient.html',
                            title="Edit Patient",
                            form=form)
-
-
-

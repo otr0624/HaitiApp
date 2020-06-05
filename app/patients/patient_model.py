@@ -16,10 +16,11 @@ class PatientStatus(db.Model):
     def __repr__(self):
         return '<PatientStatus: {}, {}>'.format(self.code_name, self.name)
 
+
 class Patient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(30), index=True, nullable=False)
-    last_name = db.Column(db.String(30), index=True, nullable=False)
+    first_name = db.Column(db.String(30), index=True, nullable=False, info={'label': 'First Name'})
+    last_name = db.Column(db.String(30), index=True, nullable=False, info={'label': 'Last Name'})
     patient_status_id = db.Column(db.Integer, db.ForeignKey('patient_status.id'))
 
     patient_status = db.relationship(PatientStatus)
