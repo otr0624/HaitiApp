@@ -2,7 +2,7 @@ Flask
 Flask-SQLAlchemy
 Flask-WTF
 Flask-Migrate
+Gunicorn
 Python-dotenv
 Pymysql
-uwsgi
 WTForms-Alchemy
