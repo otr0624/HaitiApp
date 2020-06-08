@@ -11,10 +11,10 @@ flask-sqlalchemy = "==2.4.1"
 flask-wtf = "*"
 python-dotenv = "*"
 flask-migrate = "*"
-pymysql = "*"
 wtforms-alchemy = "*"
 flask-bootstrap4 = "*"
 gunicorn = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.6"

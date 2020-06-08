@@ -4,5 +4,5 @@ Flask-WTF
 Flask-Migrate
 Gunicorn
 Python-dotenv
-Pymysql
+psycopg2
 WTForms-Alchemy
