@@ -15,6 +15,7 @@ wtforms-alchemy = "*"
 flask-bootstrap4 = "*"
 gunicorn = "*"
 psycopg2 = "*"
+flask-script = "*"
 
 [requires]
 python_version = "3.6"
