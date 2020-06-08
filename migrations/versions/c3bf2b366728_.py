@@ -28,10 +28,10 @@ def upgrade():
     op.create_index(op.f('ix_patient_status_name'), 'patient_status', ['name'], unique=False)
     op.execute(
         """
-        INSERT INTO patient_status VALUES (1, "NONE", "");
-        INSERT INTO patient_status VALUES (2, "PREOP", "Pre-Op");
-        INSERT INTO patient_status VALUES (3, "POSTOP", "Post-Op");
-        INSERT INTO patient_status VALUES (4, "FOLLOW", "Following");
+        INSERT INTO patient_status VALUES (1, 'NONE', '');
+        INSERT INTO patient_status VALUES (2, 'PREOP', 'Pre-Op');
+        INSERT INTO patient_status VALUES (3, 'POSTOP', 'Post-Op');
+        INSERT INTO patient_status VALUES (4, 'FOLLOW', 'Following');
         """
     )
     op.create_table('patient',
