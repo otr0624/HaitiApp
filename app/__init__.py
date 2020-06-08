@@ -18,4 +18,6 @@ from app.patients.patient_model import Patient, PatientStatus
 app.register_blueprint(patient_bp, url_prefix='/patients')
 app.register_blueprint(index_bp, url_prefix='/')
 
+# Comment
+
 
