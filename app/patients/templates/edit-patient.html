@@ -11,23 +11,30 @@
             {{ form.hidden_tag() }}
                 <p>
                     {{ form.first_name.label }}<br>
-                    {{ form.first_name(size=32) }}
+                    {{ form.first_name(class="form-control", size=32) }}
                     {% for error in form.first_name.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
                 </p>
                 <p>
                     {{ form.last_name.label }}<br>
-                    {{ form.last_name(size=32) }}
+                    {{ form.last_name(class="form-control", size=32) }}
                     {% for error in form.last_name.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
                 </p>
                 <p>
                     {{ form.patient_status.label }}<br>
-                    {{ form.patient_status }}
+                    {{ form.patient_status }}<br>
+<!--                    ATTEMPT TO STYLE SELECT FIELD WITH BOOTSTRAP - CURRENTLY CAUSES FORM VALIDATION TO FAIL-->
+<!--                    <select class="form-control">-->
+<!--                    {% for status in form.patient_status %}-->
+<!--                        <option>{{ status.label }}</option>-->
+<!--                    {% endfor %}-->
+<!--                    </select>-->
+<!--                    END ATTEMPT-->
                 </p>
-                <p>{{ form.submit_edit() }}</p>
+                <p><input type=submit class='btn btn-primary btn-lg' value="Save Changes">
             </form>
           </div>
         </div>
