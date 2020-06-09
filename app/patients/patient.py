@@ -3,6 +3,7 @@ from app import db
 # debugging from app import app
 from app.patients.forms import PatientProfileForm
 from app.patients.patient_model import Patient, PatientStatus
+from app.patients.id_gen import rand_id
 
 patient_bp = Blueprint('patient_bp', __name__,
                        template_folder='templates',
@@ -19,12 +20,13 @@ def view_patient_list():
 @patient_bp.route('/new', methods=['GET', 'POST'])
 def create_patient():
     form = PatientProfileForm()
+    patient_id = rand_id(6)
     if form.validate_on_submit():
         patient = Patient(
             first_name=form.first_name.data,
             last_name=form.last_name.data,
             patient_status=form.patient_status.data,
-            patient_id=form.patient_id
+            patient_id=patient_id
         )
         db.session.add(patient)
         db.session.commit()

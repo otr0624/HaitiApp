@@ -15,7 +15,6 @@ class PatientProfileForm(ModelForm, FlaskForm):
         model = Patient
 
     patient_status = QuerySelectField(query_factory=lambda: PatientStatus.query)
-    patient_id = rand_id(6)
 
     submit = SubmitField('Create Patient')
     submit_edit = SubmitField('Save Changes')
