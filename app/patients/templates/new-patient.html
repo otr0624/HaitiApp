@@ -25,14 +25,7 @@
                 </p>
                 <p>
                     {{ form.patient_status.label }}<br>
-                    {{ form.patient_status }}<br>
-<!--                    ATTEMPT TO STYLE SELECT FIELD WITH BOOTSTRAP - CURRENTLY CAUSES FORM VALIDATION TO FAIL-->
-<!--                    <select class="form-control">-->
-<!--                    {% for status in form.patient_status %}-->
-<!--                        <option>{{ status.label }}</option>-->
-<!--                    {% endfor %}-->
-<!--                    </select>-->
-<!--                    END ATTEMPT-->
+                    {{ form.patient_status(class="form-control") }}<br>
                 </p>
                 <p><input type=submit class='btn btn-primary btn-lg' value="Create Patient">
             </form>
