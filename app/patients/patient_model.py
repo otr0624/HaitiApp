@@ -21,13 +21,15 @@ class Patient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(30), index=True, nullable=False, info={'label': 'First Name'})
     last_name = db.Column(db.String(30), index=True, nullable=False, info={'label': 'Last Name'})
+    patient_id = db.Column(db.String(10), index=True)
     patient_status_id = db.Column(db.Integer, db.ForeignKey('patient_status.id'))
 
     patient_status = db.relationship(PatientStatus)
 
-    def __init__(self, first_name, last_name, patient_status):
+    def __init__(self, first_name, last_name, patient_id, patient_status):
         self.first_name = first_name
         self.last_name = last_name
+        self.patient_id = patient_id
         self.patient_status = patient_status
 
     def __repr__(self):

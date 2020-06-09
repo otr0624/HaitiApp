@@ -20,7 +20,12 @@ def view_patient_list():
 def create_patient():
     form = PatientProfileForm()
     if form.validate_on_submit():
-        patient = Patient(first_name=form.first_name.data, last_name=form.last_name.data, patient_status=form.patient_status.data)
+        patient = Patient(
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            patient_status=form.patient_status.data,
+            patient_id=form.patient_id
+        )
         db.session.add(patient)
         db.session.commit()
         flash("Patient '{} {}' successfully created".format(form.first_name.data, form.last_name.data))
@@ -48,6 +53,7 @@ def edit_patient(_id):
         #debugging app.logger.debug(f"last name would be set to {form.last_name.data}, first {form.first_name.data}, stat {form.patient_status.data.id}")
         patient_obj.last_name = form.last_name.data
         patient_obj.first_name = form.first_name.data
+        patient_obj.patient_id = form.patient_id
         patient_obj.patient_status = form.patient_status.data
         db.session.add(patient_obj)
         db.session.commit()
