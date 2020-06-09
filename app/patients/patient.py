@@ -35,27 +35,24 @@ def create_patient():
     return render_template('new-patient.html', title="Add Patient", form=form)
 
 
-@patient_bp.route('/delete/<int:_id>')
-def delete_patient(_id):
-    patient = Patient.query.filter_by(id=_id).first()
+@patient_bp.route('/delete/<string:patient_id>')
+def delete_patient(patient_id):
+    patient = Patient.query.filter_by(patient_id=patient_id).first()
     db.session.delete(patient)
     db.session.commit()
     flash("Patient successfully deleted")
     return view_patient_list()
 
 
-@patient_bp.route('/edit/<int:_id>', methods=['GET', 'POST'])
-def edit_patient(_id):
-
-    from flask import request
-    patient_obj = db.session.query(Patient).get(_id)
+@patient_bp.route('/edit/<string:patient_id>', methods=['GET', 'POST'])
+def edit_patient(patient_id):
+    patient_obj = Patient.query.filter_by(patient_id=patient_id).first()
     #debugging app.logger.debug(f"patient to edit is {patient_obj}")
     form = PatientProfileForm(obj=patient_obj)
     if form.validate_on_submit():
         #debugging app.logger.debug(f"last name would be set to {form.last_name.data}, first {form.first_name.data}, stat {form.patient_status.data.id}")
         patient_obj.last_name = form.last_name.data
         patient_obj.first_name = form.first_name.data
-        patient_obj.patient_id = form.patient_id
         patient_obj.patient_status = form.patient_status.data
         db.session.add(patient_obj)
         db.session.commit()
