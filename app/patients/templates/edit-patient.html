@@ -27,7 +27,9 @@
                     {{ form.patient_status.label }}<br>
                     {{ form.patient_status(class="form-control") }}<br>
                 </p>
-                <p><input type=submit class='btn btn-primary btn-lg' value="Save Changes">
+                <p>
+                    {{ form.submit_edit(class="btn btn-primary btn-lg") }}
+                </p>
             </form>
           </div>
         </div>
