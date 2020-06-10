@@ -3,7 +3,7 @@ from app import db
 # debugging from app import app
 from app.facilities.forms import FacilityProfileForm
 from app.facilities.facility_model import Facility
-from app.patients.id_gen import rand_id
+from app.general.id_gen import rand_id
 
 facility_bp = Blueprint('facility_bp', __name__,
                        template_folder='templates',
