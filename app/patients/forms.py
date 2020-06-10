@@ -2,7 +2,6 @@ from flask_wtf import FlaskForm
 from wtforms import SubmitField
 from wtforms_alchemy import ModelForm, QuerySelectField
 from app.patients.patient_model import Patient, PatientStatus
-from app.patients.id_gen import rand_id
 
 
 class PatientStatusForm(ModelForm, FlaskForm):
