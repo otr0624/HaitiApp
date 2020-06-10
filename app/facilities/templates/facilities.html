@@ -27,8 +27,8 @@
                       <td>{{ facility.facility_id }}</td>
                       <td>{{ facility.facility_name }}</td>
                       <td>{{ facility.facility_category }}</td>
-                        <td style="text-align: center; vertical-align: middle"><a href="/providers/edit/{{provider.provider_id}}"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                        <td style="text-align: center; vertical-align: middle"><a href="/providers/delete/{{ provider.provider_id }}"><span class="glyphicon glyphicon-trash"></span></a></td>
+                        <td style="text-align: center; vertical-align: middle"><a href="/facilities/edit/{{  facility.facility_id  }}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                        <td style="text-align: center; vertical-align: middle"><a href="/facilities/delete/{{ facility.facility_id }}"><span class="glyphicon glyphicon-trash"></span></a></td>
                     </tr>
                   {% endfor %}
                   </tbody>
