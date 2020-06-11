@@ -29,13 +29,15 @@ class Provider(db.Model):
     provider_category = db.relationship(ProviderCategory)
     provider_facility = db.relationship(Facility)
 
-
     def __init__(self, first_name, last_name, provider_id, provider_category, provider_facility):
         self.first_name = first_name
         self.last_name = last_name
         self.provider_id = provider_id
         self.provider_category = provider_category
         self.provider_facility = provider_facility
+
+    def __str__(self):
+        return self.last_name + ", " + self.first_name
 
     def __repr__(self):
         return '<Provider: {}, {}>'.format(self.last_name, self.first_name)

@@ -1,4 +1,5 @@
 from app import db
+from app.providers.provider_model import Provider
 
 
 class PatientStatus(db.Model):
@@ -23,14 +24,17 @@ class Patient(db.Model):
     last_name = db.Column(db.String(30), index=True, nullable=False, info={'label': 'Last Name'})
     patient_id = db.Column(db.String(10), index=True)
     patient_status_id = db.Column(db.Integer, db.ForeignKey('patient_status.id'))
+    patient_provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'))
 
     patient_status = db.relationship(PatientStatus)
+    patient_provider = db.relationship(Provider)
 
-    def __init__(self, first_name, last_name, patient_id, patient_status):
+    def __init__(self, first_name, last_name, patient_id, patient_status, patient_provider):
         self.first_name = first_name
         self.last_name = last_name
         self.patient_id = patient_id
         self.patient_status = patient_status
+        self.patient_provider = patient_provider
 
     def __repr__(self):
         return '<Patient: {}, {}>'.format(self.last_name, self.first_name)

@@ -24,6 +24,10 @@
                     {% endfor %}
                 </p>
                 <p>
+                    {{ form.patient_provider.label }}<br>
+                    {{ form.patient_provider(class="form-control") }}<br>
+                </p>
+                <p>
                     {{ form.patient_status.label }}<br>
                     {{ form.patient_status(class="form-control") }}<br>
                 </p>

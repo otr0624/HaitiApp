@@ -17,6 +17,7 @@
                       <th scope="col">ID</th>
                       <th scope="col">Last</th>
                       <th scope="col">First</th>
+                      <th scope="col">Primary Provider</th>
                       <th scope="col">Status</th>
                       <th style="text-align: center; vertical-align: middle" scope="col">Edit</th>
                       <th style="text-align: center; vertical-align: middle" scope="col">Delete</th>
@@ -28,6 +29,7 @@
                       <td>{{ patient.patient_id }}</td>
                       <td>{{ patient.last_name }}</td>
                       <td>{{ patient.first_name }}</td>
+                      <td>{{ patient.patient_provider }}</td>
                       <td>{{ patient.patient_status }}</td>
                         <td style="text-align: center; vertical-align: middle"><a href="/patients/edit/{{patient.patient_id}}"><span class="glyphicon glyphicon-pencil"></span></a></td>
                         <td style="text-align: center; vertical-align: middle"><a href="/patients/delete/{{ patient.patient_id }}"><span class="glyphicon glyphicon-trash"></span></a></td>
