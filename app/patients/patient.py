@@ -63,3 +63,10 @@ def edit_patient(patient_id):
     return render_template('edit-patient.html',
                            title="Edit Patient",
                            form=form)
+
+@patient_bp.route('/view/<string:patient_id>')
+def view_patient(patient_id):
+    patient = Patient.query.filter_by(patient_id=patient_id).first()
+    return render_template('patient-profile.html',
+                           title="View Patient",
+                           patient=patient)
