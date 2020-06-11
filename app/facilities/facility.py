@@ -57,3 +57,11 @@ def edit_facility(facility_id):
     return render_template('edit-facility.html',
                            title="Edit Facility",
                            form=form)
+
+
+@facility_bp.route('/view/<string:facility_id>')
+def view_facility(facility_id):
+    facility = Facility.query.filter_by(facility_id=facility_id).first()
+    return render_template('facility-profile.html',
+                           title="View Facility",
+                           facility=facility)

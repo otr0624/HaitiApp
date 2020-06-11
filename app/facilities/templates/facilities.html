@@ -24,9 +24,9 @@
                   <tbody>
                   {% for facility in facility_list %}
                     <tr>
-                      <td>{{ facility.facility_id }}</td>
-                      <td>{{ facility.facility_name }}</td>
-                      <td>{{ facility.facility_category }}</td>
+                      <td><a href="/facilities/view/{{  facility.facility_id  }}">{{ facility.facility_id }}</a></td>
+                      <td><a href="/facilities/view/{{  facility.facility_id  }}">{{ facility.facility_name }}</a></td>
+                        <td><a href="/facilities/view/{{  facility.facility_id  }}">{{ facility.facility_category }}</a></td>
                         <td style="text-align: center; vertical-align: middle"><a href="/facilities/edit/{{  facility.facility_id  }}"><span class="glyphicon glyphicon-pencil"></span></a></td>
                         <td style="text-align: center; vertical-align: middle"><a href="/facilities/delete/{{ facility.facility_id }}"><span class="glyphicon glyphicon-trash"></span></a></td>
                     </tr>
