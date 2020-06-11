@@ -30,5 +30,8 @@ class Facility(db.Model):
         self.facility_id = facility_id
         self.facility_category = facility_category
 
+    def __str__(self):
+        return self.facility_name
+
     def __repr__(self):
         return '<Facility: {}>'.format(self.facility_name)
