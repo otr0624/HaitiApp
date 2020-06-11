@@ -26,6 +26,7 @@ def create_provider():
             first_name=form.first_name.data,
             last_name=form.last_name.data,
             provider_category=form.provider_category.data,
+            provider_facility=form.provider_facility.data,
             provider_id=provider_id
         )
         db.session.add(provider)
@@ -52,6 +53,7 @@ def edit_provider(provider_id):
         provider_obj.last_name = form.last_name.data
         provider_obj.first_name = form.first_name.data
         provider_obj.provider_category = form.provider_category.data
+        provider_obj.provider_facility = form.provider_facility.data
         db.session.add(provider_obj)
         db.session.commit()
         flash("Provider '{} {}' successfully edited".format(form.first_name.data, form.last_name.data))
