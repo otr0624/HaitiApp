@@ -61,3 +61,10 @@ def edit_provider(provider_id):
     return render_template('edit-provider.html',
                            title="Edit Provider",
                            form=form)
+
+@provider_bp.route('/view/<string:provider_id>')
+def view_provider(provider_id):
+    provider = Provider.query.filter_by(provider_id=provider_id).first()
+    return render_template('provider-profile.html',
+                           title="View Provider",
+                           provider=provider)

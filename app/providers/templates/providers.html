@@ -26,11 +26,11 @@
                   <tbody>
                   {% for provider in provider_list %}
                     <tr>
-                      <td>{{ provider.provider_id }}</td>
-                      <td>{{ provider.last_name }}</td>
-                      <td>{{ provider.first_name }}</td>
-                      <td>{{ provider.provider_category }}</td>
-                      <td>{{ provider.provider_facility }}</td>
+                      <td><a href="/providers/view/{{provider.provider_id}}">{{ provider.provider_id }}</a></td>
+                      <td><a href="/providers/view/{{provider.provider_id}}">{{ provider.last_name }}</a></td>
+                      <td><a href="/providers/view/{{provider.provider_id}}">{{ provider.first_name }}</a></td>
+                      <td><a href="/providers/view/{{provider.provider_id}}">{{ provider.provider_category }}</a></td>
+                      <td><a href="/providers/view/{{provider.provider_id}}">{{ provider.provider_facility }}</a></td>
                         <td style="text-align: center; vertical-align: middle"><a href="/providers/edit/{{provider.provider_id}}"><span class="glyphicon glyphicon-pencil"></span></a></td>
                         <td style="text-align: center; vertical-align: middle"><a href="/providers/delete/{{ provider.provider_id }}"><span class="glyphicon glyphicon-trash"></span></a></td>
                     </tr>
