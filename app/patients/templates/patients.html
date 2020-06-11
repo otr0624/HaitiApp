@@ -11,7 +11,7 @@
               </a>
           </div>
           <div class="card-body">
-              <table class="table table-hover table-sm">
+              <table class="table table-hover table-sm" id="patient-list-table">
                   <thead>
                     <tr>
                       <th scope="col">ID</th>
@@ -19,8 +19,8 @@
                       <th scope="col">First</th>
                       <th scope="col">Primary Provider</th>
                       <th scope="col">Status</th>
-                      <th style="text-align: center; vertical-align: middle" scope="col">Edit</th>
-                      <th style="text-align: center; vertical-align: middle" scope="col">Delete</th>
+                      <th style="text-align: center; vertical-align: middle" scope="col" class="no-sort">Edit</th>
+                      <th style="text-align: center; vertical-align: middle" scope="col" class="no-sort">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -40,5 +40,11 @@
           </div>
         </div>
     </div>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+    <script type="text/javascript">
+       $(document).ready( function () {
+            $('#patient-list-table').DataTable();
+       } );
+    </script>
 
 {% endblock %}
