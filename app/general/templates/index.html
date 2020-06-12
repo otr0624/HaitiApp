@@ -11,8 +11,37 @@
         <div class="card-header">
           <i class="fas fa-heartbeat fa-2x"></i><b style="font-size: 150%"> &emsp;Patients</b>
         </div>
-        <div class="card-body" style="height: 15rem">
-          <p class="card-text">Patient stats and graph will go here.</p>
+        <div class="card-body" style="height: 20rem">
+          <table class="table table-bordered table-sm">
+            <thead>
+              <tr>
+                <th scope="col">Category</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Pre-Op</td>
+                <td>{{ preop_count }}</td>
+              </tr>
+              <tr>
+                <td>Post-Op</td>
+                <td>{{ postop_count }}</td>
+              </tr>
+              <tr>
+                <td>Following</td>
+                <td>{{ follow_count }}</td>
+              </tr>
+              <tr>
+                <td>Uncategorized</td>
+                <td>{{ uncat_count }}</td>
+              </tr>
+              <tr>
+                <td><b>Total</b></td>
+                <td><b>{{ patient_count }}</b></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="card-footer">
           <a class="btn btn-primary btn-lg btn-block" href="/patients" role="button">
@@ -27,7 +56,7 @@
         <div class="card-header">
           <i class="fas fa-user-md fa-2x"></i><b style="font-size: 150%"> &emsp;Providers</b>
         </div>
-        <div class="card-body" style="height: 15rem">
+        <div class="card-body" style="height: 20rem">
           <p class="card-text">Provider stats and graph will go here.</p>
         </div>
         <div class="card-footer">
@@ -43,7 +72,7 @@
         <div class="card-header">
           <i class="fas fa-clinic-medical fa-2x"></i><b style="font-size: 150%"> &emsp;Facilities</b>
         </div>
-        <div class="card-body" style="height: 15rem">
+        <div class="card-body" style="height: 20rem">
           <p class="card-text">Facility stats and graph will go here.</p>
         </div>
         <div class="card-footer">
