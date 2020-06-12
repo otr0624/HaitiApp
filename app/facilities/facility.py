@@ -36,12 +36,16 @@ def create_facility():
 
 @facility_bp.route('/delete/<string:facility_id>')
 def delete_facility(facility_id):
-    facility = Facility.query.filter_by(facility_id=facility_id).first()
-    db.session.delete(facility)
-    db.session.commit()
-    flash("Facility successfully deleted")
-    return view_facility_list()
-
+    try:
+        facility = Facility.query.filter_by(facility_id=facility_id).first()
+        db.session.delete(facility)
+        db.session.commit()
+        flash("Facility successfully deleted")
+        return view_facility_list()
+    except Exception:  # narrow exception to psycopg2.errors.ForeignKeyViolation - need to figure out how
+        flash("ERROR: Unable to delete facilities who have providers. "
+              "First reassign or delete any providers assigned to this facility, and then try again.")
+        return redirect(url_for('facility_bp.view_facility_list'))
 
 @facility_bp.route('/edit/<string:facility_id>', methods=['GET', 'POST'])
 def edit_facility(facility_id):
