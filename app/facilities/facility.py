@@ -44,7 +44,7 @@ def delete_facility(facility_id):
         return view_facility_list()
     except Exception:  # narrow exception to psycopg2.errors.ForeignKeyViolation - need to figure out how
         flash("ERROR: Unable to delete facilities who have providers. "
-              "First reassign or delete any providers assigned to this facility, and then try again.")
+              "First reassign or delete any providers assigned to this facility, and then try again.", 'error')
         return redirect(url_for('facility_bp.view_facility_list'))
 
 @facility_bp.route('/edit/<string:facility_id>', methods=['GET', 'POST'])
