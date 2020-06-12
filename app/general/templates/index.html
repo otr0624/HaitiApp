@@ -15,7 +15,7 @@
           <table class="table table-bordered table-sm">
             <thead>
               <tr>
-                <th scope="col">Category</th>
+                <th scope="col">Patient Status</th>
                 <th scope="col">#</th>
               </tr>
             </thead>
@@ -57,7 +57,36 @@
           <i class="fas fa-user-md fa-2x"></i><b style="font-size: 150%"> &emsp;Providers</b>
         </div>
         <div class="card-body" style="height: 20rem">
-          <p class="card-text">Provider stats and graph will go here.</p>
+                    <table class="table table-bordered table-sm">
+            <thead>
+              <tr>
+                <th scope="col">Provider Type</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Cardiologist</td>
+                <td>{{ cards_count }}</td>
+              </tr>
+              <tr>
+                <td>Primary Care Doctor/Nurse</td>
+                <td>{{ primdocnurse_count }}</td>
+              </tr>
+              <tr>
+                <td>Social Worker</td>
+                <td>{{ socwork_count }}</td>
+              </tr>
+              <tr>
+                <td>All Others</td>
+                <td>{{ allotherprov_count }}</td>
+              </tr>
+              <tr>
+                <td><b>Total</b></td>
+                <td><b>{{ provider_count }}</b></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="card-footer">
           <a class="btn btn-primary btn-lg btn-block" href="/providers" role="button">
