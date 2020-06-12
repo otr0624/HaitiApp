@@ -4,7 +4,7 @@ from app import db
 from app.providers.forms import ProviderProfileForm
 from app.providers.provider_model import Provider
 from app.general.id_gen import rand_id
-import psycopg2
+import psycopg2.errors
 
 provider_bp = Blueprint('provider_bp', __name__,
                        template_folder='templates',
@@ -45,7 +45,7 @@ def delete_provider(provider_id):
         db.session.commit()
         flash("Provider successfully deleted")
         return view_provider_list()
-    except psycopg2.errors.ForeignKeyViolation:
+    except Exception:  # narrow exception to psycopg2.errors.ForeignKeyViolation - need to figure out how
         flash("ERROR: First reassign any patients dependent on this provider and then try deleting them again.")
         return redirect(url_for('provider_bp.view_provider_list'))
 
