@@ -46,7 +46,7 @@ def delete_provider(provider_id):
         flash("Provider successfully deleted")
         return view_provider_list()
     except Exception:  # narrow exception to psycopg2.errors.ForeignKeyViolation - need to figure out how
-        flash('<b>ERROR:</b> Unable to delete providers who follow patients. '
+        flash('ERROR: Unable to delete providers who follow patients. '
               'First reassign any patients dependent on this provider, and then try again.')
         return redirect(url_for('provider_bp.view_provider_list'))
 
