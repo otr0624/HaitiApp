@@ -64,9 +64,42 @@ def edit_patient(patient_id):
                            title="Edit Patient",
                            form=form)
 
+
 @patient_bp.route('/view/<string:patient_id>')
 def view_patient(patient_id):
     patient = Patient.query.filter_by(patient_id=patient_id).first()
-    return render_template('patient-profile.html',
+    return render_template('patient-profile-main.html',
+                           title="View Patient",
+                           patient=patient)
+
+
+@patient_bp.route('/view/<string:patient_id>/clinical')
+def view_patient_clinical(patient_id):
+    patient = Patient.query.filter_by(patient_id=patient_id).first()
+    return render_template('patient-profile-clinical.html',
+                           title="View Patient",
+                           patient=patient)
+
+
+@patient_bp.route('/view/<string:patient_id>/contact')
+def view_patient_contact(patient_id):
+    patient = Patient.query.filter_by(patient_id=patient_id).first()
+    return render_template('patient-profile-contact.html',
+                           title="View Patient",
+                           patient=patient)
+
+
+@patient_bp.route('/view/<string:patient_id>/travel')
+def view_patient_travel(patient_id):
+    patient = Patient.query.filter_by(patient_id=patient_id).first()
+    return render_template('patient-profile-travel.html',
+                           title="View Patient",
+                           patient=patient)
+
+
+@patient_bp.route('/view/<string:patient_id>/history')
+def view_patient_history(patient_id):
+    patient = Patient.query.filter_by(patient_id=patient_id).first()
+    return render_template('patient-profile-history.html',
                            title="View Patient",
                            patient=patient)

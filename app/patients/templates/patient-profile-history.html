@@ -1,0 +1,31 @@
+{% extends "patient-profile-base.html" %}
+
+{% block card_content %}
+
+  <div class="card-body" style="height: 30rem">
+      <ul class="nav nav-tabs nav-justified">
+          <li class="nav-item">
+            <a class="nav-link" href="/patients/view/{{patient.patient_id}}"><i class="fas fa-user"></i> &emsp;Main</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/patients/view/{{patient.patient_id}}/clinical"><i class="fas fa-notes-medical"></i> &emsp;Clinical</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/patients/view/{{patient.patient_id}}/contact"><i class="far fa-address-card"></i> &emsp;Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/patients/view/{{patient.patient_id}}/travel"><i class="fas fa-passport"></i> &emsp;Travel</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/patients/view/{{patient.patient_id}}/history"><i class="fas fa-history"></i> &emsp;History</a>
+          </li>
+      </ul>
+      <div class="row">
+          <div class="col-md" style="margin: 5rem">
+              <p style="margin-bottom: 2rem">History table and filters go here</p>
+          </div>
+          <div class="col-md" style="margin: 5rem">
+          </div>
+      </div>
+  </div>
+{% endblock %}
