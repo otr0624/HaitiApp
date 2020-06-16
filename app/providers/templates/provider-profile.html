@@ -5,7 +5,8 @@
         <div class="card">
           <div class="card-header">
               <b>{{ provider.last_name }}, {{ provider.first_name }}</b>
-              <a class="btn btn-primary" href="/providers/edit/{{provider.provider_id}}" role="button" style="position: absolute; right: 2rem">
+              <a class="btn btn-primary" href={{ url_for('provider_bp.edit_provider', provider_id = provider.provider_id) }}"
+              role="button" style="position: absolute; right: 2rem">
                   <i class="fas fa-pencil-alt"></i>
                      Edit Provider
               </a>
@@ -18,7 +19,7 @@
               <p>Facility: {{ provider.provider_facility }}</p>
           </div>
         </div>
-        <a class="btn btn-primary btn-lg mt-3" href="/providers" role="button">
+        <a class="btn btn-primary btn-lg mt-3" href={{ url_for('provider_bp.view_provider_list') }} role="button">
             <i class="fas fa-angle-left"></i> &ensp;Back to List</a>
     </div>
 

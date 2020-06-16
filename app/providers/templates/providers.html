@@ -5,7 +5,7 @@
         <div class="card">
           <div class="card-header">
               <b>Provider List</b>
-              <a class="btn btn-primary" href="/providers/new" role="button" style="position: absolute; right: 2rem">
+              <a class="btn btn-primary" href={{ url_for('provider_bp.create_provider') }} role="button" style="position: absolute; right: 2rem">
                   <i class="fas fa-plus"></i>
                       &emsp;Add Provider
               </a>
@@ -26,20 +26,20 @@
                   <tbody>
                   {% for provider in provider_list %}
                     <tr>
-                      <td><a href="/providers/view/{{provider.provider_id}}">{{ provider.provider_id }}</a></td>
-                      <td><a href="/providers/view/{{provider.provider_id}}">{{ provider.last_name }}</a></td>
-                      <td><a href="/providers/view/{{provider.provider_id}}">{{ provider.first_name }}</a></td>
-                      <td><a href="/providers/view/{{provider.provider_id}}">{{ provider.provider_category }}</a></td>
-                      <td><a href="/providers/view/{{provider.provider_id}}">{{ provider.provider_facility }}</a></td>
-                        <td style="text-align: center; vertical-align: middle"><a href="/providers/edit/{{provider.provider_id}}"><i class="fas fa-pencil-alt"></i></a></td>
-                        <td style="text-align: center; vertical-align: middle"><a href="/providers/delete/{{ provider.provider_id }}"><i class="fas fa-trash-alt"></i></a></td>
+                      <td><a href={{ url_for('provider_bp.view_provider', provider_id = provider.provider_id) }}>{{ provider.provider_id }}</a></td>
+                      <td><a href={{ url_for('provider_bp.view_provider', provider_id = provider.provider_id) }}>{{ provider.last_name }}</a></td>
+                      <td><a href={{ url_for('provider_bp.view_provider', provider_id = provider.provider_id) }}>{{ provider.first_name }}</a></td>
+                      <td><a href={{ url_for('provider_bp.view_provider', provider_id = provider.provider_id) }}>{{ provider.provider_category }}</a></td>
+                      <td><a href={{ url_for('provider_bp.view_provider', provider_id = provider.provider_id) }}>{{ provider.provider_facility }}</a></td>
+                        <td style="text-align: center; vertical-align: middle"><a href={{ url_for('provider_bp.edit_provider', provider_id = provider.provider_id) }}><i class="fas fa-pencil-alt"></i></a></td>
+                        <td style="text-align: center; vertical-align: middle"><a href={{ url_for('provider_bp.delete_provider', provider_id = provider.provider_id) }}><i class="fas fa-trash-alt"></i></a></td>
                     </tr>
                   {% endfor %}
                   </tbody>
               </table>
           </div>
         </div>
-        <a class="btn btn-primary btn-lg mt-3" href="/index" role="button">
+        <a class="btn btn-primary btn-lg mt-3" href={{ url_for('index_bp.index') }} role="button">
            <i class="fas fa-angle-left"></i> &ensp;Back to Dashboard</a>
     </div>
 
