@@ -22,7 +22,7 @@
                 </p>
                 <p>
                     {{ form.submit(class="btn btn-primary btn-lg") }}
-                    <a class="btn btn-danger btn-lg" href="/facilities" role="button">Cancel</a>
+                    <a class="btn btn-danger btn-lg" href={{ url_for('facility_bp.view_facility_list') }} role="button">Cancel</a>
                 </p>
             </form>
           </div>

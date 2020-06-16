@@ -5,7 +5,7 @@
         <div class="card">
           <div class="card-header">
               <b>{{ facility.facility_name}}</b>
-              <a class="btn btn-primary" href="/facilities/edit/{{  facility.facility_id  }}" role="button" style="position: absolute; right: 2rem">
+              <a class="btn btn-primary" href={{ url_for('facility_bp.edit_facility', facility_id = facility.facility_id) }} role="button" style="position: absolute; right: 2rem">
                   <i class="fas fa-pencil-alt"></i>
                      Edit Facility
               </a>
@@ -16,7 +16,7 @@
               <p>Type: {{ facility.facility_category }}</p>
           </div>
         </div>
-        <a class="btn btn-primary btn-lg mt-3" href="/facilities" role="button">
+        <a class="btn btn-primary btn-lg mt-3" href={{ url_for('facility_bp.view_facility_list') }} role="button">
             <i class="fas fa-angle-left"></i> &ensp;Back to List</a>
     </div>
 
