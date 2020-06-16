@@ -36,7 +36,6 @@ def index():
     facility_count = len(Facility.query.all())
     otherfac_count = facility_count - (hospital_count + clinic_count + surgsite_count)
 
-
     return render_template('index.html',
                            title='Home',
                            patient_count=patient_count,

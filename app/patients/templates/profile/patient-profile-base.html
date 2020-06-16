@@ -6,7 +6,9 @@
         <div class="card">
           <div class="card-header" style="height: 4.5rem">
               <h2><b>{{ patient.last_name }}, {{ patient.first_name }}</b> &emsp;({{ patient.patient_id }})
-                  <a class="btn btn-primary btn-lg" href="/patients/edit/{{patient.patient_id}}" role="button" style="position: absolute; right: 2rem">
+                  <a class="btn btn-primary btn-lg"
+                     href={{ url_for('patient_bp.edit_patient', patient_id = patient.patient_id) }}
+                     role="button" style="position: absolute; right: 2rem">
                       <i class="fas fa-pencil-alt"></i>
                          &emsp;Edit Patient Data
                   </a>
@@ -15,27 +17,33 @@
               <div class="card-body" style="height: 30rem">
                   <ul class="nav nav-tabs nav-justified">
                       <li class="nav-item">
-                        <a class="nav-link{{ ' active' if active_page == 'main' else '' }}" href="/patients/view/{{patient.patient_id}}">
+                        <a class="nav-link{{ ' active' if active_page == 'main' else '' }}"
+                           href={{ url_for('patient_bp.view_patient', patient_id = patient.patient_id) }}>
                             <i class="fas fa-user"></i> &emsp;Main</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link{{ ' active' if active_page == 'clinical' else '' }}" href="/patients/view/{{patient.patient_id}}/clinical">
+                        <a class="nav-link{{ ' active' if active_page == 'clinical' else '' }}"
+                           href={{ url_for('patient_bp.view_patient_clinical', patient_id = patient.patient_id) }}>
                             <i class="fas fa-notes-medical"></i> &emsp;Clinical</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link{{ ' active' if active_page == 'contact' else '' }}" href="/patients/view/{{patient.patient_id}}/contact">
+                        <a class="nav-link{{ ' active' if active_page == 'contact' else '' }}"
+                           href={{ url_for('patient_bp.view_patient_contact', patient_id = patient.patient_id) }}>
                             <i class="far fa-address-card"></i> &emsp;Contact</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link{{ ' active' if active_page == 'travel' else '' }}" href="/patients/view/{{patient.patient_id}}/travel">
+                        <a class="nav-link{{ ' active' if active_page == 'travel' else '' }}"
+                           href={{ url_for('patient_bp.view_patient_travel', patient_id = patient.patient_id) }}>
                             <i class="fas fa-passport"></i> &emsp;Travel</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link{{ ' active' if active_page == 'history' else '' }}" href="/patients/view/{{patient.patient_id}}/history">
+                        <a class="nav-link{{ ' active' if active_page == 'history' else '' }}"
+                           href={{ url_for('patient_bp.view_patient_history', patient_id = patient.patient_id) }}>
                             <i class="fas fa-history"></i> &emsp;History</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link{{ ' active' if active_page == 'files' else '' }}" href="/patients/view/{{patient.patient_id}}/files">
+                        <a class="nav-link{{ ' active' if active_page == 'files' else '' }}"
+                           href={{ url_for('patient_bp.view_patient_files', patient_id = patient.patient_id) }}>
                             <i class="fab fa-dropbox"></i> &emsp;Files</a>
                       </li>
                   </ul>
@@ -44,32 +52,41 @@
           <div class="card-footer" style="height: 13rem">
               <div class="row">
                   <div class="col-md" style="margin: 2rem">
-                    <a class="btn btn-primary btn-lg btn-block" style="margin-bottom: 2rem" href="/404" role="button">
+                    <a class="btn btn-primary btn-lg btn-block" style="margin-bottom: 2rem"
+                       href={{ url_for('construction_bp.construction')}} role="button">
                         <i class="fas fa-phone"></i> &emsp;Make a Check-In Call</a>
-                    <a class="btn btn-primary btn-lg btn-block" href="/404" role="button">
+                    <a class="btn btn-primary btn-lg btn-block"
+                       href={{ url_for('construction_bp.construction')}} role="button">
                         <i class="fas fa-calendar-alt"></i> &emsp;Schedule an Appointment</a>
                   </div>
                   <div class="col-md" style="margin: 2rem">
-                    <a class="btn btn-primary btn-lg btn-block" style="margin-bottom: 2rem" href="/404" role="button">
+                    <a class="btn btn-primary btn-lg btn-block" style="margin-bottom: 2rem"
+                       href={{ url_for('construction_bp.construction')}} role="button">
                         <i class="far fa-check-square"></i> &emsp;Assign a Task</a>
-                    <a class="btn btn-primary btn-lg btn-block" href="/404" role="button">
+                    <a class="btn btn-primary btn-lg btn-block"
+                       href={{ url_for('construction_bp.construction')}} role="button">
                         <i class="far fa-comment-alt"></i> &emsp;Add a Case Comment</a>
                   </div>
                   <div class="col-md" style="margin: 2rem">
-                    <a class="btn btn-primary btn-lg btn-block" style="margin-bottom: 2rem" href="/404" role="button">
+                    <a class="btn btn-primary btn-lg btn-block" style="margin-bottom: 2rem"
+                       href={{ url_for('construction_bp.construction')}} role="button">
                         <i class="fas fa-stethoscope"></i> &emsp;Record an Encounter</a>
-                    <a class="btn btn-primary btn-lg btn-block" href="/404" role="button">
+                    <a class="btn btn-primary btn-lg btn-block"
+                       href={{ url_for('construction_bp.construction')}} role="button">
                         <i class="far fa-id-card"></i> &emsp;Manage a Travel Document</a>
                   </div>
                   <div class="col-md" style="margin: 2rem">
-                    <a class="btn btn-primary btn-lg btn-block" style="margin-bottom: 2rem" href="/404" role="button">
+                    <a class="btn btn-primary btn-lg btn-block" style="margin-bottom: 2rem"
+                       href={{ url_for('construction_bp.construction')}} role="button">
                         <i class="fas fa-file-upload"></i> &emsp;Upload a File</a>
-                    <a class="btn btn-warning btn-lg btn-block" href="/404" role="button">
+                    <a class="btn btn-warning btn-lg btn-block"
+                       href={{ url_for('construction_bp.construction')}} role="button">
                         <i class="fas fa-ban"></i> &emsp;Archive as Inactive</a>
                   </div>
               </div>
           </div>
-            <a class="btn btn-primary btn-lg mt-3" href="/patients" role="button">
+            <a class="btn btn-primary btn-lg mt-3"
+               href={{ url_for('patient_bp.view_patient_list')}}>
                 <i class="fas fa-angle-left"></i> &ensp;Back to List</a>
         </div>
     </div>
