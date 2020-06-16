@@ -3,12 +3,14 @@
 {% block content %}
     <div class="container" style="margin-top: 4rem">
         <div class="card">
-          <div class="card-header">
-              <b>Patient List</b>
-              <a class="btn btn-primary" href="/patients/new" role="button" style="position: absolute; right: 2rem">
-                  <span class="glyphicon glyphicon-plus"></span>
-                      &emsp;Add Patient
-              </a>
+          <div class="card-header" style="height: 4.5rem">
+              <h2><b>Patient List</b>
+                  <a class="btn btn-primary btn-lg"
+                     href={{ url_for('patient_bp.create_patient') }} role="button" style="position: absolute; right: 2rem">
+                      <i class="fas fa-plus"></i>
+                          &emsp;Add Patient
+                  </a>
+              </h2>
           </div>
           <div class="card-body">
               <table class="table table-hover table-sm" id="patient-list-table">
@@ -26,20 +28,27 @@
                   <tbody>
                   {% for patient in patient_list %}
                     <tr>
-                      <td><a href="/patients/view/{{patient.patient_id}}">{{ patient.patient_id }}</a></td>
-                      <td><a href="/patients/view/{{patient.patient_id}}">{{ patient.last_name }}</a></td>
-                      <td><a href="/patients/view/{{patient.patient_id}}">{{ patient.first_name }}</a></td>
-                      <td><a href="/patients/view/{{patient.patient_id}}">{{ patient.patient_provider }}</a></td>
-                      <td><a href="/patients/view/{{patient.patient_id}}">{{ patient.patient_status }}</a></td>
-                        <td style="text-align: center; vertical-align: middle"><a href="/patients/edit/{{patient.patient_id}}"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                        <td style="text-align: center; vertical-align: middle"><a href="/patients/delete/{{ patient.patient_id }}"><span class="glyphicon glyphicon-trash"></span></a></td>
+                      <td><a href={{ url_for('patient_bp.view_patient', patient_id = patient.patient_id) }}>
+                          {{ patient.patient_id }}</a></td>
+                      <td><a href={{ url_for('patient_bp.view_patient', patient_id = patient.patient_id) }}>
+                          {{ patient.last_name }}</a></td>
+                      <td><a href={{ url_for('patient_bp.view_patient', patient_id = patient.patient_id) }}>
+                          {{ patient.first_name }}</a></td>
+                      <td><a href={{ url_for('patient_bp.view_patient', patient_id = patient.patient_id) }}>
+                          {{ patient.patient_provider }}</a></td>
+                      <td><a href={{ url_for('patient_bp.view_patient', patient_id = patient.patient_id) }}>
+                          {{ patient.patient_status }}</a></td>
+                      <td style="text-align: center; vertical-align: middle"><a href={{ url_for('patient_bp.edit_patient', patient_id = patient.patient_id) }}>
+                          <i class="fas fa-pencil-alt"></i></a></td>
+                      <td style="text-align: center; vertical-align: middle"><a href={{ url_for('patient_bp.delete_patient', patient_id = patient.patient_id) }}">
+                          <i class="fas fa-trash-alt"></i></a></td>
                     </tr>
                   {% endfor %}
                   </tbody>
               </table>
           </div>
         </div>
-        <a class="btn btn-primary btn-lg mt-3" href="/index" role="button">
+        <a class="btn btn-primary btn-lg mt-3" href={{ url_for('index_bp.index') }} role="button">
             <i class="fas fa-angle-left"></i> &ensp;Back to Dashboard</a>
     </div>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
