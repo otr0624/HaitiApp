@@ -12,44 +12,47 @@ index_bp = Blueprint('index_bp', __name__,
 @index_bp.route('/')
 @index_bp.route('/index')
 def index():
-    # PATIENT CHART PARAMETERS
-    preop_count = Patient.query.filter_by(patient_status_id=2).count()
-    postop_count = Patient.query.filter_by(patient_status_id=3).count()
-    follow_count = Patient.query.filter_by(patient_status_id=4).count()
-    uncat_count = Patient.query.filter_by(patient_status_id=1).count()
-    patient_count = len(Patient.query.all())
+    # PATIENT CHART PARAMETERS ("pt" prefix)
+    pt_preop = Patient.query.filter_by(patient_status_id=2).count()
+    pt_postop = Patient.query.filter_by(patient_status_id=3).count()
+    pt_follow = Patient.query.filter_by(patient_status_id=4).count()
+    pt_total = len(Patient.query.all())
+    pt_all_other = pt_total - (pt_preop + pt_postop + pt_follow)
 
-    # PROVIDER CHART PARAMETERS
-    cards_count = Provider.query.filter_by(provider_category_id=2).count()
-    primdocnurse_count = Provider.query.filter_by(provider_category_id=3).count() + \
+    # PROVIDER CHART PARAMETERS ("pr" prefix)
+    pr_cardiologist = Provider.query.filter_by(provider_category_id=2).count()
+    pr_primary_doc_nurse = Provider.query.filter_by(provider_category_id=3).count() + \
                          Provider.query.filter_by(provider_category_id=4).count()
-    socwork_count = Provider.query.filter_by(provider_category_id=5).count()
-    provider_count = len(Provider.query.all())
-    allotherprov_count = provider_count - (cards_count + primdocnurse_count + socwork_count)
+    pr_social_worker = Provider.query.filter_by(provider_category_id=5).count()
+    pr_total = len(Provider.query.all())
+    pr_all_other = pr_total - (pr_cardiologist + pr_primary_doc_nurse + pr_social_worker)
 
-    # FACILITY CHART PARAMETERS
-    hospital_count = Facility.query.filter_by(facility_category_id=2).count()
-    clinic_count = Facility.query.filter_by(facility_category_id=3).count() + \
+    # FACILITY CHART PARAMETERS ("fc" prefix)
+    fc_hospital = Facility.query.filter_by(facility_category_id=2).count()
+    fc_clinic = Facility.query.filter_by(facility_category_id=3).count() + \
                    Facility.query.filter_by(facility_category_id=4).count() + \
                    Facility.query.filter_by(facility_category_id=4).count()
-    surgsite_count = Facility.query.filter_by(facility_category_id=6).count()
-    facility_count = len(Facility.query.all())
-    otherfac_count = facility_count - (hospital_count + clinic_count + surgsite_count)
+    fc_surg_site = Facility.query.filter_by(facility_category_id=6).count()
+    fc_total = len(Facility.query.all())
+    fc_all_other = fc_total - (fc_hospital + fc_clinic + fc_surg_site)
 
     return render_template('index.html',
                            title='Home',
-                           patient_count=patient_count,
-                           preop_count=preop_count,
-                           postop_count=postop_count,
-                           follow_count=follow_count,
-                           uncat_count=uncat_count,
-                           cards_count=cards_count,
-                           primdocnurse_count=primdocnurse_count,
-                           socwork_count=socwork_count,
-                           allotherprov_count=allotherprov_count,
-                           provider_count=provider_count,
-                           hospital_count=hospital_count,
-                           clinic_count=clinic_count,
-                           surgsite_count=surgsite_count,
-                           otherfac_count=otherfac_count,
-                           facility_count=facility_count)
+                           # PATIENT PARAMETERS
+                           pt_preop=pt_preop,
+                           pt_postop=pt_postop,
+                           pt_follow=pt_follow,
+                           pt_all_other=pt_all_other,
+                           pt_total=pt_total,
+                           # PROVIDER PARAMETERS
+                           pr_cardiologist=pr_cardiologist,
+                           pr_primary_doc_nurse=pr_primary_doc_nurse,
+                           pr_social_worker=pr_social_worker,
+                           pr_all_other=pr_all_other,
+                           pr_total=pr_total,
+                           # FACILITY PARAMETERS
+                           fc_hospital=fc_hospital,
+                           fc_clinic=fc_clinic,
+                           fc_surg_site=fc_surg_site,
+                           fc_all_other=fc_all_other,
+                           fc_total=fc_total)
