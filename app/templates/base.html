@@ -17,7 +17,8 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="/index"><img src="/static/images/HCA_logo.png" style="height: 2rem; width: 2rem"></a>
+      <a class="navbar-brand" href={{ url_for('index_bp.index') }}>
+        <img src="/static/images/HCA_logo.png" style="height: 2rem; width: 2rem"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
               aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -26,7 +27,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="/index">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href={{ url_for('index_bp.index') }}>Home <span class="sr-only">(current)</span></a>
           </li>
         </ul>
         <ul class="navbar-nav ml-auto">
@@ -35,8 +36,8 @@
               Patients
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/patients">View All</a>
-              <a class="dropdown-item" href="/patients/new">Add New</a>
+              <a class="dropdown-item" href={{ url_for('patient_bp.view_patient_list') }}>View All</a>
+              <a class="dropdown-item" href={{ url_for('patient_bp.create_patient') }}>Add New</a>
             </div>
           </li>
           <li class="nav-item dropdown mx-4">
@@ -44,8 +45,8 @@
               Providers
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/providers">View All</a>
-              <a class="dropdown-item" href="/providers/new">Add New</a>
+              <a class="dropdown-item" href={{ url_for('provider_bp.view_provider_list') }}>View All</a>
+              <a class="dropdown-item" href={{ url_for('provider_bp.create_provider') }}>Add New</a>
             </div>
           </li>
           <li class="nav-item dropdown mx-4">
@@ -53,12 +54,12 @@
               Facilities
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/facilities">View All</a>
-              <a class="dropdown-item" href="/facilities/new">Add New</a>
+              <a class="dropdown-item" href={{ url_for('facility_bp.view_facility_list') }}>View All</a>
+              <a class="dropdown-item" href={{ url_for('facility_bp.create_facility') }}">Add New</a>
             </div>
           </li>
-            <a class="mx-4" href="/404" style="color:gray"><i class="fas fa-cog fa-2x"></i></a>
-            <a href="/404" style="color:gray"><i class="far fa-user-circle fa-2x"></i></a>
+            <a class="mx-4" href={{ url_for('construction_bp.construction') }} style="color:gray"><i class="fas fa-cog fa-2x"></i></a>
+            <a href={{ url_for('construction_bp.construction') }} style="color:gray"><i class="far fa-user-circle fa-2x"></i></a>
         </ul>
       </div>
     </nav>
