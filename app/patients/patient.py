@@ -74,7 +74,7 @@ def view_patient(patient_id):
     edit_url = url_for('patient_bp.edit_patient', patient_id=patient.patient_id)
     list_url = url_for('patient_bp.view_patient_list')
     mode = "Patient"
-    return render_template('profile/patient-profile-main.html',
+    return render_template('patient_profile/main.html',
                            title="View Patient",
                            patient=patient,
                            active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
@@ -88,7 +88,7 @@ def view_patient_clinical(patient_id):
     edit_url = url_for('patient_bp.edit_patient', patient_id=patient.patient_id)
     list_url = url_for('patient_bp.view_patient_list')
     mode = "Patient"
-    return render_template('profile/patient-profile-clinical.html',
+    return render_template('patient_profile/clinical.html',
                            title="View Patient",
                            patient=patient,
                            active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
@@ -102,7 +102,7 @@ def view_patient_contact(patient_id):
     edit_url = url_for('patient_bp.edit_patient', patient_id=patient.patient_id)
     list_url = url_for('patient_bp.view_patient_list')
     mode = "Patient"
-    return render_template('profile/patient-profile-contact.html',
+    return render_template('patient_profile/contact.html',
                            title="View Patient",
                            patient=patient,
                            active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
@@ -116,7 +116,7 @@ def view_patient_travel(patient_id):
     edit_url = url_for('patient_bp.edit_patient', patient_id=patient.patient_id)
     list_url = url_for('patient_bp.view_patient_list')
     mode = "Patient"
-    return render_template('profile/patient-profile-travel.html',
+    return render_template('patient_profile/travel.html',
                            title="View Patient",
                            patient=patient,
                            active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
@@ -130,7 +130,7 @@ def view_patient_history(patient_id):
     edit_url = url_for('patient_bp.edit_patient', patient_id=patient.patient_id)
     list_url = url_for('patient_bp.view_patient_list')
     mode = "Patient"
-    return render_template('profile/patient-profile-history.html',
+    return render_template('patient_profile/history.html',
                            title="View Patient",
                            patient=patient,
                            active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
@@ -144,7 +144,7 @@ def view_patient_files(patient_id):
     edit_url = url_for('patient_bp.edit_patient', patient_id=patient.patient_id)
     list_url = url_for('patient_bp.view_patient_list')
     mode = "Patient"
-    return render_template('profile/patient-profile-files.html',
+    return render_template('patient_profile/files.html',
                            title="View Patient",
                            patient=patient,
                            active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
