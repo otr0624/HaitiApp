@@ -67,6 +67,10 @@ def edit_facility(facility_id):
 @facility_bp.route('/view/<string:facility_id>')
 def view_facility(facility_id):
     facility = Facility.query.filter_by(facility_id=facility_id).first()
+    card_title = facility.facility_name
+    edit_url = url_for('facility_bp.edit_facility', facility_id=facility.facility_id)
+    list_url = url_for('facility_bp.view_facility_list')
+    mode = "Facility"
     return render_template('facility-profile.html',
                            title="View Facility",
-                           facility=facility)
+                           facility=facility, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)

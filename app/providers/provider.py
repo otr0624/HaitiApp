@@ -68,9 +68,14 @@ def edit_provider(provider_id):
                            title="Edit Provider",
                            form=form)
 
+
 @provider_bp.route('/view/<string:provider_id>')
 def view_provider(provider_id):
     provider = Provider.query.filter_by(provider_id=provider_id).first()
+    card_title = provider.last_name + ", " + provider.first_name + " (" + str(provider.provider_category) + ")"
+    edit_url = url_for('provider_bp.edit_provider', provider_id=provider.provider_id)
+    list_url = url_for('provider_bp.view_provider_list')
+    mode = "Provider"
     return render_template('provider-profile.html',
                            title="View Provider",
-                           provider=provider)
+                           provider=provider, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)

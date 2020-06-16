@@ -70,57 +70,81 @@ def edit_patient(patient_id):
 def view_patient(patient_id):
     active_page = 'main'
     patient = Patient.query.filter_by(patient_id=patient_id).first()
+    card_title = patient.last_name + ", " + patient.first_name + " (" + patient.patient_id + ")"
+    edit_url = url_for('patient_bp.edit_patient', patient_id=patient.patient_id)
+    list_url = url_for('patient_bp.view_patient_list')
+    mode = "Patient"
     return render_template('profile/patient-profile-main.html',
                            title="View Patient",
                            patient=patient,
-                           active_page=active_page)
+                           active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
 
 
 @patient_bp.route('/view/<string:patient_id>/clinical')
 def view_patient_clinical(patient_id):
     active_page = 'clinical'
     patient = Patient.query.filter_by(patient_id=patient_id).first()
+    card_title = patient.last_name + ", " + patient.first_name + " (" + patient.patient_id + ")"
+    edit_url = url_for('patient_bp.edit_patient', patient_id=patient.patient_id)
+    list_url = url_for('patient_bp.view_patient_list')
+    mode = "Patient"
     return render_template('profile/patient-profile-clinical.html',
                            title="View Patient",
                            patient=patient,
-                           active_page=active_page)
+                           active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
 
 
 @patient_bp.route('/view/<string:patient_id>/contact')
 def view_patient_contact(patient_id):
     active_page = 'contact'
     patient = Patient.query.filter_by(patient_id=patient_id).first()
+    card_title = patient.last_name + ", " + patient.first_name + " (" + patient.patient_id + ")"
+    edit_url = url_for('patient_bp.edit_patient', patient_id=patient.patient_id)
+    list_url = url_for('patient_bp.view_patient_list')
+    mode = "Patient"
     return render_template('profile/patient-profile-contact.html',
                            title="View Patient",
                            patient=patient,
-                           active_page=active_page)
+                           active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
 
 
 @patient_bp.route('/view/<string:patient_id>/travel')
 def view_patient_travel(patient_id):
     active_page = 'travel'
     patient = Patient.query.filter_by(patient_id=patient_id).first()
+    card_title = patient.last_name + ", " + patient.first_name + " (" + patient.patient_id + ")"
+    edit_url = url_for('patient_bp.edit_patient', patient_id=patient.patient_id)
+    list_url = url_for('patient_bp.view_patient_list')
+    mode = "Patient"
     return render_template('profile/patient-profile-travel.html',
                            title="View Patient",
                            patient=patient,
-                           active_page=active_page)
+                           active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
 
 
 @patient_bp.route('/view/<string:patient_id>/history')
 def view_patient_history(patient_id):
     active_page = 'history'
     patient = Patient.query.filter_by(patient_id=patient_id).first()
+    card_title = patient.last_name + ", " + patient.first_name + " (" + patient.patient_id + ")"
+    edit_url = url_for('patient_bp.edit_patient', patient_id=patient.patient_id)
+    list_url = url_for('patient_bp.view_patient_list')
+    mode = "Patient"
     return render_template('profile/patient-profile-history.html',
                            title="View Patient",
                            patient=patient,
-                           active_page=active_page)
+                           active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
 
 
 @patient_bp.route('/view/<string:patient_id>/files')
 def view_patient_files(patient_id):
     active_page = 'files'
     patient = Patient.query.filter_by(patient_id=patient_id).first()
+    card_title = patient.last_name + ", " + patient.first_name + " (" + patient.patient_id + ")"
+    edit_url = url_for('patient_bp.edit_patient', patient_id=patient.patient_id)
+    list_url = url_for('patient_bp.view_patient_list')
+    mode = "Patient"
     return render_template('profile/patient-profile-files.html',
                            title="View Patient",
                            patient=patient,
-                           active_page=active_page)
+                           active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
