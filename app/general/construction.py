@@ -8,4 +8,4 @@ construction_bp = Blueprint('construction_bp', __name__,
 
 @construction_bp.route('/404')
 def construction():
-    return render_template('404.html')
+    return render_template('construction.html')
