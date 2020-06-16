@@ -95,29 +95,7 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
 <script>
   $(function(){
-    $("#patient-list-table").dataTable( {
-      "columnDefs": [ {
-      "targets"  : 'no-sort',
-      "orderable": false,
-      "order": []
-      }]
-    });
-  })
-</script>
-<script>
-  $(function(){
-    $("#provider-list-table").dataTable( {
-      "columnDefs": [ {
-      "targets"  : 'no-sort',
-      "orderable": false,
-      "order": []
-      }]
-    });
-  })
-</script>
-<script>
-  $(function(){
-    $("#facility-list-table").dataTable( {
+    $("#{{ table_id }}").dataTable( {
       "columnDefs": [ {
       "targets"  : 'no-sort',
       "orderable": false,

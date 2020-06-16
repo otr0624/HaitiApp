@@ -7,15 +7,16 @@ from app.general.id_gen import rand_id
 import psycopg2.errors
 
 provider_bp = Blueprint('provider_bp', __name__,
-                       template_folder='templates',
-                       static_folder='static',
-                       static_url_path='assets')
+                        template_folder='templates',
+                        static_folder='static',
+                        static_url_path='assets')
 
 
 @provider_bp.route('/')
 def view_provider_list():
     provider_list = Provider.query.all()
-    return render_template('providers.html', title="Provider List", provider_list=provider_list)
+    table_id = "provider-list-table"
+    return render_template('providers.html', title="Provider List", provider_list=provider_list, table_id=table_id)
 
 
 @provider_bp.route('/new', methods=['GET', 'POST'])
