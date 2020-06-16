@@ -67,39 +67,59 @@ def edit_patient(patient_id):
 
 @patient_bp.route('/view/<string:patient_id>')
 def view_patient(patient_id):
+    active_page = 'main'
     patient = Patient.query.filter_by(patient_id=patient_id).first()
     return render_template('patient-profile-main.html',
                            title="View Patient",
-                           patient=patient)
+                           patient=patient,
+                           active_page=active_page)
 
 
 @patient_bp.route('/view/<string:patient_id>/clinical')
 def view_patient_clinical(patient_id):
+    active_page = 'clinical'
     patient = Patient.query.filter_by(patient_id=patient_id).first()
     return render_template('patient-profile-clinical.html',
                            title="View Patient",
-                           patient=patient)
+                           patient=patient,
+                           active_page=active_page)
 
 
 @patient_bp.route('/view/<string:patient_id>/contact')
 def view_patient_contact(patient_id):
+    active_page = 'contact'
     patient = Patient.query.filter_by(patient_id=patient_id).first()
     return render_template('patient-profile-contact.html',
                            title="View Patient",
-                           patient=patient)
+                           patient=patient,
+                           active_page=active_page)
 
 
 @patient_bp.route('/view/<string:patient_id>/travel')
 def view_patient_travel(patient_id):
+    active_page = 'travel'
     patient = Patient.query.filter_by(patient_id=patient_id).first()
     return render_template('patient-profile-travel.html',
                            title="View Patient",
-                           patient=patient)
+                           patient=patient,
+                           active_page=active_page)
 
 
 @patient_bp.route('/view/<string:patient_id>/history')
 def view_patient_history(patient_id):
+    active_page = 'history'
     patient = Patient.query.filter_by(patient_id=patient_id).first()
     return render_template('patient-profile-history.html',
                            title="View Patient",
-                           patient=patient)
+                           patient=patient,
+                           active_page=active_page)
+
+
+@patient_bp.route('/view/<string:patient_id>/files')
+def view_patient_files(patient_id):
+    active_page = 'files'
+    patient = Patient.query.filter_by(patient_id=patient_id).first()
+    return render_template('patient-profile-files.html',
+                           title="View Patient",
+                           patient=patient,
+                           active_page=active_page)

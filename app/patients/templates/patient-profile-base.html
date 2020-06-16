@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+
     <div class="container" style="margin-top: 4rem">
         <div class="card">
           <div class="card-header" style="height: 4.5rem">
@@ -11,8 +12,35 @@
                   </a>
               </h2>
           </div>
+              <div class="card-body" style="height: 30rem">
+                  <ul class="nav nav-tabs nav-justified">
+                      <li class="nav-item">
+                        <a class="nav-link{{ ' active' if active_page == 'main' else '' }}" href="/patients/view/{{patient.patient_id}}">
+                            <i class="fas fa-user"></i> &emsp;Main</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link{{ ' active' if active_page == 'clinical' else '' }}" href="/patients/view/{{patient.patient_id}}/clinical">
+                            <i class="fas fa-notes-medical"></i> &emsp;Clinical</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link{{ ' active' if active_page == 'contact' else '' }}" href="/patients/view/{{patient.patient_id}}/contact">
+                            <i class="far fa-address-card"></i> &emsp;Contact</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link{{ ' active' if active_page == 'travel' else '' }}" href="/patients/view/{{patient.patient_id}}/travel">
+                            <i class="fas fa-passport"></i> &emsp;Travel</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link{{ ' active' if active_page == 'history' else '' }}" href="/patients/view/{{patient.patient_id}}/history">
+                            <i class="fas fa-history"></i> &emsp;History</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link{{ ' active' if active_page == 'files' else '' }}" href="/patients/view/{{patient.patient_id}}/files">
+                            <i class="fab fa-dropbox"></i> &emsp;Files</a>
+                      </li>
+                  </ul>
               {% block card_content %}{% endblock %}
-
+        </div>
           <div class="card-footer" style="height: 13rem">
               <div class="row">
                   <div class="col-md" style="margin: 2rem">
@@ -41,8 +69,8 @@
                   </div>
               </div>
           </div>
+            <a class="btn btn-primary btn-lg mt-3" href="/patients" role="button">
+                <i class="fas fa-angle-left"></i> &ensp;Back to List</a>
         </div>
-        <a class="btn btn-primary btn-lg mt-3" href="/patients" role="button">
-            <span class="glyphicon glyphicon-chevron-left"></span> &ensp;Back to List</a>
     </div>
 {% endblock %}
