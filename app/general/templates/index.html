@@ -2,145 +2,151 @@
 
 {% block content %}
 <div class="container index-container">
-  <h1><b>HCA Data Dashboard</b></h1>
+    <h1><b>HCA Data Dashboard</b></h1>
 </div>
 <div class="container index-container">
-  <div class="row">
-    <div class="col-md">
-      <div class="card">
-        <div class="card-header">
-          <i class="fas fa-heartbeat fa-2x"></i><span class="card-title"> &emsp;Patients</span>
+    <div class="row">
+        <div class="col-md">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-heartbeat fa-2x"></i><span class="card-title"> &emsp;Patients</span>
+                </div>
+                <div class="card-body index-card-body">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                        <tr>
+                            <th scope="col">Patient Status</th>
+                            <th scope="col">#</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Pre-Op</td>
+                            <td>{{ pt_preop }}</td>
+                        </tr>
+                        <tr>
+                            <td>Post-Op</td>
+                            <td>{{ pt_postop }}</td>
+                        </tr>
+                        <tr>
+                            <td>Following</td>
+                            <td>{{ pt_follow }}</td>
+                        </tr>
+                        <tr>
+                            <td>Uncategorized</td>
+                            <td>{{ pt_all_other }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Total</b></td>
+                            <td><b>{{ pt_total }}</b></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary btn-lg btn-block" href={{ url_for('patient_bp.view_patient_list') }}
+                    role="button">
+                    <i class="fas fa-list"></i> &emsp;View Patient List</a>
+                    <a class="btn btn-primary btn-lg btn-block" href={{ url_for('patient_bp.create_patient') }}
+                    role="button">
+                    <i class="fas fa-plus"></i> &emsp;Add a Patient</a>
+                </div>
+            </div>
         </div>
-        <div class="card-body index-card-body">
-          <table class="table table-bordered table-sm">
-            <thead>
-              <tr>
-                <th scope="col">Patient Status</th>
-                <th scope="col">#</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Pre-Op</td>
-                <td>{{ pt_preop }}</td>
-              </tr>
-              <tr>
-                <td>Post-Op</td>
-                <td>{{ pt_postop }}</td>
-              </tr>
-              <tr>
-                <td>Following</td>
-                <td>{{ pt_follow }}</td>
-              </tr>
-              <tr>
-                <td>Uncategorized</td>
-                <td>{{ pt_all_other }}</td>
-              </tr>
-              <tr>
-                <td><b>Total</b></td>
-                <td><b>{{ pt_total }}</b></td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="col-md">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-user-md fa-2x"></i><span class="card-title"> &emsp;Providers</span>
+                </div>
+                <div class="card-body index-card-body">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                        <tr>
+                            <th scope="col">Provider Type</th>
+                            <th scope="col">#</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Cardiologist</td>
+                            <td>{{ pr_cardiologist }}</td>
+                        </tr>
+                        <tr>
+                            <td>Primary Care Doctor/Nurse</td>
+                            <td>{{ pr_primary_doc_nurse }}</td>
+                        </tr>
+                        <tr>
+                            <td>Social Worker</td>
+                            <td>{{ pr_social_worker }}</td>
+                        </tr>
+                        <tr>
+                            <td>All Others</td>
+                            <td>{{ pr_all_other }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Total</b></td>
+                            <td><b>{{ pr_total }}</b></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary btn-lg btn-block" href={{ url_for('provider_bp.view_provider_list') }}
+                    role="button">
+                    <i class="fas fa-list"></i> &emsp;View Provider List</a>
+                    <a class="btn btn-primary btn-lg btn-block" href={{ url_for('provider_bp.create_provider') }}
+                    role="button">
+                    <i class="fas fa-plus"></i> &emsp;Add a Provider</a>
+                </div>
+            </div>
         </div>
-        <div class="card-footer">
-          <a class="btn btn-primary btn-lg btn-block" href={{ url_for('patient_bp.view_patient_list') }} role="button">
-            <i class="fas fa-list"></i> &emsp;View Patient List</a>
-          <a class="btn btn-primary btn-lg btn-block" href={{ url_for('patient_bp.create_patient') }} role="button">
-            <i class="fas fa-plus"></i> &emsp;Add a Patient</a>
+        <div class="col-md">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-clinic-medical fa-2x"></i><span class="card-title"> &emsp;Facilities</span>
+                </div>
+                <div class="card-body index-card-body">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                        <tr>
+                            <th scope="col">Facility Type</th>
+                            <th scope="col">#</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Domestic Hospital</td>
+                            <td>{{ fc_hospital }}</td>
+                        </tr>
+                        <tr>
+                            <td>Outpatient Clinic</td>
+                            <td>{{ fc_clinic }}</td>
+                        </tr>
+                        <tr>
+                            <td>International Surgical/Cath Center</td>
+                            <td>{{ fc_surg_site }}</td>
+                        </tr>
+                        <tr>
+                            <td>All Others</td>
+                            <td>{{ fc_all_other }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Total</b></td>
+                            <td><b>{{ fc_total }}</b></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary btn-lg btn-block" href={{ url_for('facility_bp.view_facility_list') }}
+                    role="button">
+                    <i class="fas fa-list"></i> &emsp;View Facility List</a>
+                    <a class="btn btn-primary btn-lg btn-block" href={{ url_for('facility_bp.create_facility') }}
+                    role="button">
+                    <i class="fas fa-plus"></i> &emsp;Add a Facility</a>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    <div class="col-md">
-      <div class="card">
-        <div class="card-header">
-          <i class="fas fa-user-md fa-2x"></i><span class="card-title"> &emsp;Providers</span>
-        </div>
-        <div class="card-body index-card-body">
-          <table class="table table-bordered table-sm">
-            <thead>
-              <tr>
-                <th scope="col">Provider Type</th>
-                <th scope="col">#</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Cardiologist</td>
-                <td>{{ pr_cardiologist }}</td>
-              </tr>
-              <tr>
-                <td>Primary Care Doctor/Nurse</td>
-                <td>{{ pr_primary_doc_nurse }}</td>
-              </tr>
-              <tr>
-                <td>Social Worker</td>
-                <td>{{ pr_social_worker }}</td>
-              </tr>
-              <tr>
-                <td>All Others</td>
-                <td>{{ pr_all_other }}</td>
-              </tr>
-              <tr>
-                <td><b>Total</b></td>
-                <td><b>{{ pr_total }}</b></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-primary btn-lg btn-block" href={{ url_for('provider_bp.view_provider_list') }} role="button">
-            <i class="fas fa-list"></i> &emsp;View Provider List</a>
-          <a class="btn btn-primary btn-lg btn-block" href={{ url_for('provider_bp.create_provider') }} role="button">
-            <i class="fas fa-plus"></i> &emsp;Add a Provider</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md">
-      <div class="card">
-        <div class="card-header">
-          <i class="fas fa-clinic-medical fa-2x"></i><span class="card-title"> &emsp;Facilities</span>
-        </div>
-        <div class="card-body index-card-body">
-          <table class="table table-bordered table-sm">
-            <thead>
-              <tr>
-                <th scope="col">Facility Type</th>
-                <th scope="col">#</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Domestic Hospital</td>
-                <td>{{ fc_hospital }}</td>
-              </tr>
-              <tr>
-                <td>Outpatient Clinic</td>
-                <td>{{ fc_clinic }}</td>
-              </tr>
-              <tr>
-                <td>International Surgical/Cath Center</td>
-                <td>{{ fc_surg_site }}</td>
-              </tr>
-              <tr>
-                <td>All Others</td>
-                <td>{{ fc_all_other }}</td>
-              </tr>
-              <tr>
-                <td><b>Total</b></td>
-                <td><b>{{ fc_total }}</b></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-primary btn-lg btn-block" href={{ url_for('facility_bp.view_facility_list') }} role="button">
-            <i class="fas fa-list"></i> &emsp;View Facility List</a>
-          <a class="btn btn-primary btn-lg btn-block" href={{ url_for('facility_bp.create_facility') }} role="button">
-            <i class="fas fa-plus"></i> &emsp;Add a Facility</a>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 {% endblock %}

@@ -22,7 +22,7 @@ def index():
     # PROVIDER CHART PARAMETERS ("pr" prefix)
     pr_cardiologist = Provider.query.filter_by(provider_category_id=2).count()
     pr_primary_doc_nurse = Provider.query.filter_by(provider_category_id=3).count() + \
-                         Provider.query.filter_by(provider_category_id=4).count()
+                           Provider.query.filter_by(provider_category_id=4).count()
     pr_social_worker = Provider.query.filter_by(provider_category_id=5).count()
     pr_total = len(Provider.query.all())
     pr_all_other = pr_total - (pr_cardiologist + pr_primary_doc_nurse + pr_social_worker)
@@ -30,8 +30,8 @@ def index():
     # FACILITY CHART PARAMETERS ("fc" prefix)
     fc_hospital = Facility.query.filter_by(facility_category_id=2).count()
     fc_clinic = Facility.query.filter_by(facility_category_id=3).count() + \
-                   Facility.query.filter_by(facility_category_id=4).count() + \
-                   Facility.query.filter_by(facility_category_id=4).count()
+                Facility.query.filter_by(facility_category_id=4).count() + \
+                Facility.query.filter_by(facility_category_id=4).count()
     fc_surg_site = Facility.query.filter_by(facility_category_id=6).count()
     fc_total = len(Facility.query.all())
     fc_all_other = fc_total - (fc_hospital + fc_clinic + fc_surg_site)

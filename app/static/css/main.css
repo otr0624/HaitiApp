@@ -36,6 +36,10 @@
     height: 30rem;
 }
 
+.patient-profile-field {
+    margin-bottom: 2rem;
+}
+
 .patient-profile-footer {
     height: 13rem;
 }

@@ -1,16 +1,16 @@
 {% extends "patient-profile-base.html" %}
 
 {% block patient_card_content %}
-      <div class="row">
-          <div class="col-md patient-card-column">
-              <p style="margin-bottom: 2rem"><b>Status: {{ patient.patient_status }}</b></p>
-              <p style="margin-bottom: 2rem">Gender: [to link]</p>
-              <p style="margin-bottom: 2rem">DOB: [to link]</p>
-          </div>
-          <div class="col-md patient-card-column">
-              <p style="margin-bottom: 2rem"><b>Primary Diagnosis: [to link]</b></p>
-              <p style="margin-bottom: 2rem">Primary Provider: {{ patient.patient_provider }}</p>
-          </div>
-      </div>
-  </div>
+<div class="row">
+    <div class="col-md patient-card-column">
+        <p class="patient-profile-field"><b>Status: {{ patient.patient_status }}</b></p>
+        <p class="patient-profile-field">Gender: [to link]</p>
+        <p class="patient-profile-field">DOB: [to link]</p>
+    </div>
+    <div class="col-md patient-card-column">
+        <p class="patient-profile-field"><b>Primary Diagnosis: [to link]</b></p>
+        <p class="patient-profile-field">Primary Provider: {{ patient.patient_provider }}</p>
+    </div>
+</div>
+</div>
 {% endblock %}

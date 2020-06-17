@@ -16,7 +16,8 @@ class FacilityDisplay:
     mode = "Facility"
     table_id = "facility-list-table"
 
-    def __init__(self, facility, card_title, edit_url, list_url, mode, facility_list, table_id, form, facility_id, facility_obj):
+    def __init__(self, facility, card_title, edit_url, list_url, mode, facility_list, table_id, form, facility_id,
+                 facility_obj):
         self.facility = facility
         self.card_title = card_title
         self.edit_url = edit_url
@@ -35,12 +36,14 @@ class FacilityDisplay:
         self.edit_url = url_for('facility_bp.edit_facility', facility_id=self.facility.facility_id)
         return render_template('facility-profile.html',
                                title="View Facility",
-                               facility=self.facility, card_title=self.card_title, edit_url=self.edit_url, list_url=self.list_url, mode=self.mode)
+                               facility=self.facility, card_title=self.card_title, edit_url=self.edit_url,
+                               list_url=self.list_url, mode=self.mode)
 
     @facility_bp.route('/')
     def view_facility_list(self):
         self.facility_list = Facility.query.all()
-        return render_template('facilities.html', title="Facility List", facility_list=self.facility_list, table_id=self.table_id)
+        return render_template('facilities.html', title="Facility List", facility_list=self.facility_list,
+                               table_id=self.table_id)
 
     @facility_bp.route('/new', methods=['GET', 'POST'])
     def create_facility(self):

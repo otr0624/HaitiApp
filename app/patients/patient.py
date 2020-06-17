@@ -49,10 +49,10 @@ def delete_patient(patient_id):
 @patient_bp.route('/edit/<string:patient_id>', methods=['GET', 'POST'])
 def edit_patient(patient_id):
     patient_obj = Patient.query.filter_by(patient_id=patient_id).first()
-    #debugging app.logger.debug(f"patient to edit is {patient_obj}")
+    # debugging app.logger.debug(f"patient to edit is {patient_obj}")
     form = PatientProfileForm(obj=patient_obj)
     if form.validate_on_submit():
-        #debugging app.logger.debug(f"last name would be set to {form.last_name.data}, first {form.first_name.data}, stat {form.patient_status.data.id}")
+        # debugging app.logger.debug(f"last name would be set to {form.last_name.data}, first {form.first_name.data}, stat {form.patient_status.data.id}")
         patient_obj.last_name = form.last_name.data
         patient_obj.first_name = form.first_name.data
         patient_obj.patient_status = form.patient_status.data
@@ -77,7 +77,8 @@ def view_patient(patient_id):
     return render_template('patient_profile/main.html',
                            title="View Patient",
                            patient=patient,
-                           active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
+                           active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url,
+                           mode=mode)
 
 
 @patient_bp.route('/view/<string:patient_id>/clinical')
@@ -91,7 +92,8 @@ def view_patient_clinical(patient_id):
     return render_template('patient_profile/clinical.html',
                            title="View Patient",
                            patient=patient,
-                           active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
+                           active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url,
+                           mode=mode)
 
 
 @patient_bp.route('/view/<string:patient_id>/contact')
@@ -105,7 +107,8 @@ def view_patient_contact(patient_id):
     return render_template('patient_profile/contact.html',
                            title="View Patient",
                            patient=patient,
-                           active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
+                           active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url,
+                           mode=mode)
 
 
 @patient_bp.route('/view/<string:patient_id>/travel')
@@ -119,7 +122,8 @@ def view_patient_travel(patient_id):
     return render_template('patient_profile/travel.html',
                            title="View Patient",
                            patient=patient,
-                           active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
+                           active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url,
+                           mode=mode)
 
 
 @patient_bp.route('/view/<string:patient_id>/history')
@@ -133,7 +137,8 @@ def view_patient_history(patient_id):
     return render_template('patient_profile/history.html',
                            title="View Patient",
                            patient=patient,
-                           active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
+                           active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url,
+                           mode=mode)
 
 
 @patient_bp.route('/view/<string:patient_id>/files')
@@ -147,4 +152,5 @@ def view_patient_files(patient_id):
     return render_template('patient_profile/files.html',
                            title="View Patient",
                            patient=patient,
-                           active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
+                           active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url,
+                           mode=mode)

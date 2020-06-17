@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container card-container">
-        <div class="card">
-          <div class="card-header">
-              <b>Edit Provider</b>
-          </div>
-          <div class="card-body">
+<div class="container card-container">
+    <div class="card">
+        <div class="card-header">
+            <b>Edit Provider</b>
+        </div>
+        <div class="card-body">
             <form action="" method="post" novalidate>
-            {{ form.hidden_tag() }}
+                {{ form.hidden_tag() }}
                 <p>
                     {{ form.first_name.label }}<br>
                     {{ form.first_name(class="form-control", size=32) }}
@@ -33,11 +33,12 @@
                 </p>
                 <p>
                     {{ form.submit_edit(class="btn btn-primary btn-lg") }}
-                    <a class="btn btn-danger btn-lg" href={{ url_for('provider_bp.view_provider_list') }} role="button">Cancel</a>
+                    <a class="btn btn-danger btn-lg" href={{ url_for('provider_bp.view_provider_list') }}
+                    role="button">Cancel</a>
                 </p>
             </form>
-          </div>
         </div>
-
     </div>
+
+</div>
 {% endblock %}
