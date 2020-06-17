@@ -2,7 +2,7 @@
 
 {% block profile_content %}
 
-              <div class="card-body" style="height: 30rem">
+              <div class="card-body patient-profile-card">
                   <ul class="nav nav-tabs nav-justified">
                       <li class="nav-item">
                         <a class="nav-link{{ ' active' if active_page == 'main' else '' }}"
@@ -37,10 +37,10 @@
                   </ul>
               {% block patient_card_content %}{% endblock %}
         </div>
-        <div class="card-footer" style="height: 13rem">
+        <div class="card-footer patient-profile-footer">
             <div class="row">
-                  <div class="col-md" style="margin: 2rem">
-                    <a class="btn btn-primary btn-lg btn-block" style="margin-bottom: 2rem"
+                  <div class="col-md patient-button-col">
+                    <a class="btn btn-primary btn-lg btn-block patient-button-top"
                        href={{ url_for('construction_bp.construction') }} role="button">
                         <i class="fas fa-phone"></i> &emsp;Make a Check-In Call</a>
                     <a class="btn btn-primary btn-lg btn-block"
@@ -48,7 +48,7 @@
                         <i class="fas fa-calendar-alt"></i> &emsp;Schedule an Appointment</a>
                   </div>
                   <div class="col-md" style="margin: 2rem">
-                    <a class="btn btn-primary btn-lg btn-block" style="margin-bottom: 2rem"
+                    <a class="btn btn-primary btn-lg btn-block patient-button-top"
                        href={{ url_for('construction_bp.construction') }} role="button">
                         <i class="far fa-check-square"></i> &emsp;Assign a Task</a>
                     <a class="btn btn-primary btn-lg btn-block"
@@ -56,7 +56,7 @@
                         <i class="far fa-comment-alt"></i> &emsp;Add a Case Comment</a>
                   </div>
                   <div class="col-md" style="margin: 2rem">
-                    <a class="btn btn-primary btn-lg btn-block" style="margin-bottom: 2rem"
+                    <a class="btn btn-primary btn-lg btn-block patient-button-top"
                        href={{ url_for('construction_bp.construction') }} role="button">
                         <i class="fas fa-stethoscope"></i> &emsp;Record an Encounter</a>
                     <a class="btn btn-primary btn-lg btn-block"
@@ -64,7 +64,7 @@
                         <i class="far fa-id-card"></i> &emsp;Manage a Travel Document</a>
                   </div>
                   <div class="col-md" style="margin: 2rem">
-                    <a class="btn btn-primary btn-lg btn-block" style="margin-bottom: 2rem"
+                    <a class="btn btn-primary btn-lg btn-block patient-button-top"
                        href={{ url_for('construction_bp.construction') }} role="button">
                         <i class="fas fa-file-upload"></i> &emsp;Upload a File</a>
                     <a class="btn btn-warning btn-lg btn-block"

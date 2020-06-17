@@ -1,0 +1,54 @@
+.card-container {
+    margin-top: 4rem;
+}
+
+.card-header-main {
+    height: 4.5rem;
+}
+
+.card-header-button {
+    position: absolute;
+    right: 2rem;
+}
+
+.card-title {
+   font-size: 150%;
+   font-weight: bold;
+}
+
+.index-container {
+    margin-top: 5rem;
+}
+
+.index-card-body {
+    height: 20rem;
+}
+
+.error-alert {
+    color: red;
+}
+
+.patient-card-column {
+    margin: 5rem;
+}
+
+.patient-profile-card {
+    height: 30rem;
+}
+
+.patient-profile-footer {
+    height: 13rem;
+}
+
+.patient-button-col {
+    margin: 2rem;
+}
+
+.patient-button-top {
+    margin-bottom: 2rem;
+}
+
+.home-logo {
+    height: 2rem;
+    width: 2rem;
+}

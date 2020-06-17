@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container" style="margin-top: 4rem">
+    <div class="container card-container">
         <div class="card">
           <div class="card-header">
               <b>Add a Patient</b>
@@ -13,14 +13,14 @@
                     {{ form.first_name.label }}<br>
                     {{ form.first_name(class="form-control", size=32) }}
                     {% for error in form.first_name.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
+                    <span class="error-alert">[{{ error }}]</span>
                     {% endfor %}
                 </p>
                 <p>
                     {{ form.last_name.label }}<br>
                     {{ form.last_name(class="form-control", size=32) }}
                     {% for error in form.last_name.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
+                    <span class="error-alert">[{{ error }}]</span>
                     {% endfor %}
                 </p>
                 <p>
