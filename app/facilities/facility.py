@@ -6,9 +6,9 @@ from app.facilities.facility_model import Facility
 from app.general.id_gen import rand_id
 
 facility_bp = Blueprint('facility_bp', __name__,
-                       template_folder='templates',
-                       static_folder='static',
-                       static_url_path='assets')
+                        template_folder='templates',
+                        static_folder='static',
+                        static_url_path='assets')
 
 
 @facility_bp.route('/')
@@ -47,6 +47,7 @@ def delete_facility(facility_id):
         flash('ERROR: Unable to delete facilities that have active providers. '
               'First reassign or delete any providers assigned to this facility, and then try again.')
         return redirect(url_for('facility_bp.view_facility_list'))
+
 
 @facility_bp.route('/edit/<string:facility_id>', methods=['GET', 'POST'])
 def edit_facility(facility_id):
