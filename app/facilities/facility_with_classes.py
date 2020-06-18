@@ -13,6 +13,7 @@ facility_bp = Blueprint('facility_bp', __name__,
 
 class FacilityDisplay:
     list_url = url_for('facility_bp.view_facility_list')
+    add_url = url_for('facility_bp.create_facility')
     mode = "Facility"
     table_id = "facility-list-table"
 
@@ -23,6 +24,7 @@ class FacilityDisplay:
         self.edit_url = edit_url
         self.list_url = list_url
         self.mode = mode
+        self.activity = activity
         self.facility_list = facility_list
         self.table_id = table_id
         self.form = form
@@ -33,21 +35,24 @@ class FacilityDisplay:
     def view_facility(self, facility_id):
         self.facility = Facility.query.filter_by(facility_id=self.facility_id).first()
         self.card_title = self.facility.facility_name
+        self.activity = "View"
         self.edit_url = url_for('facility_bp.edit_facility', facility_id=self.facility.facility_id)
         return render_template('facility-profile.html',
                                title="View Facility",
                                facility=self.facility, card_title=self.card_title, edit_url=self.edit_url,
-                               list_url=self.list_url, mode=self.mode)
+                               list_url=self.list_url, mode=self.mode, activity=self.activity)
 
     @facility_bp.route('/')
     def view_facility_list(self):
         self.facility_list = Facility.query.all()
+        self.activity = "List"
         return render_template('facilities.html', title="Facility List", facility_list=self.facility_list,
-                               table_id=self.table_id)
+                               table_id=self.table_id, activity=self.activity)
 
     @facility_bp.route('/new', methods=['GET', 'POST'])
     def create_facility(self):
         self.form = FacilityProfileForm()
+        self.activity = "Create"
         self.facility_id = rand_id(4)
         if self.form.validate_on_submit():
             facility = Facility(
@@ -59,7 +64,7 @@ class FacilityDisplay:
             db.session.commit()
             flash("Facility '{}' successfully created".format(self.form.facility_name.data))
             return redirect(url_for('facility_bp.view_facility_list'))
-        return render_template('new-facility.html', title="Add Facility", form=self.form)
+        return render_template('new-facility.html', title="Add Facility", form=self.form, activity=self.activity)
 
     @facility_bp.route('/delete/<string:facility_id>')
     def delete_facility(self, facility_id):
@@ -77,6 +82,7 @@ class FacilityDisplay:
     @facility_bp.route('/edit/<string:facility_id>', methods=['GET', 'POST'])
     def edit_facility(self, facility_id):
         self.facility_obj = Facility.query.filter_by(facility_id=self.facility_id).first()
+        self.activity = "Edit"
         self.form = FacilityProfileForm(obj=self.facility_obj)
         if self.form.validate_on_submit():
             self.facility_obj.facility_name = self.form.facility_name.data
@@ -87,4 +93,4 @@ class FacilityDisplay:
             return redirect(url_for('facility_bp.view_facility_list'))
         return render_template('edit-facility.html',
                                title="Edit Facility",
-                               form=self.form)
+                               form=self.form, activity=self.activity)

@@ -87,6 +87,7 @@ def view_provider(provider_id):
     edit_url = url_for('provider_bp.edit_provider', provider_id=provider.provider_id)
     list_url = url_for('provider_bp.view_provider_list')
     mode = "Provider"
+    activity = "View"
     return render_template('provider-profile-base.html',
                            title="View Provider",
-                           provider=provider, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
+                           provider=provider, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode, activity=activity)

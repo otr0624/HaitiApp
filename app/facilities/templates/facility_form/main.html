@@ -1,0 +1,32 @@
+{% extends "facility-form-base.html" %}
+
+{% block facility-card-content %}
+
+<div class="container form-container">
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.facility_name.label }}<br>
+            {{ form.facility_name(class="form-control", size=32) }}
+            {% for error in form.facility_name.errors %}
+            <span class="error-alert">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.facility_category.label }}<br>
+            {{ form.facility_category(class="form-control") }}<br>
+        </p>
+        <p>
+            {% if activity == "Edit" %}
+            {{ form.submit_edit(class="btn btn-primary btn-lg") }}
+            {% endif %}
+            {% if activity == "Create" %}
+            {{ form.submit(class="btn btn-primary btn-lg") }}
+            {% endif %}
+            <a class="btn btn-danger btn-lg" role="button"
+               href="{{ url_for('facility_bp.view_facility_list') }}">Cancel</a>
+        </p>
+    </form>
+</div>
+
+{% endblock %}
