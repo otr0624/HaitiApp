@@ -24,7 +24,7 @@ class Patient(db.Model):
     last_name = db.Column(db.String(30), index=True, nullable=False, info={'label': 'Last Name'})
     patient_id = db.Column(db.String(10), index=True)
     patient_dob = db.Column(db.Date, nullable=False, info={'label': 'Date of Birth'})
-    patient_dob_est = db.Column(db.Boolean, nullable=False, info={'label': 'Estimate?'})
+    patient_dob_est = db.Column(db.Boolean, nullable=False, info={'label': 'DOB Estimate?'})
     patient_gender = db.Column(db.String, nullable=False, info={'label': 'Gender'})
     patient_status_id = db.Column(db.Integer, db.ForeignKey('patient_status.id'))
     patient_provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'))
