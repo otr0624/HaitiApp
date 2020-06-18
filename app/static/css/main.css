@@ -60,3 +60,14 @@
     height: 2rem;
     width: 2rem;
 }
+
+.save-add-button {
+    display: inline-block;
+    float: right;
+}
+
+.save-close-button {
+    display: inline-block;
+    float: right;
+    margin-right: 2rem;
+}

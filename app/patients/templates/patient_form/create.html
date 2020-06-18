@@ -1,0 +1,60 @@
+{% extends "patient-form-base.html" %}
+
+{% block patient_card_content %}
+
+<div class="container form-container">
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.first_name.label }}<br>
+            {{ form.first_name(class="form-control", size=32) }}
+            {% for error in form.first_name.errors %}
+            <span class="error-alert">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.last_name.label }}<br>
+            {{ form.last_name(class="form-control", size=32) }}
+            {% for error in form.last_name.errors %}
+            <span class="error-alert">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.patient_dob.label }}<br>
+            {{ form.patient_dob(class="form-control", size=32) }}
+            {% for error in form.patient_dob.errors %}
+            <span class="error-alert">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.patient_dob_est.label }}<br>
+            {{ form.patient_dob_est(class="form-control", size=32) }}
+            {% for error in form.patient_dob_est.errors %}
+            <span class="error-alert">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.patient_gender.label }}<br>
+            {{ form.patient_gender(class="form-control", size=32) }}
+            {% for error in form.patient_gender.errors %}
+            <span class="error-alert">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.patient_provider.label }}<br>
+            {{ form.patient_provider(class="form-control") }}<br>
+        </p>
+        <p>
+            {{ form.patient_status.label }}<br>
+            {{ form.patient_status(class="form-control") }}<br>
+        </p>
+        <p>
+            <a class="btn btn-danger btn-lg" role="button"
+               href="{{ url_for('patient_bp.view_patient_list') }}">Cancel</a>
+            <span class="save-add-button">{{ form.submit_add(class="btn btn-primary btn-lg") }}</span>
+            <span class="save-close-button">{{ form.submit_close(class="btn btn-primary btn-lg") }}</span>
+        </p>
+    </form>
+</div>
+
+{% endblock %}
