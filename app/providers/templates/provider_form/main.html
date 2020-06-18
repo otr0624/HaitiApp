@@ -1,0 +1,42 @@
+{% extends "provider-form-base.html" %}
+
+{% block provider_card_content %}
+<div class="container form-container">
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.first_name.label }}<br>
+            {{ form.first_name(class="form-control", size=32) }}
+            {% for error in form.first_name.errors %}
+            <span class="error-alert">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.last_name.label }}<br>
+            {{ form.last_name(class="form-control", size=32) }}
+            {% for error in form.last_name.errors %}
+            <span class="error-alert">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.provider_facility.label }}<br>
+            {{ form.provider_facility(class="form-control") }}<br>
+        </p>
+        <p>
+            {{ form.provider_category.label }}<br>
+            {{ form.provider_category(class="form-control") }}<br>
+        </p>
+        <p>
+            {% if activity == "Edit" %}
+            {{ form.submit_edit(class="btn btn-primary btn-lg") }}
+            {% endif %}
+            {% if activity == "Create" %}
+            {{ form.submit(class="btn btn-primary btn-lg") }}
+            {% endif %}
+            <a class="btn btn-danger btn-lg" role="button"
+               href="{{ url_for('patient_bp.view_patient_list') }}">Cancel</a>
+        </p>
+    </form>
+</div>
+
+{% endblock %}

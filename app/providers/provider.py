@@ -15,14 +15,22 @@ provider_bp = Blueprint('provider_bp', __name__,
 @provider_bp.route('/')
 def view_provider_list():
     provider_list = Provider.query.all()
+    activity = "List"
+    mode = "Provider"
+    card_title = "Provider List"
+    add_url = url_for('provider_bp.create_provider')
     table_id = "provider-list-table"
-    return render_template('provider-list-base.html', title="Provider List", provider_list=provider_list, table_id=table_id)
+    return render_template('provider-list-base.html', title="Provider List",
+                           provider_list=provider_list, activity=activity, mode=mode, card_title=card_title, add_url=add_url, table_id=table_id)
 
 
 @provider_bp.route('/new', methods=['GET', 'POST'])
 def create_provider():
     form = ProviderProfileForm()
     provider_id = rand_id(5)
+    activity = "Create"
+    card_title = "Create a Provider"
+    list_url = url_for('provider_bp.view_provider_list')
     if form.validate_on_submit():
         provider = Provider(
             first_name=form.first_name.data,
@@ -35,7 +43,7 @@ def create_provider():
         db.session.commit()
         flash("Provider '{} {}' successfully created".format(form.first_name.data, form.last_name.data))
         return redirect(url_for('provider_bp.view_provider_list'))
-    return render_template('new-provider.html', title="Add Provider", form=form)
+    return render_template('provider_form/main.html', title="Add Provider", form=form, activity=activity, card_title=card_title, list_url=list_url)
 
 
 @provider_bp.route('/delete/<string:provider_id>')
@@ -55,6 +63,9 @@ def delete_provider(provider_id):
 def edit_provider(provider_id):
     provider_obj = Provider.query.filter_by(provider_id=provider_id).first()
     form = ProviderProfileForm(obj=provider_obj)
+    activity = "Edit"
+    card_title = "Edit a Provider"
+    list_url = url_for('provider_bp.view_provider_list')
     if form.validate_on_submit():
         provider_obj.last_name = form.last_name.data
         provider_obj.first_name = form.first_name.data
@@ -64,9 +75,9 @@ def edit_provider(provider_id):
         db.session.commit()
         flash("Provider '{} {}' successfully edited".format(form.first_name.data, form.last_name.data))
         return redirect(url_for('provider_bp.view_provider_list'))
-    return render_template('edit-provider.html',
+    return render_template('provider_form/main.html',
                            title="Edit Provider",
-                           form=form)
+                           form=form, activity=activity, card_title=card_title, list_url=list_url)
 
 
 @provider_bp.route('/view/<string:provider_id>')
