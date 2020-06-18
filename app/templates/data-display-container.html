@@ -28,8 +28,7 @@
     {% if activity == "List" %}
         <a class="btn btn-primary btn-lg mt-3" href="{{ url_for('index_bp.index') }}" role="button">
         <i class="fas fa-angle-left"></i> &ensp;Back to Dashboard</a>
-    {% endif %}
-    {% if activity != "List" %}
+    {% elif activity == "View" %}
         <a class="btn btn-primary btn-lg mt-3" href="{{ list_url }}" role="button">
         <i class="fas fa-angle-left"></i> &ensp;Back to List</a>
     {% endif %}
