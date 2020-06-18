@@ -3,7 +3,7 @@ from app import db
 # debugging from app import app
 from app.providers.forms import ProviderProfileForm
 from app.providers.provider_model import Provider
-from app.general.id_gen import rand_id
+from app.general.custom_tools import rand_id
 import psycopg2.errors
 
 provider_bp = Blueprint('provider_bp', __name__,

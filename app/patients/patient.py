@@ -3,7 +3,7 @@ from app import db
 # debugging from app import app
 from app.patients.forms import PatientProfileForm
 from app.patients.patient_model import Patient
-from app.general.id_gen import rand_id
+from app.general.custom_tools import rand_id, calculate_age_years
 
 patient_bp = Blueprint('patient_bp', __name__,
                        template_folder='templates',
@@ -90,11 +90,12 @@ def view_patient(patient_id):
     list_url = url_for('patient_bp.view_patient_list')
     mode = "Patient"
     activity = "View"
+    patient_age = calculate_age_years(patient.patient_dob)
     return render_template('patient_profile/main.html',
                            title="View Patient",
                            patient=patient,
                            active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url,
-                           mode=mode, activity=activity)
+                           mode=mode, activity=activity, patient_age=patient_age)
 
 
 @patient_bp.route('/view/<string:patient_id>/clinical')
