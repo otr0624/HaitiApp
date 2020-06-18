@@ -7,9 +7,16 @@
         <div class="card-header card-header-main">
             <h2><b>{{ card_title }}</b>
                 {% if activity == "View" %}
-                    <a class="btn btn-primary btn-lg card-header-button" href={{ edit_url }} role="button">
+                    <a class="btn btn-primary btn-lg card-header-button" href="{{ edit_url }}" role="button">
                         <i class="fas fa-pencil-alt"></i>
                         Edit {{ mode }}
+                    </a>
+                {% endif %}
+                {% if activity == "List" %}
+                    <a class="btn btn-primary btn-lg card-header-button"
+                       href="{{ add_url }}" role="button">
+                    <i class="fas fa-plus"></i>
+                    &emsp;Add a {{ mode }}
                     </a>
                 {% endif %}
             </h2>
@@ -18,8 +25,14 @@
         {% block data_display_content %}{% endblock %}
 
     </div>
-    <a class="btn btn-primary btn-lg mt-3" href="{{ list_url }}" role="button">
+    {% if activity == "List" %}
+        <a class="btn btn-primary btn-lg mt-3" href="{{ url_for('index_bp.index') }}" role="button">
+        <i class="fas fa-angle-left"></i> &ensp;Back to Dashboard</a>
+    {% endif %}
+    {% if activity != "List" %}
+        <a class="btn btn-primary btn-lg mt-3" href="{{ list_url }}" role="button">
         <i class="fas fa-angle-left"></i> &ensp;Back to List</a>
+    {% endif %}
 </div>
 
 {% endblock %}

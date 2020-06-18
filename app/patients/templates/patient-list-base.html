@@ -1,17 +1,7 @@
-{% extends "base.html" %}
+{% extends "data-display-container.html" %}
 
-{% block content %}
-<div class="container card-container">
-    <div class="card">
-        <div class="card-header card-header-main">
-            <h2><b>Patient List</b>
-                <a class="btn btn-primary btn-lg card-header-button"
-                   href={{ url_for('patient_bp.create_patient') }} role="button">
-                <i class="fas fa-plus"></i>
-                &emsp;Add Patient
-                </a>
-            </h2>
-        </div>
+{% block data_display_content %}
+
         <div class="card-body">
             <table class="table table-hover table-sm" id="patient-list-table">
                 <thead>
@@ -49,10 +39,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
-    <a class="btn btn-primary btn-lg mt-3" href={{ url_for('index_bp.index') }} role="button">
-    <i class="fas fa-angle-left"></i> &ensp;Back to Dashboard</a>
-</div>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
 <script type="text/javascript">
        $(document).ready( function () {
