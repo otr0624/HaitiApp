@@ -5,8 +5,13 @@
         <div class="row">
             <div class="col-md patient-card-column">
                 <p class="patient-profile-field"><b>Status: {{ patient.patient_status }}</b></p>
-                <p class="patient-profile-field">Gender: {{ patient.patient_gender }}</p>
-                <p class="patient-profile-field">DOB: {{ patient.patient_dob }}
+                <p class="patient-profile-field">Gender:
+                    {% if patient.patient_gender == None: %} Unknown
+                    {% else: %} {{ patient.patient_gender }} {% endif %}
+                </p>
+                <p class="patient-profile-field">DOB:
+                    {% if patient.patient_dob == None: %} Unknown
+                    {% else: %} {{ patient.patient_dob }} {% endif %}
                     {% if patient.patient_dob_est == True: %} (Estimated) {% endif %}
                 </p>
                 <p class="patient-profile-field">Age: {{ patient_age }}
