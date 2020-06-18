@@ -29,10 +29,10 @@
         </p>
         <p>
             {% if activity == "Edit" %}
-            {{ form.submit_edit(class="btn btn-primary btn-lg") }}
+            {{ form.submit_close(class="btn btn-primary btn-lg") }}
             {% endif %}
             {% if activity == "Create" %}
-            {{ form.submit(class="btn btn-primary btn-lg") }}
+            {{ form.submit_close(class="btn btn-primary btn-lg") }}
             {% endif %}
             <a class="btn btn-danger btn-lg" role="button"
                href="{{ url_for('patient_bp.view_patient_list') }}">Cancel</a>

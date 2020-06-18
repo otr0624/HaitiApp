@@ -9,6 +9,7 @@
                     <th scope="col">ID</th>
                     <th scope="col">Last</th>
                     <th scope="col">First</th>
+                    <th scope="col">Gender</th>
                     <th scope="col">Primary Provider</th>
                     <th scope="col">Status</th>
                     <th style="text-align: center; vertical-align: middle" scope="col" class="no-sort">Edit</th>
@@ -24,6 +25,14 @@
                         {{ patient.last_name }}</a></td>
                     <td><a href={{ url_for('patient_bp.view_patient', patient_id = patient.patient_id) }}>
                         {{ patient.first_name }}</a></td>
+                    <td><a href={{ url_for('patient_bp.view_patient', patient_id = patient.patient_id) }}>
+                        {% if patient.patient_gender == "M": %}
+                        M
+                        {% elif patient.patient_gender == "F": %}
+                        F
+                        {% endif %}
+                        </a>
+                    </td>
                     <td><a href={{ url_for('patient_bp.view_patient', patient_id = patient.patient_id) }}>
                         {{ patient.patient_provider }}</a></td>
                     <td><a href={{ url_for('patient_bp.view_patient', patient_id = patient.patient_id) }}>
