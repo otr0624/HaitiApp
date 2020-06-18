@@ -6,17 +6,19 @@
     <div class="card">
         <div class="card-header card-header-main">
             <h2><b>{{ card_title }}</b>
-                <a class="btn btn-primary btn-lg card-header-button" href={{ edit_url }} role="button">
-                    <i class="fas fa-pencil-alt"></i>
-                    Edit {{ mode }}
-                </a>
+                {% if activity == "View" %}
+                    <a class="btn btn-primary btn-lg card-header-button" href={{ edit_url }} role="button">
+                        <i class="fas fa-pencil-alt"></i>
+                        Edit {{ mode }}
+                    </a>
+                {% endif %}
             </h2>
         </div>
 
         {% block profile_content %}{% endblock %}
 
     </div>
-    <a class="btn btn-primary btn-lg mt-3" href={{ list_url }} role="button">
+    <a class="btn btn-primary btn-lg mt-3" href="{{ list_url }}" role="button">
         <i class="fas fa-angle-left"></i> &ensp;Back to List</a>
 </div>
 

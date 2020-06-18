@@ -16,6 +16,10 @@
    font-weight: bold;
 }
 
+.form-container {
+    margin-top: 2rem;
+}
+
 .index-container {
     margin-top: 5rem;
 }

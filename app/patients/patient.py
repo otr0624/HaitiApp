@@ -22,6 +22,9 @@ def view_patient_list():
 def create_patient():
     form = PatientProfileForm()
     patient_id = rand_id(6)
+    activity = "Create"
+    card_title = "Create a Patient"
+    list_url = url_for('patient_bp.view_patient_list')
     if form.validate_on_submit():
         patient = Patient(
             first_name=form.first_name.data,
@@ -34,7 +37,8 @@ def create_patient():
         db.session.commit()
         flash("Patient '{} {}' successfully created".format(form.first_name.data, form.last_name.data))
         return redirect(url_for('patient_bp.view_patient_list'))
-    return render_template('patient_form/new-patient.html', title="Add Patient", form=form)
+    return render_template('patient_form/main.html', title="Add Patient", form=form, activity=activity,
+                           list_url=list_url, card_title=card_title)
 
 
 @patient_bp.route('/delete/<string:patient_id>')
@@ -50,6 +54,9 @@ def delete_patient(patient_id):
 def edit_patient(patient_id):
     patient_obj = Patient.query.filter_by(patient_id=patient_id).first()
     # debugging app.logger.debug(f"patient to edit is {patient_obj}")
+    activity = "Edit"
+    card_title = "Edit a Patient"
+    list_url = url_for('patient_bp.view_patient_list')
     form = PatientProfileForm(obj=patient_obj)
     if form.validate_on_submit():
         # debugging app.logger.debug(f"last name would be set to {form.last_name.data}, first {form.first_name.data}, stat {form.patient_status.data.id}")
@@ -61,9 +68,9 @@ def edit_patient(patient_id):
         db.session.commit()
         flash("Patient '{} {}' successfully edited".format(form.first_name.data, form.last_name.data))
         return redirect(url_for('patient_bp.view_patient_list'))
-    return render_template('patient_form/edit-patient.html',
+    return render_template('patient_form/main.html',
                            title="Edit Patient",
-                           form=form)
+                           form=form, activity=activity, list_url=list_url, card_title=card_title)
 
 
 @patient_bp.route('/view/<string:patient_id>')
@@ -74,11 +81,12 @@ def view_patient(patient_id):
     edit_url = url_for('patient_bp.edit_patient', patient_id=patient.patient_id)
     list_url = url_for('patient_bp.view_patient_list')
     mode = "Patient"
+    activity = "View"
     return render_template('patient_profile/main.html',
                            title="View Patient",
                            patient=patient,
                            active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url,
-                           mode=mode)
+                           mode=mode, activity=activity)
 
 
 @patient_bp.route('/view/<string:patient_id>/clinical')
@@ -89,11 +97,12 @@ def view_patient_clinical(patient_id):
     edit_url = url_for('patient_bp.edit_patient', patient_id=patient.patient_id)
     list_url = url_for('patient_bp.view_patient_list')
     mode = "Patient"
+    activity = "View"
     return render_template('patient_profile/clinical.html',
                            title="View Patient",
                            patient=patient,
                            active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url,
-                           mode=mode)
+                           mode=mode, activity=activity)
 
 
 @patient_bp.route('/view/<string:patient_id>/contact')
@@ -104,11 +113,12 @@ def view_patient_contact(patient_id):
     edit_url = url_for('patient_bp.edit_patient', patient_id=patient.patient_id)
     list_url = url_for('patient_bp.view_patient_list')
     mode = "Patient"
+    activity = "View"
     return render_template('patient_profile/contact.html',
                            title="View Patient",
                            patient=patient,
                            active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url,
-                           mode=mode)
+                           mode=mode, activity=activity)
 
 
 @patient_bp.route('/view/<string:patient_id>/travel')
@@ -119,11 +129,12 @@ def view_patient_travel(patient_id):
     edit_url = url_for('patient_bp.edit_patient', patient_id=patient.patient_id)
     list_url = url_for('patient_bp.view_patient_list')
     mode = "Patient"
+    activity = "View"
     return render_template('patient_profile/travel.html',
                            title="View Patient",
                            patient=patient,
                            active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url,
-                           mode=mode)
+                           mode=mode, activity=activity)
 
 
 @patient_bp.route('/view/<string:patient_id>/history')
@@ -134,11 +145,12 @@ def view_patient_history(patient_id):
     edit_url = url_for('patient_bp.edit_patient', patient_id=patient.patient_id)
     list_url = url_for('patient_bp.view_patient_list')
     mode = "Patient"
+    activity = "View"
     return render_template('patient_profile/history.html',
                            title="View Patient",
                            patient=patient,
                            active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url,
-                           mode=mode)
+                           mode=mode, activity=activity)
 
 
 @patient_bp.route('/view/<string:patient_id>/files')
@@ -149,8 +161,9 @@ def view_patient_files(patient_id):
     edit_url = url_for('patient_bp.edit_patient', patient_id=patient.patient_id)
     list_url = url_for('patient_bp.view_patient_list')
     mode = "Patient"
+    activity = "View"
     return render_template('patient_profile/files.html',
                            title="View Patient",
                            patient=patient,
                            active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url,
-                           mode=mode)
+                           mode=mode, activity=activity)
