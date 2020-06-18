@@ -1,5 +1,6 @@
 from app import db
 from app.providers.provider_model import Provider
+from app.general.custom_tools import calculate_age_short
 
 
 class PatientStatus(db.Model):
