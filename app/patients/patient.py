@@ -15,7 +15,7 @@ patient_bp = Blueprint('patient_bp', __name__,
 def view_patient_list():
     patient_list = Patient.query.all()
     table_id = "patient-list-table"
-    return render_template('patients.html', title="Patient List", patient_list=patient_list, table_id=table_id)
+    return render_template('patient-list-base.html', title="Patient List", patient_list=patient_list, table_id=table_id)
 
 
 @patient_bp.route('/new', methods=['GET', 'POST'])

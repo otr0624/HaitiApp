@@ -15,7 +15,7 @@ facility_bp = Blueprint('facility_bp', __name__,
 def view_facility_list():
     facility_list = Facility.query.all()
     table_id = "facility-list-table"
-    return render_template('facilities.html', title="Facility List", facility_list=facility_list, table_id=table_id)
+    return render_template('facility-list-base.html', title="Facility List", facility_list=facility_list, table_id=table_id)
 
 
 @facility_bp.route('/new', methods=['GET', 'POST'])
@@ -72,6 +72,6 @@ def view_facility(facility_id):
     edit_url = url_for('facility_bp.edit_facility', facility_id=facility.facility_id)
     list_url = url_for('facility_bp.view_facility_list')
     mode = "Facility"
-    return render_template('facility-profile.html',
+    return render_template('facility-profile-base.html',
                            title="View Facility",
                            facility=facility, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)

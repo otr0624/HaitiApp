@@ -16,7 +16,7 @@ provider_bp = Blueprint('provider_bp', __name__,
 def view_provider_list():
     provider_list = Provider.query.all()
     table_id = "provider-list-table"
-    return render_template('providers.html', title="Provider List", provider_list=provider_list, table_id=table_id)
+    return render_template('provider-list-base.html', title="Provider List", provider_list=provider_list, table_id=table_id)
 
 
 @provider_bp.route('/new', methods=['GET', 'POST'])
@@ -76,6 +76,6 @@ def view_provider(provider_id):
     edit_url = url_for('provider_bp.edit_provider', provider_id=provider.provider_id)
     list_url = url_for('provider_bp.view_provider_list')
     mode = "Provider"
-    return render_template('provider-profile.html',
+    return render_template('provider-profile-base.html',
                            title="View Provider",
                            provider=provider, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode)
