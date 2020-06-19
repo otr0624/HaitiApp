@@ -1,0 +1,84 @@
+{% extends "patient-form-base.html" %}
+
+{% block patient_card_content %}
+
+<div class="container form-container">
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="row">
+            <div class="col-md patient-card-column">
+                <p>
+                    {{ form.last_name.label }}<br>
+                    {{ form.last_name(class="form-control", size=32, tabindex=1) }}
+                    {% for error in form.last_name.errors %}
+                    <span class="error-alert">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+            </div>
+            <div class="col-md patient-card-column">
+                <p>
+                    {{ form.patient_gender.label }}<br>
+                    <p tabindex="3">
+                        {% for subfield in form.patient_gender %}
+                            {{ subfield }} {{ subfield.label }} &ensp;
+                        {% endfor %}
+                    </p>
+                    {% for error in form.patient_gender.errors %}
+                    <span class="error-alert">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+            </div>
+            <div class="col-md patient-card-column">
+                <p>
+                    {{ form.patient_provider.label }}<br>
+                    {{ form.patient_provider(class="form-control", tabindex=6) }}<br>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md patient-card-column">
+                <p>
+                    {{ form.first_name.label }}<br>
+                    {{ form.first_name(class="form-control", size=32, tabindex=2) }}
+                    {% for error in form.first_name.errors %}
+                    <span class="error-alert">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+            </div>
+            <div class="col-md patient-card-column">
+                <p>
+                    {{ form.patient_dob.label }}<br>
+                    {{ form.patient_dob(class="form-control", size=32, tabindex=4) }}
+                    {% for error in form.patient_dob.errors %}
+                    <span class="error-alert">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    <span style="font-style: italic">{{ form.patient_dob_est.label }}</span>
+                    {{ form.patient_dob_est(tabindex=5) }}
+                    {% for error in form.patient_dob_est.errors %}
+                    <span class="error-alert">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+            </div>
+            <div class="col-md patient-card-column">
+                <p>
+                    {{ form.patient_status.label }}<br>
+                    {{ form.patient_status(class="form-control", tabindex=7) }}<br>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md patient-card-column">
+                <p>
+                    <a class="btn btn-danger btn-lg" role="button"
+                       href="{{ url_for('patient_bp.view_patient_list') }}" tabindex="10">Cancel</a>
+                    <span class="save-add-button">{{ form.submit_add(class="btn btn-primary btn-lg", tabindex=8) }}</span>
+                    <span class="save-close-button">{{ form.submit_close(class="btn btn-primary btn-lg", tabindex=9) }}</span>
+                </p>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

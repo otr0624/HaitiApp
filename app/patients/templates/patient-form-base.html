@@ -2,7 +2,32 @@
 
 {% block data_display_content %}
 
-<!--Placeholder for future patient form base development-->
+{% if activity != "Create": %}
+<div class="card-body patient-form-card">
+    <ul class="nav nav-tabs nav-justified">
+        <li class="nav-item">
+            <a class="nav-link{{ ' active' if active_page == 'main' else '' }}"
+               href={{ url_for('patient_bp.edit_patient', patient_id = patient_obj.patient_id) }}>
+            <i class="fas fa-user"></i> &emsp;Main</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link{{ ' active' if active_page == 'clinical' else '' }}"
+               href={{ url_for('patient_bp.edit_patient_clinical', patient_id = patient_obj.patient_id) }}>
+            <i class="fas fa-notes-medical"></i> &emsp;Clinical</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link{{ ' active' if active_page == 'contact' else '' }}"
+               href={{ url_for('patient_bp.edit_patient_contact', patient_id = patient_obj.patient_id) }}>
+            <i class="far fa-address-card"></i> &emsp;Contact</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link{{ ' active' if active_page == 'travel' else '' }}"
+               href={{ url_for('patient_bp.edit_patient_travel', patient_id = patient_obj.patient_id) }}>
+            <i class="fas fa-passport"></i> &emsp;Travel</a>
+        </li>
+    </ul>
+
+{% endif %}
 
 {% block patient_card_content %}{% endblock %}
 

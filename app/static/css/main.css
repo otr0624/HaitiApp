@@ -42,6 +42,10 @@
     height: 30rem;
 }
 
+.patient-form-card {
+    height: 35rem;
+}
+
 .patient-profile-field {
     margin-bottom: 2rem;
 }

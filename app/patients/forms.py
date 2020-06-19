@@ -21,4 +21,3 @@ class PatientProfileForm(ModelForm, FlaskForm):
 
     submit_close = SubmitField('Save and Close')
     submit_add = SubmitField('Save and Add Details')
-    submit_continue = SubmitField('Save and Continue')

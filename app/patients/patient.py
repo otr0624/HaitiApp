@@ -66,6 +66,7 @@ def edit_patient(patient_id):
     card_title = "Edit a Patient"
     list_url = url_for('patient_bp.view_patient_list')
     form = PatientProfileForm(obj=patient_obj)
+    active_page = 'main'
     if form.validate_on_submit():
         # debugging app.logger.debug(f"last name would be set to {form.last_name.data}, first {form.first_name.data}, stat {form.patient_status.data.id}")
         patient_obj.last_name = form.last_name.data
@@ -78,7 +79,7 @@ def edit_patient(patient_id):
         return redirect(url_for('patient_bp.view_patient_list'))
     return render_template('patient_form/main.html',
                            title="Edit Patient",
-                           form=form, activity=activity, list_url=list_url, card_title=card_title)
+                           form=form, activity=activity, list_url=list_url, card_title=card_title, patient_obj=patient_obj, active_page=active_page)
 
 
 @patient_bp.route('/view/<string:patient_id>')
@@ -114,6 +115,27 @@ def view_patient_clinical(patient_id):
                            mode=mode, activity=activity)
 
 
+@patient_bp.route('/edit/<string:patient_id>/clinical')
+def edit_patient_clinical(patient_id):
+    patient_obj = Patient.query.filter_by(patient_id=patient_id).first()
+    activity = "Edit"
+    card_title = "Edit a Patient"
+    list_url = url_for('patient_bp.view_patient_list')
+    active_page = 'clinical'
+    form = PatientProfileForm(obj=patient_obj)
+    if form.validate_on_submit():
+        patient_obj.last_name = form.last_name.data
+        patient_obj.first_name = form.first_name.data
+        patient_obj.patient_status = form.patient_status.data
+        patient_obj.patient_provider = form.patient_provider.data
+        db.session.add(patient_obj)
+        db.session.commit()
+        flash("Patient '{} {}' successfully edited".format(form.first_name.data, form.last_name.data))
+        return redirect(url_for('patient_bp.view_patient_list'))
+    return render_template('patient_form/clinical.html',
+                           title="Edit Patient",
+                           form=form, activity=activity, list_url=list_url, card_title=card_title, patient_obj=patient_obj, active_page=active_page)
+
 @patient_bp.route('/view/<string:patient_id>/contact')
 def view_patient_contact(patient_id):
     active_page = 'contact'
@@ -128,6 +150,28 @@ def view_patient_contact(patient_id):
                            patient=patient,
                            active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url,
                            mode=mode, activity=activity)
+
+
+@patient_bp.route('/edit/<string:patient_id>/contact')
+def edit_patient_contact(patient_id):
+    patient_obj = Patient.query.filter_by(patient_id=patient_id).first()
+    activity = "Edit"
+    card_title = "Edit a Patient"
+    list_url = url_for('patient_bp.view_patient_list')
+    active_page = 'contact'
+    form = PatientProfileForm(obj=patient_obj)
+    if form.validate_on_submit():
+        patient_obj.last_name = form.last_name.data
+        patient_obj.first_name = form.first_name.data
+        patient_obj.patient_status = form.patient_status.data
+        patient_obj.patient_provider = form.patient_provider.data
+        db.session.add(patient_obj)
+        db.session.commit()
+        flash("Patient '{} {}' successfully edited".format(form.first_name.data, form.last_name.data))
+        return redirect(url_for('patient_bp.view_patient_list'))
+    return render_template('patient_form/contact.html',
+                           title="Edit Patient",
+                           form=form, activity=activity, list_url=list_url, card_title=card_title, patient_obj=patient_obj, active_page=active_page)
 
 
 @patient_bp.route('/view/<string:patient_id>/travel')
@@ -145,6 +189,27 @@ def view_patient_travel(patient_id):
                            active_page=active_page, card_title=card_title, edit_url=edit_url, list_url=list_url,
                            mode=mode, activity=activity)
 
+
+@patient_bp.route('/edit/<string:patient_id>/travel')
+def edit_patient_travel(patient_id):
+    patient_obj = Patient.query.filter_by(patient_id=patient_id).first()
+    activity = "Edit"
+    card_title = "Edit a Patient"
+    list_url = url_for('patient_bp.view_patient_list')
+    active_page = 'travel'
+    form = PatientProfileForm(obj=patient_obj)
+    if form.validate_on_submit():
+        patient_obj.last_name = form.last_name.data
+        patient_obj.first_name = form.first_name.data
+        patient_obj.patient_status = form.patient_status.data
+        patient_obj.patient_provider = form.patient_provider.data
+        db.session.add(patient_obj)
+        db.session.commit()
+        flash("Patient '{} {}' successfully edited".format(form.first_name.data, form.last_name.data))
+        return redirect(url_for('patient_bp.view_patient_list'))
+    return render_template('patient_form/travel.html',
+                           title="Edit Patient",
+                           form=form, activity=activity, list_url=list_url, card_title=card_title, patient_obj=patient_obj, active_page=active_page)
 
 @patient_bp.route('/view/<string:patient_id>/history')
 def view_patient_history(patient_id):
