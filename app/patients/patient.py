@@ -136,6 +136,7 @@ def edit_patient_clinical(patient_id):
                            title="Edit Patient",
                            form=form, activity=activity, list_url=list_url, card_title=card_title, patient_obj=patient_obj, active_page=active_page)
 
+
 @patient_bp.route('/view/<string:patient_id>/contact')
 def view_patient_contact(patient_id):
     active_page = 'contact'
@@ -210,6 +211,7 @@ def edit_patient_travel(patient_id):
     return render_template('patient_form/travel.html',
                            title="Edit Patient",
                            form=form, activity=activity, list_url=list_url, card_title=card_title, patient_obj=patient_obj, active_page=active_page)
+
 
 @patient_bp.route('/view/<string:patient_id>/history')
 def view_patient_history(patient_id):
