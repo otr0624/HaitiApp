@@ -3,6 +3,7 @@ from app import db
 # debugging from app import app
 from app.facilities.forms import FacilityProfileForm
 from app.facilities.facility_model import Facility
+from app.providers.provider_model import Provider
 from app.general.custom_tools import rand_id
 
 facility_bp = Blueprint('facility_bp', __name__,
@@ -79,6 +80,8 @@ def edit_facility(facility_id):
 @facility_bp.route('/view/<string:facility_id>')
 def view_facility(facility_id):
     facility = Facility.query.filter_by(facility_id=facility_id).first()
+    provider_facility_id = facility.id
+    provider_list = Provider.query.filter_by(provider_facility_id=provider_facility_id)
     card_title = facility.facility_name
     edit_url = url_for('facility_bp.edit_facility', facility_id=facility.facility_id)
     list_url = url_for('facility_bp.view_facility_list')
@@ -86,4 +89,5 @@ def view_facility(facility_id):
     activity = "View"
     return render_template('facility-profile-base.html',
                            title="View Facility",
-                           facility=facility, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode, activity=activity)
+                           facility=facility, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode,
+                           activity=activity, provider_list=provider_list)
