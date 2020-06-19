@@ -8,7 +8,7 @@ $(document).ready(function() {
         e.preventDefault();
         if (x < max_fields) {
             x++;
-            $(wrapper).append('<div>{{ form.patient_provider(class="form-control") }}<a href="#" class="delete">Delete</a></div>'); //add input box
+            $(wrapper).append('<div><p>{{ form.patient_provider(class="form-control") }}<a href="#" class="delete">Delete</a></p></div>'); //add input box
         } else {
             alert('You Reached the limits')
         }
