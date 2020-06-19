@@ -14,6 +14,7 @@ migrate = Migrate(app, db)
 from app.patients.patient import patient_bp
 from app.providers.provider import provider_bp
 from app.facilities.facility import facility_bp
+from app.settings.settings import settings_bp
 from app.general.index import index_bp
 from app.general.construction import construction_bp
 from app.patients.patient_model import Patient, PatientStatus
@@ -25,3 +26,4 @@ app.register_blueprint(patient_bp, url_prefix='/patients')
 app.register_blueprint(provider_bp, url_prefix='/providers')
 app.register_blueprint(facility_bp, url_prefix='/facilities')
 app.register_blueprint(construction_bp, url_prefix='/')
+app.register_blueprint(settings_bp, url_prefix='/settings')
