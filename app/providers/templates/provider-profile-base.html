@@ -2,12 +2,47 @@
 
 {% block data_display_content %}
 
-<div class="card-body">
-    <p>ID: {{ provider.provider_id }}</p>
-    <p>Last: {{ provider.last_name }}</p>
-    <p>First: {{ provider.first_name }}</p>
-    <p>Category: {{ provider.provider_category }}</p>
-    <p>Facility: {{ provider.provider_facility }}</p>
-</div>
+    <div class="card-body">
+        <p>ID: {{ provider.provider_id }}</p>
+        <p>Last: {{ provider.last_name }}</p>
+        <p>First: {{ provider.first_name }}</p>
+        <p>Category: {{ provider.provider_category }}</p>
+        <p>Facility: {{ provider.provider_facility }}</p>
+        <hr/>
+        <h2><b>{{ provider.first_name }} {{ provider.last_name }}'s Patients</b></h2>
+                    <table class="table table-hover table-sm" id="patient-list-table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for patient in patient_list %}
+                <tr>
+                    <td><a href={{ url_for('patient_bp.view_patient', patient_id = patient.patient_id) }}>
+                        {{ patient.patient_id }}</a></td>
+                    <td><a href={{ url_for('patient_bp.view_patient', patient_id = patient.patient_id) }}>
+                        {{ patient.last_name }}</a></td>
+                    <td><a href={{ url_for('patient_bp.view_patient', patient_id = patient.patient_id) }}>
+                        {{ patient.first_name }}</a></td>
+                    <td><a href={{ url_for('patient_bp.view_patient', patient_id = patient.patient_id) }}>
+                        {% if patient.patient_gender == "M": %}
+                        M
+                        {% elif patient.patient_gender == "F": %}
+                        F
+                        {% endif %}
+                        </a>
+                    </td>
+                    <td><a href={{ url_for('patient_bp.view_patient', patient_id = patient.patient_id) }}>
+                        {{ patient.patient_status }}</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+    </div>
 
 {% endblock %}

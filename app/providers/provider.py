@@ -3,6 +3,7 @@ from app import db
 # debugging from app import app
 from app.providers.forms import ProviderProfileForm
 from app.providers.provider_model import Provider
+from app.patients.patient_model import Patient
 from app.general.custom_tools import rand_id
 import psycopg2.errors
 
@@ -59,6 +60,7 @@ def delete_provider(provider_id):
               'First reassign any patients dependent on this provider, and then try again.')
         return redirect(url_for('provider_bp.view_provider_list'))
 
+
 @provider_bp.route('/edit/<string:provider_id>', methods=['GET', 'POST'])
 def edit_provider(provider_id):
     provider_obj = Provider.query.filter_by(provider_id=provider_id).first()
@@ -83,6 +85,9 @@ def edit_provider(provider_id):
 @provider_bp.route('/view/<string:provider_id>')
 def view_provider(provider_id):
     provider = Provider.query.filter_by(provider_id=provider_id).first()
+    patient_provider_id = provider.id
+    patient_list = Patient.query.filter_by(patient_provider_id=patient_provider_id)
+    print(patient_list)
     card_title = provider.last_name + ", " + provider.first_name + " (" + str(provider.provider_category) + ")"
     edit_url = url_for('provider_bp.edit_provider', provider_id=provider.provider_id)
     list_url = url_for('provider_bp.view_provider_list')
@@ -90,4 +95,5 @@ def view_provider(provider_id):
     activity = "View"
     return render_template('provider-profile-base.html',
                            title="View Provider",
-                           provider=provider, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode, activity=activity)
+                           provider=provider, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode,
+                           activity=activity, patient_list=patient_list)
