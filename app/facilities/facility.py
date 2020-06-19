@@ -85,9 +85,10 @@ def view_facility(facility_id):
     card_title = facility.facility_name
     edit_url = url_for('facility_bp.edit_facility', facility_id=facility.facility_id)
     list_url = url_for('facility_bp.view_facility_list')
+    table_id = "facility-provider-table"
     mode = "Facility"
     activity = "View"
     return render_template('facility-profile-base.html',
                            title="View Facility",
                            facility=facility, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode,
-                           activity=activity, provider_list=provider_list)
+                           activity=activity, provider_list=provider_list, table_id=table_id)

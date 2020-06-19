@@ -87,13 +87,13 @@ def view_provider(provider_id):
     provider = Provider.query.filter_by(provider_id=provider_id).first()
     patient_provider_id = provider.id
     patient_list = Patient.query.filter_by(patient_provider_id=patient_provider_id)
-    print(patient_list)
     card_title = provider.last_name + ", " + provider.first_name + " (" + str(provider.provider_category) + ")"
     edit_url = url_for('provider_bp.edit_provider', provider_id=provider.provider_id)
     list_url = url_for('provider_bp.view_provider_list')
+    table_id = "provider-patient-table"
     mode = "Provider"
     activity = "View"
     return render_template('provider-profile-base.html',
                            title="View Provider",
                            provider=provider, card_title=card_title, edit_url=edit_url, list_url=list_url, mode=mode,
-                           activity=activity, patient_list=patient_list)
+                           activity=activity, patient_list=patient_list, table_id=table_id)
