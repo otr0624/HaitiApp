@@ -3,7 +3,7 @@ from app import db
 # debugging from app import app
 from app.patients.forms import PatientProfileForm
 from app.patients.patient_model import Patient
-from app.general.custom_tools import rand_id, calculate_age_years
+from app.general.custom_tools import rand_id, calculate_age
 
 patient_bp = Blueprint('patient_bp', __name__,
                        template_folder='templates',
@@ -45,7 +45,7 @@ def create_patient():
         db.session.commit()
         flash("Patient '{} {}' successfully created".format(form.first_name.data, form.last_name.data))
         return redirect(url_for('patient_bp.view_patient_list'))
-    return render_template('patient_form/create.html', title="Add Patient", form=form, activity=activity,
+    return render_template('patient_form/main.html', title="Add Patient", form=form, activity=activity,
                            list_url=list_url, card_title=card_title)
 
 
@@ -90,7 +90,7 @@ def view_patient(patient_id):
     list_url = url_for('patient_bp.view_patient_list')
     mode = "Patient"
     activity = "View"
-    patient_age = calculate_age_years(patient.patient_dob)
+    patient_age = calculate_age(patient.patient_dob)
     return render_template('patient_profile/main.html',
                            title="View Patient",
                            patient=patient,

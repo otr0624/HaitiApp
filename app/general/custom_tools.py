@@ -9,7 +9,7 @@ def rand_id(length=6):
 #  Once ID database implemented, add "if not in database" logic to enforce unique value
 
 
-def calculate_age_years(born):
+def calculate_age(born):
     if born:
         today = date.today()
         age_in_years = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
