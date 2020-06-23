@@ -17,6 +17,7 @@ from app.facilities.facility import facility_bp
 from app.settings.settings import settings_bp
 from app.general.index import index_bp
 from app.general.construction import construction_bp
+from app.general.dynamic import dynamic_bp
 from app.patients.patient_model import Patient, PatientStatus
 from app.providers.provider_model import Provider, ProviderCategory
 from app.facilities.facility_model import Facility, FacilityCategory
@@ -26,4 +27,5 @@ app.register_blueprint(patient_bp, url_prefix='/patients')
 app.register_blueprint(provider_bp, url_prefix='/providers')
 app.register_blueprint(facility_bp, url_prefix='/facilities')
 app.register_blueprint(construction_bp, url_prefix='/')
+app.register_blueprint(dynamic_bp, url_prefix='/') # temporary workspace for testing dynamic fields
 app.register_blueprint(settings_bp, url_prefix='/settings')
