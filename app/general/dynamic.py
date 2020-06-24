@@ -2,6 +2,8 @@ from flask import Blueprint, render_template
 from app import db
 from flask_wtf import FlaskForm
 from wtforms import Form, FieldList, FormField, StringField
+from wtforms_alchemy import QuerySelectField
+from app.providers.provider_model import Provider
 
 dynamic_bp = Blueprint('dynamic_bp', __name__,
                         template_folder='templates',
@@ -15,11 +17,12 @@ class PatientProviderPairForm(Form):
     it is never used by itself.
     """
     patient_name = StringField('Patient Name')
-    provider_name = StringField('Provider Name')
+    provider = QuerySelectField(query_factory=lambda: Provider.query)
 
 
 class MainForm(FlaskForm):
     """Parent form."""
+
     duos = FieldList(
         FormField(PatientProviderPairForm),
         min_entries=1,
@@ -42,7 +45,8 @@ class PatientProviderPair(db.Model):
     pp_set_id = db.Column(db.Integer, db.ForeignKey('pp_set.id'))
 
     patient_name = db.Column(db.String(100))
-    provider_name = db.Column(db.String(100))
+    provider_name = db.Column(db.Integer, db.ForeignKey('provider.id'))
+    provider = db.relationship(Provider)
 
     # Relationship
     pp_set = db.relationship(
@@ -70,11 +74,14 @@ def index():
         db.session.commit()
 
     pp_sets = PatientProviderSet.query
+    provider_list = Provider.query
+    print(provider_list)
 
     return render_template(
         'dynamic.html',
         form=form,
-        pp_sets=pp_sets
+        pp_sets=pp_sets,
+        provider_list=provider_list
     )
 
 
