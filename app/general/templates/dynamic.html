@@ -2,14 +2,57 @@
 
 {% block content %}
 <div class="container">
-<<<<<<< HEAD
     <h1>Dynamic Field Sandbox</h1>
     <div>
-        
+        <a id="add" href="#">Add Provider</a>
+
+        {# Show all subforms #}
+        <form id="duo-form" action="" method="POST" role="form">
+            {{ form.hidden_tag() }}
+
+            <div id="subforms-container">
+                {% for subform in form.duos %}
+                    <div id="duo-{{ loop.index0 }}-form" class="subform" data-index="{{ loop.index0 }}">
+                        {{ subform.patient_name.label }}
+                        {{ subform.patient_name }}
+
+                        {{ subform.provider_name.label }}
+                        {{ subform.provider_name }}
+
+                        <a class="remove" href="#">Remove</a>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button type="submit">Send</button>
+        </form>
+
+        {% if form.errors %}
+            {{ form.errors }}
+        {% endif %}
+
+        {# Form template #}
+        <div id="duo-_-form" class="is-hidden" data-index="_">
+            <label for="duos-_-patient_name">Patient Name</label>
+            <input id="duos-_-patient_name" name="duos-_-patient_name" type="text" value="">
+
+            <label for="duos-_-provider_name">Provider Name</label>
+            <input id="duos-_-provider_name" name="duos-_-provider_name" type="text">
+
+            <a class="remove" href="#">Remove</a>
+        </div>
+
+
+        {# Show submitted data #}
+        {% if data is defined %}
+            <p>Received data: {{ data }}</p>
+        {% endif %}
+
+
+        {# Show races #}
+        {% for pp_set in pp_sets %}
+            <p><a href="{{ url_for('dynamic_bp.show_pp_set', pp_set_id=pp_set.id) }}">Patient-Provider Set {{ pp_set.id }}</a></p>
+        {% endfor %}
     </div>
-=======
-<h1>Dynamic Fields Sandbox</h1>
-</div>
->>>>>>> patient-form-expansion
 </div>
 {% endblock %}
