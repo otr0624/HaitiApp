@@ -1,0 +1,49 @@
+{% extends "data-display-container.html" %}
+
+{% block data_display_content %}
+
+        <div class="card-body">
+            <h2>Patient Status Categories</h2>
+            <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+                <table class="table table-hover table-sm" id="patient-list-table">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Code</th>
+                        <th scope="col">Name</th>
+                        <th style="text-align: center; vertical-align: middle" scope="col" class="no-sort">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in list_obj %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.code_name }}</td>
+                        <td>{{ item.name }}</td>
+<!--                        COMMENTED CODE BELOW DOES NOT POPULATE DATA INTO FORM FIELDS-->
+<!--                        <td>{{ form.code_name(class="form-control") }}</td>-->
+<!--                        <td>{{ form.name(class="form-control") }}</td>-->
+                        <td style="text-align: center; vertical-align: middle"><a href="#">
+                        <i class="fas fa-trash-alt"></i></a></td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td></td>
+                        <td><a href="#"><i class="fas fa-plus"></i> Add new row</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md patient-card-column">
+                        <p>
+                            <a class="btn btn-danger btn-lg" role="button"
+                            href="{{ url_for('settings_bp.settings_home') }}">Discard Changes</a>
+                            <span class="save-close-button">{{ form.submit(class="btn btn-primary btn-lg") }}</span>
+                        </p>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+{% endblock %}

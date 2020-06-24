@@ -1,16 +1,27 @@
 {% extends "patient-profile-base.html" %}
 
 {% block patient_card_content %}
-<div class="row">
-    <div class="col-md patient-card-column">
-        <p class="patient-profile-field"><b>Status: {{ patient.patient_status }}</b></p>
-        <p class="patient-profile-field">Gender: [to link]</p>
-        <p class="patient-profile-field">DOB: [to link]</p>
+    <div class="container form-container">
+        <div class="row">
+            <div class="col-md patient-card-column">
+                <p class="patient-profile-field"><b>Status: {{ patient.patient_status }}</b></p>
+                <p class="patient-profile-field">Gender:
+                    {% if patient.patient_gender == None: %} Unknown
+                    {% else: %} {{ patient.patient_gender }} {% endif %}
+                </p>
+                <p class="patient-profile-field">DOB:
+                    {% if patient.patient_dob == None: %} Unknown
+                    {% else: %} {{ patient.patient_dob }} {% endif %}
+                    {% if patient.patient_dob_est == True: %} (Estimated) {% endif %}
+                </p>
+                <p class="patient-profile-field">Age: {{ patient_age }}
+                </p>
+            </div>
+            <div class="col-md patient-card-column">
+                <p class="patient-profile-field"><b>Primary Diagnosis: [to link]</b></p>
+                <p class="patient-profile-field">Primary Provider: {{ patient.patient_provider }}</p>
+            </div>
+        </div>
     </div>
-    <div class="col-md patient-card-column">
-        <p class="patient-profile-field"><b>Primary Diagnosis: [to link]</b></p>
-        <p class="patient-profile-field">Primary Provider: {{ patient.patient_provider }}</p>
-    </div>
-</div>
 </div>
 {% endblock %}
