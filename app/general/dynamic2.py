@@ -17,7 +17,7 @@ class PatientProviderPairForm(Form):
     it is never used by itself.
     """
     patient_name = StringField('Patient Name')
-    provider = QuerySelectField(query_factory=lambda: Provider.query)
+    provider_name = QuerySelectField(query_factory=lambda: Provider.query)
 
 
 class MainForm(FlaskForm):
@@ -74,6 +74,7 @@ def index():
 
     pp_sets = PatientProviderSet.query
     provider_list = Provider.query
+    print(provider_list)
 
     return render_template(
         'dynamic.html',
@@ -83,7 +84,7 @@ def index():
     )
 
 
-@dynamic_bp.route('/<pp_set_id>', methods=['GET'])
+@dynamic_bp.route('/dynamic/<pp_set_id>', methods=['GET'])
 def show_pp_set(pp_set_id):
     """Show the details of a patient-provider set."""
     pp_set = PatientProviderSet.query.filter_by(id=pp_set_id).first()
@@ -92,7 +93,3 @@ def show_pp_set(pp_set_id):
         'show.html',
         pp_set=pp_set
     )
-
-
-if __name__ == '__main__':
-    app.run()

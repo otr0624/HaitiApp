@@ -3,90 +3,77 @@
 {% block content %}
 <div class="container">
     <h1>Dynamic Field Sandbox</h1>
-            <div class="row">
-            <div class="col-md patient-card-column">
+        <div class="row">
+        <div class="col-md patient-card-column">
                 <p>
-                    <a id="add" class="btn btn-secondary btn-lg" href="#"><i class="fas fa-plus"></i> Add Provider</a>
+                    <a id="add" href="#" class="btn btn-secondary btn-lg"><i class="fas fa-plus"></i> Add Provider</a>
 
-                    {# Show all subforms #}
-                    <form id="duo-form" action="" method="POST" role="form">
-                        {{ form.hidden_tag() }}
+        {# Show all subforms #}
+        <form id="duo-form" action="" method="POST" role="form">
+            {{ form.hidden_tag() }}
 
-                        <div id="subforms-container">
-                            {% for subform in form.duos %}
-                                <div id="duo-{{ loop.index0 }}-form" class="subform" data-index="{{ loop.index0 }}">
-                                    <div class="row">
-                                        <div class="col">
-                                            {{ subform.patient_name.label }}
-                                            {{ subform.patient_name(class="form-control") }}
-                                        </div>
-                                        <div class="col">
-                                            {{ subform.provider.label }}
-                                            {{ subform.provider(class="form-control") }}
-                                        </div>
-                                        <div class="col" style="display: flex; align-items: flex-end">
-                                            <a class="remove" href="#"><i class="fas fa-trash-alt"></i></a>
-                                        </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <div class="row" style="margin-top: 1rem; margin-bottom: 1rem">
+            <div id="subforms-container">
+                {% for subform in form.duos %}
+                    <div id="duo-{{ loop.index0 }}-form" class="subform" data-index="{{ loop.index0 }}">
+                        <div class="row">
                             <div class="col">
-                                <button type="submit" class="btn btn-primary btn-lg">Send</button>
-                            </div>
-                        </div>
-                    </form>
-
-                    {% if form.errors %}
-                        {{ form.errors }}
-                    {% endif %}
-
-                    {# Form template #}
-                    <div id="duo-_-form" class="is-hidden" data-index="_">
-                        <div class="row" style="margin-top: 1rem; margin-bottom: 1rem">
-                            <div class="col">
-                                <label for="duos-_-patient_name">Patient Name</label>
-                                <input id="duos-_-patient_name" class="form-control" name="duos-_-patient_name" type="text" value="">
+                                {{ subform.patient_name.label }}
+                                {{ subform.patient_name(class="form-control") }}
                             </div>
                             <div class="col">
-                                <label for="duos-_-provider_name">Provider</label>
-                                <select id="duos-_-provider_name" class="form-control" name="duos-_-provider_name">
-                                    {% for provider in provider_list %}
-                                        <option value="{{ provider.id }}">{{ provider.last_name }}, {{ provider.first_name }}</option>
-                                    {% endfor %}
-                                </select>
+                                {{ subform.provider.label }}
+                                {{ subform.provider(class="form-control") }}
                             </div>
                             <div class="col" style="display: flex; align-items: flex-end">
                                 <a class="remove" href="#"><i class="fas fa-trash-alt"></i></a>
                             </div>
                         </div>
                     </div>
+                {% endfor %}
+            </div>
+            <div class="row" style="margin-top: 1rem; margin-bottom: 1rem">
+                <div class="col">
+                     <button type="submit" class="btn btn-primary btn-lg">Send</button>
+                </div>
+            </div>
+        </form>
 
+        {% if form.errors %}
+            {{ form.errors }}
+        {% endif %}
 
-                    {# Show submitted data #}
-                    {% if data is defined %}
-                        <p>Received data: {{ data }}</p>
-                    {% endif %}
-
-
-                    {# Show races #}
-                    {% for pp_set in pp_sets %}
-                        <p><a href="{{ url_for('dynamic_bp.show_pp_set', pp_set_id=pp_set.id) }}">Patient-Provider Set {{ pp_set.id }}</a></p>
+        {# Form template #}
+        <div id="duo-_-form" class="is-hidden" data-index="_">
+            <div class="row" style="margin-top: 1rem; margin-bottom: 1rem">
+                <div class="col">
+                    <label for="duos-_-patient_name">Patient Name</label>
+                    <input id="duos-_-patient_name" name="duos-_-patient_name" class="form-control" type="text" value="">
+                </div>
+                <div class="col">
+                    <label for="duos-_-provider">Provider</label>
+                    <select id="duos-_-provider" name="duos-_-provider" class="form-control" type="text">
+                    {% for provider in provider_list %}
+                        <option value="{{ provider.id }}">{{ provider.last_name }}, {{ provider.first_name }}</option>
                     {% endfor %}
-                </p>
-            </div>
-            <div class="col-md patient-card-column">
-                <p>
-                </p>
-            </div>
-            <div class="col-md patient-card-column">
-                <p>
-                </p>
+                    </select>
+                </div>
+                <div class="col" style="display: flex; align-items: flex-end">
+                    <a class="remove" href="#"><i class="fas fa-trash-alt"></i></a>
+                </div>
             </div>
         </div>
-        <div class="row">
-    <div>
 
-    </div>
-</div>
+        {# Show submitted data #}
+        {% if data is defined %}
+            <p>Received data: {{ data }}</p>
+        {% endif %}
+
+
+        {# Show races #}
+        {% for pp_set in pp_sets %}
+            <p><a href="{{ url_for('dynamic_bp.show_pp_set', pp_set_id=pp_set.id) }}">Patient-Provider Set {{ pp_set.id }}</a></p>
+        {% endfor %}
+    </body>
+
+
 {% endblock %}
