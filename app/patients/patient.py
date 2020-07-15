@@ -39,7 +39,8 @@ def create_patient():
             patient_id=patient_id,
             patient_dob=form.patient_dob.data,
             patient_dob_est=form.patient_dob_est.data,
-            patient_gender=form.patient_gender.data
+            patient_gender=form.patient_gender.data,
+            patient_diagnosis=form.patient_diagnosis.data
         )
         db.session.add(patient)
         db.session.commit()
@@ -76,6 +77,7 @@ def edit_patient(patient_id):
         patient_obj.first_name = form.first_name.data
         patient_obj.patient_status = form.patient_status.data
         patient_obj.patient_provider = form.patient_provider.data
+        patient_obj.patient_diagnosis = form.patient_diagnosis.data
         db.session.add(patient_obj)
         db.session.commit()
         flash("Patient '{} {}' successfully edited".format(form.first_name.data, form.last_name.data))

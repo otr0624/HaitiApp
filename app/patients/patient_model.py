@@ -52,8 +52,8 @@ class Patient(db.Model):
     patient_status = db.relationship(PatientStatus)
     patient_provider = db.relationship(Provider)
     # CLINICAL TAB
-    # patient_diagnosis_id = db.Column(db.Integer, db.ForeignKey('patient_diagnosis.id'), default=1)
-    # patient_diagnosis = db.relationship(PatientDiagnosis)
+    patient_diagnosis_id = db.Column(db.Integer, db.ForeignKey('patient_diagnosis.id'))
+    patient_diagnosis = db.relationship(PatientDiagnosis)
     # patient_urgency_id = db.Column(db.Integer, db.ForeignKey('patient_status.id'))
     # patient_urgency = db.relationship(PatientUrgency)
     # patient_syndrome_id = db.Column(db.Integer, db.ForeignKey('patient_status.id'))
@@ -80,7 +80,7 @@ class Patient(db.Model):
     # guardian_passport_identity_type = db.relationship(RelationshipType)
 
     def __init__(self, first_name, last_name, patient_id, patient_status, patient_provider, patient_dob,
-                 patient_dob_est, patient_gender): # RE-ADD PATIENT DIAGNOSIS
+                 patient_dob_est, patient_gender, patient_diagnosis):
         # MAIN TAB
         self.first_name = first_name
         self.last_name = last_name
@@ -91,7 +91,7 @@ class Patient(db.Model):
         self.patient_dob_est = patient_dob_est
         self.patient_gender = patient_gender
         # CLINICAL TAB
-        # self.patient_diagnosis = patient_diagnosis
+        self.patient_diagnosis = patient_diagnosis
         # CONTACT TAB
         # TRAVEL TAB
 
