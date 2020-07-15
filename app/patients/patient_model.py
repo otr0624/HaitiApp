@@ -60,7 +60,6 @@ class Patient(db.Model):
     # guardian_passport_identity_type = db.relationship(RelationshipType)
 
 
-
     def __init__(self, first_name, last_name, patient_id, patient_status, patient_provider, patient_dob, patient_dob_est, patient_gender):
         # MAIN TAB
         self.first_name = first_name

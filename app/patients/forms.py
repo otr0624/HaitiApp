@@ -27,4 +27,4 @@ class PatientProfileForm(ModelForm, FlaskForm):
 # TRAVEL TAB
 
     submit_close = SubmitField('Save and Close')
-    submit_add = SubmitField('Save and Add Details')
+    submit_add = SubmitField('Save and Next Panel')
