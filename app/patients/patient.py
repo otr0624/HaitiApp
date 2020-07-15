@@ -127,7 +127,7 @@ def edit_patient_clinical(patient_id):
     active_page = 'clinical'
     form = PatientProfileForm(obj=patient_obj)
     if form.validate_on_submit():
-        patient_obj.patient_syndrome = form.patient_syndrome.data
+        patient_obj.patient_diagnosis = form.patient_diagnosis.data
         db.session.add(patient_obj)
         db.session.commit()
         flash("Patient '{} {}' successfully edited".format(form.first_name.data, form.last_name.data))
@@ -137,7 +137,8 @@ def edit_patient_clinical(patient_id):
             return redirect(url_for('patient_bp.edit_patient_contact', patient_id=patient_id))
     return render_template('patient_form/clinical.html',
                            title="Edit Patient",
-                           form=form, activity=activity, list_url=list_url, card_title=card_title, patient_obj=patient_obj, active_page=active_page)
+                           form=form, activity=activity, list_url=list_url, card_title=card_title,
+                           patient_obj=patient_obj, active_page=active_page)
 
 
 @patient_bp.route('/view/<string:patient_id>/contact')
