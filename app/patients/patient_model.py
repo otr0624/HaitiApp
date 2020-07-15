@@ -17,25 +17,25 @@ class PatientStatus(db.Model):
     def __repr__(self):
         return '<PatientStatus: {}, {}>'.format(self.code_name, self.name)
 
-
-class PatientDiagnosis(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    icd_code = db.Column(db.String(10), index=True)
-    icd_subcode = db.Column(db.String(10), index=True)
-    name = db.Column(db.String(60), index=True)
-    dx_abbrev = db.Column(db.String(10), index=True)
-
-    def __init__(self, icd_code=None, icd_subcode=None, name=None, dx_abbrev=None):
-        self.icd_code = icd_code
-        self.icd_subcode = icd_subcode
-        self.name = name
-        self.dx_abbrev = dx_abbrev
-
-    def __str__(self):
-        return self.name
-
-    def __repr__(self):
-        return '<PatientDiagnosis: {}.{} - {} ({})>'.format(self.icd_code, self.icd_subcode, self.name, self.dx_abbrev)
+#
+# class PatientDiagnosis(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     icd_code = db.Column(db.String(10), index=True)
+#     icd_subcode = db.Column(db.String(10), index=True)
+#     name = db.Column(db.String(60), index=True)
+#     dx_abbrev = db.Column(db.String(10), index=True)
+#
+#     def __init__(self, icd_code=None, icd_subcode=None, name=None, dx_abbrev=None):
+#         self.icd_code = icd_code
+#         self.icd_subcode = icd_subcode
+#         self.name = name
+#         self.dx_abbrev = dx_abbrev
+#
+#     def __str__(self):
+#         return self.name
+#
+#     def __repr__(self):
+#         return '<PatientDiagnosis: {}.{} - {} ({})>'.format(self.icd_code, self.icd_subcode, self.name, self.dx_abbrev)
 
 
 class Patient(db.Model):
@@ -52,8 +52,8 @@ class Patient(db.Model):
     patient_status = db.relationship(PatientStatus)
     patient_provider = db.relationship(Provider)
     # CLINICAL TAB
-    patient_diagnosis_id = db.Column(db.Integer, db.ForeignKey('patient_diagnosis.id'))
-    patient_diagnosis = db.relationship(PatientDiagnosis)
+    # patient_diagnosis_id = db.Column(db.Integer, db.ForeignKey('patient_diagnosis.id'))
+    # patient_diagnosis = db.relationship(PatientDiagnosis)
     # patient_urgency_id = db.Column(db.Integer, db.ForeignKey('patient_status.id'))
     # patient_urgency = db.relationship(PatientUrgency)
     # patient_syndrome_id = db.Column(db.Integer, db.ForeignKey('patient_status.id'))
@@ -80,7 +80,7 @@ class Patient(db.Model):
     # guardian_passport_identity_type = db.relationship(RelationshipType)
 
     def __init__(self, first_name, last_name, patient_id, patient_status, patient_provider, patient_dob,
-                 patient_dob_est, patient_gender, patient_diagnosis):
+                 patient_dob_est, patient_gender): # ADD PATIENT DIAGNOSIS
         # MAIN TAB
         self.first_name = first_name
         self.last_name = last_name
@@ -91,7 +91,7 @@ class Patient(db.Model):
         self.patient_dob_est = patient_dob_est
         self.patient_gender = patient_gender
         # CLINICAL TAB
-        self.patient_diagnosis = patient_diagnosis
+        # self.patient_diagnosis = patient_diagnosis
         # CONTACT TAB
         # TRAVEL TAB
 
