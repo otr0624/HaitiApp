@@ -40,7 +40,7 @@ def create_patient():
             patient_dob=form.patient_dob.data,
             patient_dob_est=form.patient_dob_est.data,
             patient_gender=form.patient_gender.data,
-            # patient_diagnosis=form.patient_diagnosis.data
+            patient_diagnosis=form.patient_diagnosis.data
         )
         db.session.add(patient)
         db.session.commit()
