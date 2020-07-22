@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from app import db
 # debugging from app import app
-from app.patients.forms import PatientProfileForm
+from app.patients.forms import PatientProfileForm, PatientClinicalForm
 from app.patients.patient_model import Patient
 from app.general.custom_tools import rand_id, calculate_age
 
@@ -20,7 +20,8 @@ def view_patient_list():
     add_url = url_for('patient_bp.create_patient')
     table_id = "patient-list-table"
     return render_template('patient-list-base.html', title="Patient List",
-                           patient_list=patient_list, table_id=table_id, activity=activity, mode=mode, add_url=add_url, card_title=card_title)
+                           patient_list=patient_list, table_id=table_id, activity=activity, mode=mode, add_url=add_url,
+                           card_title=card_title)
 
 
 @patient_bp.route('/new', methods=['GET', 'POST'])
@@ -84,7 +85,8 @@ def edit_patient(patient_id):
         return redirect(url_for('patient_bp.view_patient_list'))
     return render_template('patient_form/main.html',
                            title="Edit Patient",
-                           form=form, activity=activity, list_url=list_url, card_title=card_title, patient_obj=patient_obj, active_page=active_page)
+                           form=form, activity=activity, list_url=list_url, card_title=card_title,
+                           patient_obj=patient_obj, active_page=active_page)
 
 
 @patient_bp.route('/view/<string:patient_id>')
@@ -127,7 +129,7 @@ def edit_patient_clinical(patient_id):
     card_title = "Edit a Patient"
     list_url = url_for('patient_bp.view_patient_list')
     active_page = 'clinical'
-    form = PatientProfileForm(obj=patient_obj)
+    form = PatientClinicalForm(obj=patient_obj)
     if form.validate_on_submit():
         patient_obj.patient_diagnosis = form.patient_diagnosis.data
         db.session.add(patient_obj)
@@ -181,7 +183,8 @@ def edit_patient_contact(patient_id):
             return redirect(url_for('patient_bp.edit_patient_travel', patient_id=patient_id))
     return render_template('patient_form/contact.html',
                            title="Edit Patient",
-                           form=form, activity=activity, list_url=list_url, card_title=card_title, patient_obj=patient_obj, active_page=active_page)
+                           form=form, activity=activity, list_url=list_url, card_title=card_title,
+                           patient_obj=patient_obj, active_page=active_page)
 
 
 @patient_bp.route('/view/<string:patient_id>/travel')
@@ -219,7 +222,8 @@ def edit_patient_travel(patient_id):
         return redirect(url_for('patient_bp.view_patient_list'))
     return render_template('patient_form/travel.html',
                            title="Edit Patient",
-                           form=form, activity=activity, list_url=list_url, card_title=card_title, patient_obj=patient_obj, active_page=active_page)
+                           form=form, activity=activity, list_url=list_url, card_title=card_title,
+                           patient_obj=patient_obj, active_page=active_page)
 
 
 @patient_bp.route('/view/<string:patient_id>/history')

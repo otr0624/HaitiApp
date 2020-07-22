@@ -34,3 +34,13 @@ class PatientProfileForm(ModelForm, FlaskForm):
 
     submit_close = SubmitField('Save and Close')
     submit_add = SubmitField('Save and Next Panel')
+
+
+class PatientClinicalForm(ModelForm, FlaskForm):
+    class Meta:
+        model = Patient
+
+    patient_diagnosis = QuerySelectField(query_factory=lambda: PatientDiagnosis.query)
+
+    submit_close = SubmitField('Save and Close')
+    submit_add = SubmitField('Save and Next Panel')
