@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  title: Facility API
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /facilities:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-facilities
+    post:
+      summary: ''
+      operationId: post-facilities
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Facility:
+      title: Facility
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      x-examples:
+        example-1:
+          id: string
+          name: string
