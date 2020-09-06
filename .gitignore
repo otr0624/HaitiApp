@@ -1,6 +1,5 @@
 .idea/
+.vscode/
 .flaskenv
-__pycache__/
-app/__pycache__/
-app/patients/__pycache__/
+**/__pycache__/
 *.pyc
