@@ -12,7 +12,7 @@ paths:
   '/patients/{id}':
     get:
       description: Get a single patient record.
-      operationId: view_patient_list
+      operationId: get_client_id
       parameters:
         - description: PatientId
           explode: false
@@ -35,7 +35,7 @@ paths:
       summary: Your GET endpoint
       tags:
         - Patient
-      x-openapi-router-controller: app.patients.patient
+      x-openapi-router-controller: app.clients.client_api
 components:
   schemas:
     Patient:
