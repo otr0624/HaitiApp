@@ -1,0 +1,81 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: orobinson@haiticardiac.org
+    name: Owen Robinson
+    url: 'https://www.haiticardiac.org/'
+  title: Patient API
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000/v1'
+paths:
+  '/patients/{id}':
+    get:
+      description: Get a single patient record.
+      operationId: view_patient_list
+      parameters:
+        - description: PatientId
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              examples: {}
+              schema:
+                $ref: '#/components/schemas/Patient'
+          description: OK
+        '404':
+          description: Not Found
+      summary: Your GET endpoint
+      tags:
+        - Patient
+      x-openapi-router-controller: app.patients.patient
+components:
+  schemas:
+    Patient:
+      description: ''
+      example:
+        friendlyId: friendlyId
+        firstName: firstName
+        lastName: lastName
+        isDateOfBirthEstimate: true
+        dateOfDeath: '2020-01-30T00:00:00.000+0000'
+        sex: sex
+        dateOfBirth: '2008-05-24T00:00:00.000+0000'
+        id: id
+      properties:
+        id:
+          type: string
+        friendlyId:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        dateOfBirth:
+          description: Date of birth in UTC YYYY-MM-DD
+          example: '2008-05-24'
+          format: date
+          type: string
+        isDateOfBirthEstimate:
+          type: boolean
+        dateOfDeath:
+          description: 'If patiend is deceased, date of death in UTC YYYY-MM-DD'
+          example: '2020-01-30'
+          format: date
+          type: string
+        sex:
+          type: string
+      required:
+        - id
+      title: Patient
+      type: object
+      x-tags:
+        - Patient
+      x-examples: {}

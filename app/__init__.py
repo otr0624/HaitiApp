@@ -1,14 +1,30 @@
-from flask import Flask
+import connexion
 from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap
 
 import config
 
-app = Flask(__name__)
+# Create the Connexion application instance, which wraps
+# the underlying Flask application in `connex.app`
+#
+# Connexion is a framework on top of Flask that automagically 
+# handles HTTP requests defined using OpenAPI (formerly known
+# as Swagger)
+connex = connexion.App(__name__, specification_dir='../api')
+
+# Read the OpenAPI YAML file to configure the endpoints
+connex.add_api('./reference/OpenAPI.v1.yaml')
+
+# Initialize and configure the underlying Flask application
+app = connex.app
 Bootstrap(app)
 app.config.from_object(config.DevelopmentConfig)
+
+# Config and initialize database 
 db = SQLAlchemy(app)
+ma = Marshmallow(app)
 migrate = Migrate(app, db)
 
 from app.patients.patient import patient_bp
