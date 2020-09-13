@@ -3,8 +3,8 @@ from database import db, ma
 import os.path
 from flask_bootstrap import Bootstrap
 
-from app.clients.client_views import clients
-from app.clients.client_model import Client
+from hca.patients.patient_views import patients
+from hca.patients.patient_model import Patient
 
 import config
 
@@ -30,7 +30,7 @@ def create_app():
     db.init_app(connex.app)
     ma.init_app(connex.app)
 
-    connex.app.register_blueprint(clients, url_prefix='/clients')
+    connex.app.register_blueprint(patients, url_prefix='/patients')
     return connex
 
 
@@ -39,7 +39,7 @@ def setup_database(connex):
     with connex.app.app_context():
         db.create_all()
 
-        c = Client()
+        c = Patient()
         c.first_name = "Mike"
         c.last_name = "Smith"
 
