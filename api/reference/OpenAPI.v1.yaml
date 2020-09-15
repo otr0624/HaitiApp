@@ -7,17 +7,73 @@ info:
   title: Patient API
   version: '1.0'
 servers:
-  - url: 'http://localhost:3000/v1'
+  - url: 'http://localhost:5000/v1'
 paths:
-  '/patients/{id}':
+  '/patients':
     get:
+      tags:
+        - Patient
+      summary: Get all Patients
+      description: Get all Patient records.
+      operationId: hca.patients.patient_api.get_patients
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Patient'
+          description: OK
+    post:
+      tags:
+        - Patient
+      summary: Create a Patient
+      description: Create a single patient record.
+      operationId: hca.patients.patient_api.post_patients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                date_of_birth:
+                  description: Date of birth in UTC YYYY-MM-DD
+                  example: '2008-05-24'
+                  format: date
+                  type: string
+                is_date_of_birth_estimate:
+                  type: boolean
+                date_of_death:
+                  description: 'If patiend is deceased, date of death in UTC YYYY-MM-DD'
+                  example: '2020-01-30'
+                  format: date
+                  type: string
+                sex:
+                  type: string
+      responses:
+        '201':
+          description: Return the inserted Patient record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+  '/patients/{uuid}':
+    get:
+      tags:
+        - Patient
+      summary: Get single Patient
       description: Get a single patient record.
       operationId: hca.patients.patient_api.get_patient_id
       parameters:
-        - description: PatientId
+        - description: Patient unique identifier
           explode: false
           in: path
-          name: id
+          name: uuid
           required: true
           schema:
             type: string
@@ -26,55 +82,43 @@ paths:
         '200':
           content:
             application/json:
-              examples: {}
               schema:
                 $ref: '#/components/schemas/Patient'
           description: OK
         '404':
           description: Not Found
-      summary: Your GET endpoint
-      tags:
-        - Patient
 components:
   schemas:
     Patient:
       description: ''
-      example:
-        friendlyId: friendlyId
-        firstName: firstName
-        lastName: lastName
-        isDateOfBirthEstimate: true
-        dateOfDeath: '2020-01-30T00:00:00.000+0000'
-        sex: sex
-        dateOfBirth: '2008-05-24T00:00:00.000+0000'
-        id: id
+      title: Patient
+      type: object
+      x-tags:
+        - Patient
       properties:
         id:
+          type: integer
+        uuid:
           type: string
-        friendlyId:
+        friendly_id:
           type: string
-        firstName:
+        first_name:
           type: string
-        lastName:
+        last_name:
           type: string
-        dateOfBirth:
+        date_of_birth:
           description: Date of birth in UTC YYYY-MM-DD
           example: '2008-05-24'
           format: date
           type: string
-        isDateOfBirthEstimate:
+        is_date_of_birth_estimate:
           type: boolean
-        dateOfDeath:
+        date_of_death:
           description: 'If patiend is deceased, date of death in UTC YYYY-MM-DD'
           example: '2020-01-30'
           format: date
           type: string
         sex:
           type: string
-      required:
-        - id
-      title: Patient
-      type: object
-      x-tags:
-        - Patient
-      x-examples: {}
+
+

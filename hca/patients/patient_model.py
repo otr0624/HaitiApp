@@ -1,8 +1,10 @@
 from database import db, ma
+import uuid
 
 
 class Patient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    uuid = db.Column(db.String(32), default=uuid.uuid4().hex, nullable=False)
     first_name = db.Column(db.String(64))
     last_name = db.Column(db.String(64))
     date_of_birth = db.Column(db.Date)
@@ -46,4 +48,5 @@ class PatientDiagnosis(db.Model):
 class PatientSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Patient
+        load_instance = True
         sqla_session = db.session
