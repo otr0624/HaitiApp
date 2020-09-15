@@ -39,9 +39,9 @@ def setup_database(connex):
     with connex.app.app_context():
         db.create_all()
 
-        #
-        # TESTING ON STARTUP
-        #
+        # #
+        # # TESTING ON STARTUP
+        # #
 
         p = Patient()
         p.first_name = "Mike"
@@ -50,31 +50,31 @@ def setup_database(connex):
         db.session.add(p)
         db.session.commit()
 
-        d1 = Diagnosis()
-        d1.code = "1234"
-        d1.diagnosis = "Scraped Knee"
+        # d1 = Diagnosis()
+        # d1.code = "1234"
+        # d1.diagnosis = "Scraped Knee"
 
-        d2 = Diagnosis()
-        d2.code = "5678"
-        d2.diagnosis = "Runny Nose"
+        # d2 = Diagnosis()
+        # d2.code = "5678"
+        # d2.diagnosis = "Runny Nose"
 
-        pd = PatientDiagnosis()
-        pd.diagnosis = d1
-        pd.patient = p
-        pd.is_primary = True
-        pd.is_suspected = False
+        # pd = PatientDiagnosis()
+        # pd.diagnosis = d1
+        # pd.patient = p
+        # pd.is_primary = True
+        # pd.is_suspected = False
 
-        pd2 = PatientDiagnosis()
-        pd2.diagnosis = d2
-        pd2.patient = p
-        pd2.is_primary = False
-        pd2.is_suspected = True
+        # pd2 = PatientDiagnosis()
+        # pd2.diagnosis = d2
+        # pd2.patient = p
+        # pd2.is_primary = False
+        # pd2.is_suspected = True
 
-        db.session.add_all([d1, d2, pd, pd2])
-        db.session.commit()
+        # db.session.add_all([d1, d2, pd, pd2])
+        # db.session.commit()
 
-        patient = Patient.query.first()
-        print(patient.diagnosis)
+        # patient = Patient.query.first()
+        # print(patient.diagnosis)
 
 
 

@@ -21,19 +21,22 @@ def post_patients(body):
     schema = PatientSchema()
     new_patient = schema.load(body, session=db.session)
 
+    if new_patient.id or new_patient.uuid:
+        abort(400, "Do not specify 'id' or 'uuid' in Patient creation request")
+
     db.session.add(new_patient)
     db.session.commit()
 
     return schema.dump(new_patient), 201
 
 
-def get_patient_id(id):
+def get_patient_id(uuid):
     patient = Patient  \
                 .query \
-                .filter(Patient.id == id) \
+                .filter(Patient.uuid == uuid) \
                 .one_or_none()
 
     if patient is not None:
         return PatientSchema().dump(patient)
     else:
-        abort(404, f'Record not found for Id: {id}')
+        abort(404, f'Record not found for Id: {uuid}')

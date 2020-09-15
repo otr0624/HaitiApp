@@ -2,9 +2,19 @@ from database import db, ma
 import uuid
 
 
+def generate_uuid():
+    return uuid.uuid4().hex
+
+
 class Patient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    uuid = db.Column(db.String(32), default=uuid.uuid4().hex, nullable=False)
+    uuid = db.Column(
+        db.String(32),
+        default=generate_uuid,
+        nullable=False,
+        index=True,
+        unique=True
+        )
     first_name = db.Column(db.String(64))
     last_name = db.Column(db.String(64))
     date_of_birth = db.Column(db.Date)
