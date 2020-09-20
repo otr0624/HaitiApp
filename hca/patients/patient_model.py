@@ -23,7 +23,13 @@ class Patient(db.Model):
     sex = db.Column(db.String(16))
 
     clinical_details = db.relationship('PatientClinicalDetail', backref='patient')
-    diagnosis = db.relationship('Diagnosis', secondary='patient_diagnosis', viewonly=True)
+    diagnosis = db.relationship(
+        'Diagnosis',
+        secondary='patient_diagnosis',
+        backref='patients',
+        lazy='joined',
+        viewonly=True
+        )
 
 
 class PatientClinicalDetail(db.Model):
@@ -41,7 +47,7 @@ class Diagnosis(db.Model):
     code = db.Column(db.String(32), nullable=False)
     diagnosis = db.Column(db.Text)
 
-    patients = db.relationship('Patient', secondary='patient_diagnosis', viewonly=True)
+#    patients = db.relationship('Patient', secondary='patient_diagnosis', viewonly=True)
 
 
 class PatientDiagnosis(db.Model):
@@ -54,8 +60,22 @@ class PatientDiagnosis(db.Model):
     patient = db.relationship('Patient', backref='patient_diagnosis')
     diagnosis = db.relationship('Diagnosis', backref='patient_diagnosis')
 
+#
+# The 'Schema' definitions have to come after the SQL Alchemy Model definitions
+#
+
+
+class DiagnosisSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Diagnosis
+        load_instance = True
+        sqla_session = db.session
+
 
 class PatientSchema(ma.SQLAlchemyAutoSchema):
+
+    diagnosis = ma.Nested(DiagnosisSchema, many=True)
+
     class Meta:
         model = Patient
         load_instance = True

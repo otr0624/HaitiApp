@@ -3,7 +3,12 @@ from flask import (
 )
 from database import db, ma
 
-from hca.patients.patient_model import Patient, PatientSchema
+from hca.patients.patient_model import (
+    Patient,
+    PatientSchema,
+    Diagnosis,
+    DiagnosisSchema
+)
 
 
 def get_patients():
@@ -40,3 +45,13 @@ def get_patient_id(uuid):
         return PatientSchema().dump(patient)
     else:
         abort(404, f'Record not found for Id: {uuid}')
+
+
+def get_diagnosis():
+    diagnosis = (
+        Diagnosis
+        .query
+        .order_by(Diagnosis.code)
+        .all()
+    )
+    return DiagnosisSchema(many=True).dump(diagnosis)
