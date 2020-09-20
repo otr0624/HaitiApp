@@ -6,6 +6,17 @@ def generate_uuid():
     return uuid.uuid4().hex
 
 
+class PatientDiagnosis(db.Model):
+    patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), primary_key=True)
+    diagnosis_id = db.Column(db.Integer, db.ForeignKey('diagnosis.id'), primary_key=True)
+    is_primary = db.Column(db.Boolean)
+    is_suspected = db.Column(db.Boolean)
+    notes = db.Column(db.Text)
+
+    patient = db.relationship('Patient')
+    diagnosis = db.relationship('Diagnosis')
+
+
 class Patient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     uuid = db.Column(
@@ -22,11 +33,15 @@ class Patient(db.Model):
     date_of_death = db.Column(db.Date)
     sex = db.Column(db.String(16))
 
-    clinical_details = db.relationship('PatientClinicalDetail', backref='patient')
+    clinical_details = db.relationship(
+        'PatientClinicalDetail',
+        uselist=False,
+        backref='patient'
+        )
+
     diagnosis = db.relationship(
-        'Diagnosis',
-        secondary='patient_diagnosis',
-        backref='patients',
+        'PatientDiagnosis',
+        primaryjoin=id == PatientDiagnosis.patient_id,
         lazy='joined',
         viewonly=True
         )
@@ -37,8 +52,7 @@ class PatientClinicalDetail(db.Model):
     status = db.Column(db.Integer, nullable=False)
     urgency = db.Column(db.Integer, nullable=False)
     syndrome = db.Column(db.Integer)
-    syndrome_notes = db.column(db.Text)
-
+    syndrome_notes = db.Column(db.Text)
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
 
 
@@ -47,18 +61,6 @@ class Diagnosis(db.Model):
     code = db.Column(db.String(32), nullable=False)
     diagnosis = db.Column(db.Text)
 
-#    patients = db.relationship('Patient', secondary='patient_diagnosis', viewonly=True)
-
-
-class PatientDiagnosis(db.Model):
-    patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), primary_key=True)
-    diagnosis_id = db.Column(db.Integer, db.ForeignKey('diagnosis.id'), primary_key=True)
-    is_primary = db.Column(db.Boolean)
-    is_suspected = db.Column(db.Boolean)
-    notes = db.Column(db.Text)
-
-    patient = db.relationship('Patient', backref='patient_diagnosis')
-    diagnosis = db.relationship('Diagnosis', backref='patient_diagnosis')
 
 #
 # The 'Schema' definitions have to come after the SQL Alchemy Model definitions
@@ -72,9 +74,28 @@ class DiagnosisSchema(ma.SQLAlchemyAutoSchema):
         sqla_session = db.session
 
 
+class PatientClinicalDetailSchema(ma.SQLAlchemyAutoSchema):
+
+    class Meta:
+        model = PatientClinicalDetail
+        load_instance = True
+        sqla_session = db.session
+
+
+class PatientDiagnosisSchema(ma.SQLAlchemyAutoSchema):
+
+    diagnosis = ma.Nested(DiagnosisSchema)
+
+    class Meta:
+        model = PatientDiagnosis
+        load_instance = True
+        sqla_session = db.session
+
+
 class PatientSchema(ma.SQLAlchemyAutoSchema):
 
-    diagnosis = ma.Nested(DiagnosisSchema, many=True)
+    diagnosis = ma.Nested(PatientDiagnosisSchema, many=True)
+    clinical_details = ma.Nested(PatientClinicalDetailSchema)
 
     class Meta:
         model = Patient

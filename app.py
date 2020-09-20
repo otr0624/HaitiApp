@@ -46,35 +46,45 @@ def setup_database(connex):
         p = Patient()
         p.first_name = "Mike"
         p.last_name = "Smith"
-
         db.session.add(p)
         db.session.commit()
 
-        # d1 = Diagnosis()
-        # d1.code = "1234"
-        # d1.diagnosis = "Scraped Knee"
+        pcd = PatientClinicalDetail()
+        pcd.status = 3
+        pcd.urgency = 1
+        pcd.syndrome = 2
+        pcd.syndrome_notes = "These are the notes"
+        
+        p.clinical_details = pcd
 
-        # d2 = Diagnosis()
-        # d2.code = "5678"
-        # d2.diagnosis = "Runny Nose"
+        db.session.add_all([p, pcd])
+        db.session.commit()
 
-        # pd = PatientDiagnosis()
-        # pd.diagnosis = d1
-        # pd.patient = p
-        # pd.is_primary = True
-        # pd.is_suspected = False
+        d1 = Diagnosis()
+        d1.code = "1234"
+        d1.diagnosis = "Scraped Knee"
 
-        # pd2 = PatientDiagnosis()
-        # pd2.diagnosis = d2
-        # pd2.patient = p
-        # pd2.is_primary = False
-        # pd2.is_suspected = True
+        d2 = Diagnosis()
+        d2.code = "5678"
+        d2.diagnosis = "Runny Nose"
 
-        # db.session.add_all([d1, d2, pd, pd2])
-        # db.session.commit()
+        pd = PatientDiagnosis()
+        pd.diagnosis = d1
+        pd.patient = p
+        pd.is_primary = True
+        pd.is_suspected = False
 
-        # patient = Patient.query.first()
-        # print(patient.diagnosis)
+        pd2 = PatientDiagnosis()
+        pd2.diagnosis = d2
+        pd2.patient = p
+        pd2.is_primary = False
+        pd2.is_suspected = True
+
+        db.session.add_all([d1, d2, pd, pd2])
+        db.session.commit()
+
+        patient = Patient.query.first()
+        print(patient.diagnosis)
 
 
 
