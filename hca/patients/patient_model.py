@@ -80,6 +80,7 @@ class PatientClinicalDetailSchema(ma.SQLAlchemyAutoSchema):
         model = PatientClinicalDetail
         load_instance = True
         sqla_session = db.session
+        exclude = ('id', )
 
 
 class PatientDiagnosisSchema(ma.SQLAlchemyAutoSchema):

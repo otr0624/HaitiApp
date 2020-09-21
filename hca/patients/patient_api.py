@@ -11,6 +11,32 @@ from hca.patients.patient_model import (
 )
 
 
+POST_400_MESSAGE = "Do not specify server-generated identifiers ('id', 'uuid' or 'friendly_id') in resource creation requests"
+
+
+def get_diagnosis():
+    diagnosis = (
+        Diagnosis
+        .query
+        .order_by(Diagnosis.code)
+        .all()
+    )
+    return DiagnosisSchema(many=True).dump(diagnosis)
+
+
+def post_diagnosis(body):
+    schema = DiagnosisSchema()
+    new_diagnosis = schema.load(body, session=db.session)
+
+    if new_diagnosis.id:
+        abort(400, POST_400_MESSAGE)
+
+    db.session.add(new_diagnosis)
+    db.session.commit()
+
+    return schema.dump(new_diagnosis), 201
+
+
 def get_patients():
     patients = (
         Patient
@@ -27,7 +53,7 @@ def post_patients(body):
     new_patient = schema.load(body, session=db.session)
 
     if new_patient.id or new_patient.uuid:
-        abort(400, "Do not specify 'id' or 'uuid' in Patient creation request")
+        abort(400, POST_400_MESSAGE)
 
     db.session.add(new_patient)
     db.session.commit()
@@ -44,7 +70,7 @@ def get_patient_id(uuid):
     if patient is not None:
         return PatientSchema().dump(patient)
     else:
-        abort(404, f'Record not found for Id: {uuid}')
+        abort(404, f'Record not found for uuid: {uuid}')
 
 
 def get_diagnosis():

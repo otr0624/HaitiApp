@@ -9,6 +9,40 @@ info:
 servers:
   - url: 'http://localhost:5000/v1'
 paths:
+  '/diagnosis':
+    get:
+      tags:
+        - Patient
+      summary: Get all diagnoses.
+      description: Get all diagnosis records.
+      operationId: hca.patients.patient_api.get_diagnosis
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Diagnosis'
+    post:
+      tags:
+        - Patient
+      summary: Create a diagnosis
+      description: Create a single diagnosis record.
+      operationId: hca.patients.patient_api.post_diagnosis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiagnosisBase'
+      responses:
+        '201':
+          description: Return the created diagnosis record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Diagnosis'
   '/patients':
     get:
       tags:
@@ -18,13 +52,13 @@ paths:
       operationId: hca.patients.patient_api.get_patients
       responses:
         '200':
+          description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Patient'
-          description: OK
     post:
       tags:
         - Patient
@@ -35,7 +69,7 @@ paths:
         content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BasePatient'
+                $ref: '#/components/schemas/PatientBase'
       responses:
         '201':
           description: Return the inserted Patient record.
@@ -61,20 +95,20 @@ paths:
           style: simple
       responses:
         '200':
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Patient'
-          description: OK
         '404':
           description: Not Found
 components:
   schemas:
-    BasePatient:
+    PatientBase:
       x-tags:
         - Patient
       title: 'Patient (Base)'
-      description: 'Base Patient schema for POST requests'
+      description: 'Base patient schema for POST requests.'
       type: object
       properties:
         first_name:
@@ -101,7 +135,7 @@ components:
       title: Patient
       description: ''
       allOf:
-        - $ref: '#/components/schemas/BasePatient'
+        - $ref: '#/components/schemas/PatientBase'
         - type: object
           properties:
             id:
@@ -131,19 +165,28 @@ components:
           type: string
         diagnosis:
           $ref: '#/components/schemas/Diagnosis'
+    DiagnosisBase:
+      x-tags:
+        - Patient
+      title: Diagnosis (Base)
+      description: 'Base diagnosis schema for POST requests.'
+      type: object
+      properties:
+        code:
+          type: string
+        diagnosis:
+          type: string
     Diagnosis:
       x-tags:
         - Patient
       title: Diagnosis
       description: ''
-      type: object
-      properties:
-        id:
-          type: integer
-        code:
-          type: string
-        diagnosis:
-          type: string
+      allOf:
+        - $ref: '#/components/schemas/DiagnosisBase'
+        - type: object
+          properties:
+            id:
+              type: integer
     PatientClinicalDetails:
       x-tags:
         - Patient
