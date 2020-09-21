@@ -33,28 +33,9 @@ paths:
       operationId: hca.patients.patient_api.post_patients
       requestBody:
         content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                first_name:
-                  type: string
-                last_name:
-                  type: string
-                date_of_birth:
-                  description: Date of birth in UTC YYYY-MM-DD
-                  example: '2008-05-24'
-                  format: date
-                  type: string
-                is_date_of_birth_estimate:
-                  type: boolean
-                date_of_death:
-                  description: 'If patiend is deceased, date of death in UTC YYYY-MM-DD'
-                  example: '2020-01-30'
-                  format: date
-                  type: string
-                sex:
-                  type: string
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasePatient'
       responses:
         '201':
           description: Return the inserted Patient record.
@@ -89,36 +70,96 @@ paths:
           description: Not Found
 components:
   schemas:
-    Patient:
-      description: ''
-      title: Patient
-      type: object
+    BasePatient:
       x-tags:
         - Patient
+      title: 'Patient (Base)'
+      description: 'Base Patient schema for POST requests'
+      type: object
       properties:
-        id:
-          type: integer
-        uuid:
-          type: string
-        friendly_id:
-          type: string
         first_name:
           type: string
         last_name:
           type: string
         date_of_birth:
-          description: Date of birth in UTC YYYY-MM-DD
+          description: 'Date of birth in UTC YYYY-MM-DD'
           example: '2008-05-24'
           format: date
           type: string
         is_date_of_birth_estimate:
           type: boolean
         date_of_death:
-          description: 'If patiend is deceased, date of death in UTC YYYY-MM-DD'
+          description: 'If patient is deceased, date of death in UTC YYYY-MM-DD'
           example: '2020-01-30'
           format: date
           type: string
         sex:
           type: string
+    Patient:
+      x-tags:
+        - Patient
+      title: Patient
+      description: ''
+      allOf:
+        - $ref: '#/components/schemas/BasePatient'
+        - type: object
+          properties:
+            id:
+              type: integer
+            uuid:
+              type: string
+            friendly_id:
+              type: string
+            diagnosis:
+              type: array
+              items:
+                $ref: '#/components/schemas/PatientDiagnosis'
+            clinical_details:
+              $ref: '#/components/schemas/PatientClinicalDetails'
+    PatientDiagnosis:
+      x-tags:
+        - Patient
+      title: PatientDiagnosis
+      description: ''
+      type: object
+      properties:
+        is_primary:
+          type: boolean
+        is_suspected:
+          type: boolean
+        notes:
+          type: string
+        diagnosis:
+          $ref: '#/components/schemas/Diagnosis'
+    Diagnosis:
+      x-tags:
+        - Patient
+      title: Diagnosis
+      description: ''
+      type: object
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+        diagnosis:
+          type: string
+    PatientClinicalDetails:
+      x-tags:
+        - Patient
+      title: Patient Clinical Details
+      description: ''
+      type: object
+      properties:
+        status:
+          type: integer
+        urgency:
+          type: integer
+        syndrome:
+          type: integer
+        syndrome_notes:
+          type: string
+        
+
 
 
