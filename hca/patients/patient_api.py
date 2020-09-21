@@ -7,7 +7,9 @@ from hca.patients.patient_model import (
     Patient,
     PatientSchema,
     Diagnosis,
-    DiagnosisSchema
+    DiagnosisSchema,
+    PatientDiagnosis,
+    PatientDiagnosisSchema
 )
 
 
@@ -61,23 +63,55 @@ def post_patients(body):
     return schema.dump(new_patient), 201
 
 
-def get_patient_id(uuid):
-    patient = Patient  \
-                .query \
-                .filter(Patient.uuid == uuid) \
-                .one_or_none()
+def get_patient_uuid(patient_uuid):
+    patient = (
+        Patient
+        .query
+        .filter(Patient.uuid == patient_uuid)
+        .one_or_none()
+    )
 
-    if patient is not None:
-        return PatientSchema().dump(patient)
-    else:
-        abort(404, f'Record not found for uuid: {uuid}')
+    if patient is None:
+        abort(404, f'Record not found for Patient: {patient_uuid}')
+
+    return PatientSchema().dump(patient)
 
 
-def get_diagnosis():
+def post_patient_diagnosis(patient_uuid, diagnosis_id, body):
+    patient = (
+        Patient
+        .query
+        .filter(Patient.uuid == patient_uuid)
+        .one_or_none()
+    )
+
     diagnosis = (
         Diagnosis
         .query
-        .order_by(Diagnosis.code)
+        .filter(Diagnosis.id == diagnosis_id)
+        .one_or_none()
+    )
+
+    if patient is None:
+        abort(404, f'Record not found for Patient: {patient_uuid}')
+
+    if diagnosis is None:
+        abort(404, f'Record not found for Diagnosis: {diagnosis_id}')
+
+    schema = PatientDiagnosisSchema()
+    new_patient_diagnosis = schema.load(body, session=db.session)
+
+    new_patient_diagnosis.patient = patient
+    new_patient_diagnosis.diagnosis = diagnosis
+    db.session.add(new_patient_diagnosis)
+    db.session.commit()
+
+    all_patient_diagnosis = (
+        PatientDiagnosis
+        .query
+        .filter(PatientDiagnosis.patient_id == patient.id)
+        .order_by(PatientDiagnosis.diagnosis_id)
         .all()
     )
-    return DiagnosisSchema(many=True).dump(diagnosis)
+
+    return PatientDiagnosisSchema(many=True).dump(all_patient_diagnosis), 201

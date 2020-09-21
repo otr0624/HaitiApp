@@ -77,18 +77,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Patient'
-  '/patients/{uuid}':
+  '/patients/{patient_uuid}':
     get:
       tags:
         - Patient
       summary: Get single Patient
       description: Get a single patient record.
-      operationId: hca.patients.patient_api.get_patient_id
+      operationId: hca.patients.patient_api.get_patient_uuid
       parameters:
         - description: Patient unique identifier
           explode: false
           in: path
-          name: uuid
+          name: patient_uuid
           required: true
           schema:
             type: string
@@ -102,13 +102,51 @@ paths:
                 $ref: '#/components/schemas/Patient'
         '404':
           description: Not Found
+  '/patients/{patient_uuid}/diagnosis/{diagnosis_id}':
+    post:
+      tags:
+        - Patient
+      summary: Assign a Diagnosis to a Patient
+      description: Assign a single Diagnosis record to a single Patient record.
+      operationId: hca.patients.patient_api.post_patient_diagnosis
+      parameters:
+        - description: Patient unique identifier
+          explode: false
+          in: path
+          name: patient_uuid
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Diagnosis identifier
+          explode: false
+          in: path
+          name: diagnosis_id
+          required: true
+          schema:
+            type: integer
+          style: simple
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientDiagnosisBase'
+      responses:
+        '201':
+          description: Return the set of PatientDiagnosis records, including the newly inserted PatientDiagnosis.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PatientDiagnosis'
 components:
   schemas:
     PatientBase:
       x-tags:
         - Patient
-      title: 'Patient (Base)'
-      description: 'Base patient schema for POST requests.'
+      title: Patient (Create)
+      description: Base Patient schema for new record createion via POST.
       type: object
       properties:
         first_name:
@@ -150,11 +188,11 @@ components:
                 $ref: '#/components/schemas/PatientDiagnosis'
             clinical_details:
               $ref: '#/components/schemas/PatientClinicalDetails'
-    PatientDiagnosis:
+    PatientDiagnosisBase:
       x-tags:
         - Patient
-      title: PatientDiagnosis
-      description: ''
+      title: PatientDiagnosis (Create)
+      description: Base PatientDiagnosis schema for new record creation via POST.
       type: object
       properties:
         is_primary:
@@ -163,13 +201,22 @@ components:
           type: boolean
         notes:
           type: string
-        diagnosis:
-          $ref: '#/components/schemas/Diagnosis'
+    PatientDiagnosis:
+      x-tags:
+        - Patient
+      title: PatientDiagnosis
+      description: ''
+      allOf:
+        - $ref: '#/components/schemas/PatientDiagnosisBase' 
+        - type: object
+          properties:
+            diagnosis:
+              $ref: '#/components/schemas/Diagnosis'
     DiagnosisBase:
       x-tags:
         - Patient
-      title: Diagnosis (Base)
-      description: 'Base diagnosis schema for POST requests.'
+      title: Diagnosis (Create)
+      description: Base Diagnosis schema for new record creation via POST.
       type: object
       properties:
         code:
