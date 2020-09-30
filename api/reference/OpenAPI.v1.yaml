@@ -140,116 +140,96 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PatientDiagnosis'
+  '/providers':
+    get:
+      tags:
+        - Provider
+      summary: Get all Providers
+      description: Get all Provider records.
+      operationId: hca.providers.provider_api.get_providers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Provider'
+    post:
+      tags:
+        - Provider
+      summary: Create a Provider
+      description: Create a single provider record.
+      operationId: hca.providers.provider_api.post_providers
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderBase'
+      responses:
+        '201':
+          description: Return the inserted Provider record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Provider'
+  '/providers/{provider_uuid}':
+    get:
+      tags:
+        - Provider
+      summary: Get single Provider
+      description: Get a single provider record.
+      operationId: hca.providers.provider_api.get_provider_uuid
+      parameters:
+        - description: Provider unique identifier
+          explode: false
+          in: path
+          name: provider_uuid
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Provider'
+        '404':
+          description: Not Found
 components:
   schemas:
-    PatientBase:
+    ProviderBase:
       x-tags:
-        - Patient
-      title: Patient (Create)
-      description: Base Patient schema for new record createion via POST.
+        - Provider
+      title: Provider (Create)
+      description: Base Provider schema for new record creation via POST.
       type: object
       properties:
         first_name:
           type: string
         last_name:
           type: string
-        date_of_birth:
-          description: 'Date of birth in UTC YYYY-MM-DD'
-          example: '2008-05-24'
-          format: date
+        provider_type:
+          description: 'Professional category of provider'
           type: string
-        is_date_of_birth_estimate:
+        is_active:
           type: boolean
-        date_of_death:
-          description: 'If patient is deceased, date of death in UTC YYYY-MM-DD'
-          example: '2020-01-30'
-          format: date
+        notes:
+          description: 'Free-text notes for provider'
           type: string
-        sex:
-          type: string
-    Patient:
+    Provider:
       x-tags:
-        - Patient
-      title: Patient
+        - Provider
+      title: Provider
       description: ''
       allOf:
-        - $ref: '#/components/schemas/PatientBase'
+        - $ref: '#/components/schemas/ProviderBase'
         - type: object
           properties:
             id:
               type: integer
             uuid:
               type: string
-            friendly_id:
-              type: string
-            diagnosis:
-              type: array
-              items:
-                $ref: '#/components/schemas/PatientDiagnosis'
-            clinical_details:
-              $ref: '#/components/schemas/PatientClinicalDetails'
-    PatientDiagnosisBase:
-      x-tags:
-        - Patient
-      title: PatientDiagnosis (Create)
-      description: Base PatientDiagnosis schema for new record creation via POST.
-      type: object
-      properties:
-        is_primary:
-          type: boolean
-        is_suspected:
-          type: boolean
-        notes:
-          type: string
-    PatientDiagnosis:
-      x-tags:
-        - Patient
-      title: PatientDiagnosis
-      description: ''
-      allOf:
-        - $ref: '#/components/schemas/PatientDiagnosisBase' 
-        - type: object
-          properties:
-            diagnosis:
-              $ref: '#/components/schemas/Diagnosis'
-    DiagnosisBase:
-      x-tags:
-        - Patient
-      title: Diagnosis (Create)
-      description: Base Diagnosis schema for new record creation via POST.
-      type: object
-      properties:
-        code:
-          type: string
-        diagnosis:
-          type: string
-    Diagnosis:
-      x-tags:
-        - Patient
-      title: Diagnosis
-      description: ''
-      allOf:
-        - $ref: '#/components/schemas/DiagnosisBase'
-        - type: object
-          properties:
-            id:
-              type: integer
-    PatientClinicalDetails:
-      x-tags:
-        - Patient
-      title: Patient Clinical Details
-      description: ''
-      type: object
-      properties:
-        status:
-          type: integer
-        urgency:
-          type: integer
-        syndrome:
-          type: integer
-        syndrome_notes:
-          type: string
-        
-
-
-
