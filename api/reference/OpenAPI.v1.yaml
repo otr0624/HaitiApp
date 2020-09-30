@@ -201,6 +201,113 @@ paths:
           description: Not Found
 components:
   schemas:
+    PatientBase:
+      x-tags:
+        - Provider
+      title: Provider (Create)
+      description: Base Provider schema for new record createion via POST.
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        date_of_birth:
+          description: 'Date of birth in UTC YYYY-MM-DD'
+          example: '2008-05-24'
+          format: date
+          type: string
+        is_date_of_birth_estimate:
+          type: boolean
+        date_of_death:
+          description: 'If patient is deceased, date of death in UTC YYYY-MM-DD'
+          example: '2020-01-30'
+          format: date
+          type: string
+        sex:
+          type: string
+    Patient:
+      x-tags:
+        - Patient
+      title: Patient
+      description: ''
+      allOf:
+        - $ref: '#/components/schemas/PatientBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+            uuid:
+              type: string
+            friendly_id:
+              type: string
+            diagnosis:
+              type: array
+              items:
+                $ref: '#/components/schemas/PatientDiagnosis'
+            clinical_details:
+              $ref: '#/components/schemas/PatientClinicalDetails'
+    PatientDiagnosisBase:
+      x-tags:
+        - Patient
+      title: PatientDiagnosis (Create)
+      description: Base PatientDiagnosis schema for new record creation via POST.
+      type: object
+      properties:
+        is_primary:
+          type: boolean
+        is_suspected:
+          type: boolean
+        notes:
+          type: string
+    PatientDiagnosis:
+      x-tags:
+        - Patient
+      title: PatientDiagnosis
+      description: ''
+      allOf:
+        - $ref: '#/components/schemas/PatientDiagnosisBase'
+        - type: object
+          properties:
+            diagnosis:
+              $ref: '#/components/schemas/Diagnosis'
+    DiagnosisBase:
+      x-tags:
+        - Patient
+      title: Diagnosis (Create)
+      description: Base Diagnosis schema for new record creation via POST.
+      type: object
+      properties:
+        code:
+          type: string
+        diagnosis:
+          type: string
+    Diagnosis:
+      x-tags:
+        - Patient
+      title: Diagnosis
+      description: ''
+      allOf:
+        - $ref: '#/components/schemas/DiagnosisBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+    PatientClinicalDetails:
+      x-tags:
+        - Patient
+      title: Patient Clinical Details
+      description: ''
+      type: object
+      properties:
+        status:
+          type: integer
+        urgency:
+          type: integer
+        syndrome:
+          type: integer
+        syndrome_notes:
+          type: string
     ProviderBase:
       x-tags:
         - Provider
@@ -218,7 +325,7 @@ components:
         is_active:
           type: boolean
         notes:
-          description: 'Free-text notes for provider'
+          description: 'Free-text notes associated with provider record'
           type: string
     Provider:
       x-tags:
@@ -232,4 +339,6 @@ components:
             id:
               type: integer
             uuid:
+              type: string
+            friendly_id:
               type: string
