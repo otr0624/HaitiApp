@@ -274,7 +274,87 @@
 		},
 		{
 			"name": "Facility Routes",
-			"item": [],
+			"item": [
+				{
+					"name": "/facilities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/facilities",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"facilities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/facilities/{uuid}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/facilities/48ec73771258497aa3dafcff3364d2ed",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"facilities",
+								"48ec73771258497aa3dafcff3364d2ed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/facilities",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"facility_type\": \"Primary Care Clinic\",\r\n    \"name\": \"ABC Walk-In Clinic\",\r\n    \"notes\": \"This is a rural clinic\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/facilities",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"facilities"
+							]
+						}
+					},
+					"response": []
+				}
+			],
 			"protocolProfileBehavior": {}
 		}
 	],

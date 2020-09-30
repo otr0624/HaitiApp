@@ -199,6 +199,65 @@ paths:
                 $ref: '#/components/schemas/Provider'
         '404':
           description: Not Found
+  '/facilities':
+    get:
+      tags:
+        - Facility
+      summary: Get all Facilities
+      description: Get all Facility records.
+      operationId: hca.facilities.facility_api.get_facilities
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Facility'
+    post:
+      tags:
+        - Facility
+      summary: Create a Facility
+      description: Create a single facility record.
+      operationId: hca.facilities.facility_api.post_facilities
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FacilityBase'
+      responses:
+        '201':
+          description: Return the inserted Facility record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Facility'
+  '/facilities/{facility_uuid}':
+    get:
+      tags:
+        - Facility
+      summary: Get single Facility
+      description: Get a single facility record.
+      operationId: hca.facilities.facility_api.get_facility_uuid
+      parameters:
+        - description: Facility unique identifier
+          explode: false
+          in: path
+          name: facility_uuid
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Facility'
+        '404':
+          description: Not Found
 components:
   schemas:
     PatientBase:
@@ -334,6 +393,38 @@ components:
       description: ''
       allOf:
         - $ref: '#/components/schemas/ProviderBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+            uuid:
+              type: string
+            friendly_id:
+              type: string
+    FacilityBase:
+      x-tags:
+        - Facility
+      title: Facility (Create)
+      description: Base Facility schema for new record creation via POST.
+      type: object
+      properties:
+        name:
+          type: string
+        facility_type:
+          description: 'Category of facility'
+          type: string
+        is_active:
+          type: boolean
+        notes:
+          description: 'Free-text notes associated with facility record'
+          type: string
+    Facility:
+      x-tags:
+        - Facility
+      title: Facility
+      description: ''
+      allOf:
+        - $ref: '#/components/schemas/FacilityBase'
         - type: object
           properties:
             id:
