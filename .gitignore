@@ -3,3 +3,9 @@
 .flaskenv
 **/__pycache__/
 *.pyc
+
+app.db
+app.db-journal
+
+development_database.db
+development_database.db-journal
