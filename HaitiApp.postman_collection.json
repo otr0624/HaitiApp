@@ -1,0 +1,362 @@
+{
+	"info": {
+		"_postman_id": "528c4c9e-ef92-405a-9977-7d95914827a5",
+		"name": "HaitiApp",
+		"description": "Prototype patient management app for Haiti Cardiac Alliance",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Patient Routes",
+			"item": [
+				{
+					"name": "/patients/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/patients",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"patients"
+							]
+						},
+						"description": "View list of patients"
+					},
+					"response": []
+				},
+				{
+					"name": "/diagnosis",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/diagnosis",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"diagnosis"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/patients/{uuid}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/patients/6b2733c5ec5a471db59754e8b2bb53fb",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"patients",
+								"6b2733c5ec5a471db59754e8b2bb53fb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/patients/",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"first_name\": \"Bob\",\r\n  \"last_name\": \"Barker\",\r\n  \"date_of_birth\": \"2001-10-10\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/patients",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"patients"
+							]
+						},
+						"description": "Post a new patient to database"
+					},
+					"response": []
+				},
+				{
+					"name": "/diagnosis",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"code\": \"9999\",\r\n        \"diagnosis\": \"Zombification\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/diagnosis",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"diagnosis"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/patients/{uuid}/diagnosis/{id}",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"is_primary\": true,\r\n  \"is_suspected\": true,\r\n  \"notes\": \"yikes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/patients/6b2733c5ec5a471db59754e8b2bb53fb/diagnosis/75",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"patients",
+								"6b2733c5ec5a471db59754e8b2bb53fb",
+								"diagnosis",
+								"75"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Creation, editing, and deletion of patient records",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Provider Routes",
+			"item": [
+				{
+					"name": "/providers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/providers",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"providers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/providers/{uuid}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/providers/7fd04c022f6c46969b58d39a3aa48bc7",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"providers",
+								"7fd04c022f6c46969b58d39a3aa48bc7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/providers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"Carmen\",\r\n    \"last_name\": \"Miranda\",\r\n    \"notes\": \"My note here\",\r\n    \"provider_type\": \"Nurse\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/providers",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"providers"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Facility Routes",
+			"item": [
+				{
+					"name": "/facilities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/facilities",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"facilities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/facilities/{uuid}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/facilities/48ec73771258497aa3dafcff3364d2ed",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"facilities",
+								"48ec73771258497aa3dafcff3364d2ed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/facilities",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"facility_type\": \"Primary Care Clinic\",\r\n    \"name\": \"ABC Walk-In Clinic\",\r\n    \"notes\": \"This is a rural clinic\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/facilities",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"facilities"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

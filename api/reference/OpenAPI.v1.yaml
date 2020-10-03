@@ -140,13 +140,131 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PatientDiagnosis'
+  '/providers':
+    get:
+      tags:
+        - Provider
+      summary: Get all Providers
+      description: Get all Provider records.
+      operationId: hca.providers.provider_api.get_providers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Provider'
+    post:
+      tags:
+        - Provider
+      summary: Create a Provider
+      description: Create a single provider record.
+      operationId: hca.providers.provider_api.post_providers
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderBase'
+      responses:
+        '201':
+          description: Return the inserted Provider record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Provider'
+  '/providers/{provider_uuid}':
+    get:
+      tags:
+        - Provider
+      summary: Get single Provider
+      description: Get a single provider record.
+      operationId: hca.providers.provider_api.get_provider_uuid
+      parameters:
+        - description: Provider unique identifier
+          explode: false
+          in: path
+          name: provider_uuid
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Provider'
+        '404':
+          description: Not Found
+  '/facilities':
+    get:
+      tags:
+        - Facility
+      summary: Get all Facilities
+      description: Get all Facility records.
+      operationId: hca.facilities.facility_api.get_facilities
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Facility'
+    post:
+      tags:
+        - Facility
+      summary: Create a Facility
+      description: Create a single facility record.
+      operationId: hca.facilities.facility_api.post_facilities
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FacilityBase'
+      responses:
+        '201':
+          description: Return the inserted Facility record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Facility'
+  '/facilities/{facility_uuid}':
+    get:
+      tags:
+        - Facility
+      summary: Get single Facility
+      description: Get a single facility record.
+      operationId: hca.facilities.facility_api.get_facility_uuid
+      parameters:
+        - description: Facility unique identifier
+          explode: false
+          in: path
+          name: facility_uuid
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Facility'
+        '404':
+          description: Not Found
 components:
   schemas:
     PatientBase:
       x-tags:
-        - Patient
-      title: Patient (Create)
-      description: Base Patient schema for new record createion via POST.
+        - Provider
+      title: Provider (Create)
+      description: Base Provider schema for new record createion via POST.
       type: object
       properties:
         first_name:
@@ -207,7 +325,7 @@ components:
       title: PatientDiagnosis
       description: ''
       allOf:
-        - $ref: '#/components/schemas/PatientDiagnosisBase' 
+        - $ref: '#/components/schemas/PatientDiagnosisBase'
         - type: object
           properties:
             diagnosis:
@@ -249,7 +367,69 @@ components:
           type: integer
         syndrome_notes:
           type: string
-        
-
-
-
+    ProviderBase:
+      x-tags:
+        - Provider
+      title: Provider (Create)
+      description: Base Provider schema for new record creation via POST.
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        provider_type:
+          description: 'Professional category of provider'
+          type: string
+        is_active:
+          type: boolean
+        notes:
+          description: 'Free-text notes associated with provider record'
+          type: string
+    Provider:
+      x-tags:
+        - Provider
+      title: Provider
+      description: ''
+      allOf:
+        - $ref: '#/components/schemas/ProviderBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+            uuid:
+              type: string
+            friendly_id:
+              type: string
+    FacilityBase:
+      x-tags:
+        - Facility
+      title: Facility (Create)
+      description: Base Facility schema for new record creation via POST.
+      type: object
+      properties:
+        name:
+          type: string
+        facility_type:
+          description: 'Category of facility'
+          type: string
+        is_active:
+          type: boolean
+        notes:
+          description: 'Free-text notes associated with facility record'
+          type: string
+    Facility:
+      x-tags:
+        - Facility
+      title: Facility
+      description: ''
+      allOf:
+        - $ref: '#/components/schemas/FacilityBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+            uuid:
+              type: string
+            friendly_id:
+              type: string

@@ -5,6 +5,10 @@ from flask_bootstrap import Bootstrap
 
 from hca.patients.patient_views import patients
 from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis
+from hca.providers.provider_views import providers
+from hca.providers.provider_model import Provider
+from hca.facilities.facility_views import facilities
+from hca.facilities.facility_model import Facility
 
 import config
 
@@ -31,6 +35,8 @@ def create_app():
     ma.init_app(connex.app)
 
     connex.app.register_blueprint(patients, url_prefix='/patients')
+    connex.app.register_blueprint(providers, url_prefix='/providers')
+    connex.app.register_blueprint(facilities, url_prefix='/facilities')
     return connex
 
 
@@ -47,6 +53,21 @@ def setup_database(connex):
         p.first_name = "Mike"
         p.last_name = "Smith"
         db.session.add(p)
+        db.session.commit()
+
+        pro = Provider()
+        pro.first_name = "Hannibal"
+        pro.last_name = "Lecter"
+        pro.provider_type = "Specialist"
+        pro.notes = "Not presently accepting new patients."
+        db.session.add(pro)
+        db.session.commit()
+
+        f = Facility()
+        f.name = "General Hospital"
+        f.facility_type = "Surgical Referral Center"
+        f.notes = "This hospital is too expensive."
+        db.session.add(f)
         db.session.commit()
 
         pcd = PatientClinicalDetail()
