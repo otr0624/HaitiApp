@@ -1,0 +1,255 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: orobinson@haiticardiac.org
+    name: Owen Robinson
+    url: 'https://www.haiticardiac.org/'
+  title: Patient API
+  version: '1.0'
+servers:
+  - url: 'http://localhost:5000/v1'
+paths:
+  '/diagnosis':
+    get:
+      tags:
+        - Patient
+      summary: Get all diagnoses.
+      description: Get all diagnosis records.
+      operationId: hca.patients.patient_api.get_diagnosis
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Diagnosis'
+    post:
+      tags:
+        - Patient
+      summary: Create a diagnosis
+      description: Create a single diagnosis record.
+      operationId: hca.patients.patient_api.post_diagnosis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiagnosisBase'
+      responses:
+        '201':
+          description: Return the created diagnosis record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Diagnosis'
+  '/patients':
+    get:
+      tags:
+        - Patient
+      summary: Get all Patients
+      description: Get all Patient records.
+      operationId: hca.patients.patient_api.get_patients
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Patient'
+    post:
+      tags:
+        - Patient
+      summary: Create a Patient
+      description: Create a single patient record.
+      operationId: hca.patients.patient_api.post_patients
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientBase'
+      responses:
+        '201':
+          description: Return the inserted Patient record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+  '/patients/{patient_uuid}':
+    get:
+      tags:
+        - Patient
+      summary: Get single Patient
+      description: Get a single patient record.
+      operationId: hca.patients.patient_api.get_patient_uuid
+      parameters:
+        - description: Patient unique identifier
+          explode: false
+          in: path
+          name: patient_uuid
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+        '404':
+          description: Not Found
+  '/patients/{patient_uuid}/diagnosis/{diagnosis_id}':
+    post:
+      tags:
+        - Patient
+      summary: Assign a Diagnosis to a Patient
+      description: Assign a single Diagnosis record to a single Patient record.
+      operationId: hca.patients.patient_api.post_patient_diagnosis
+      parameters:
+        - description: Patient unique identifier
+          explode: false
+          in: path
+          name: patient_uuid
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Diagnosis identifier
+          explode: false
+          in: path
+          name: diagnosis_id
+          required: true
+          schema:
+            type: integer
+          style: simple
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientDiagnosisBase'
+      responses:
+        '201':
+          description: Return the set of PatientDiagnosis records, including the newly inserted PatientDiagnosis.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PatientDiagnosis'
+components:
+  schemas:
+    PatientBase:
+      x-tags:
+        - Patient
+      title: Patient (Create)
+      description: Base Patient schema for new record createion via POST.
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        date_of_birth:
+          description: 'Date of birth in UTC YYYY-MM-DD'
+          example: '2008-05-24'
+          format: date
+          type: string
+        is_date_of_birth_estimate:
+          type: boolean
+        date_of_death:
+          description: 'If patient is deceased, date of death in UTC YYYY-MM-DD'
+          example: '2020-01-30'
+          format: date
+          type: string
+        sex:
+          type: string
+    Patient:
+      x-tags:
+        - Patient
+      title: Patient
+      description: ''
+      allOf:
+        - $ref: '#/components/schemas/PatientBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+            uuid:
+              type: string
+            friendly_id:
+              type: string
+            diagnosis:
+              type: array
+              items:
+                $ref: '#/components/schemas/PatientDiagnosis'
+            clinical_details:
+              $ref: '#/components/schemas/PatientClinicalDetails'
+    PatientDiagnosisBase:
+      x-tags:
+        - Patient
+      title: PatientDiagnosis (Create)
+      description: Base PatientDiagnosis schema for new record creation via POST.
+      type: object
+      properties:
+        is_primary:
+          type: boolean
+        is_suspected:
+          type: boolean
+        notes:
+          type: string
+    PatientDiagnosis:
+      x-tags:
+        - Patient
+      title: PatientDiagnosis
+      description: ''
+      allOf:
+        - $ref: '#/components/schemas/PatientDiagnosisBase' 
+        - type: object
+          properties:
+            diagnosis:
+              $ref: '#/components/schemas/Diagnosis'
+    DiagnosisBase:
+      x-tags:
+        - Patient
+      title: Diagnosis (Create)
+      description: Base Diagnosis schema for new record creation via POST.
+      type: object
+      properties:
+        code:
+          type: string
+        diagnosis:
+          type: string
+    Diagnosis:
+      x-tags:
+        - Patient
+      title: Diagnosis
+      description: ''
+      allOf:
+        - $ref: '#/components/schemas/DiagnosisBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+    PatientClinicalDetails:
+      x-tags:
+        - Patient
+      title: Patient Clinical Details
+      description: ''
+      type: object
+      properties:
+        status:
+          type: integer
+        urgency:
+          type: integer
+        syndrome:
+          type: integer
+        syndrome_notes:
+          type: string
+        
+
+
+

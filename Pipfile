@@ -4,6 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+flake8 = "*"
 
 [packages]
 flask = "==1.1.2"
@@ -16,6 +17,12 @@ flask-bootstrap4 = "*"
 gunicorn = "*"
 psycopg2 = "*"
 flask-script = "*"
+connexion = {extras = ["swagger-ui"], version = ">=2.6.0"}
+swagger-ui-bundle = ">=0.0.2"
+python-dateutil = ">=2.6.0"
+flask-marshmallow = "*"
+marshmallow-sqlalchemy = "*"
+marshmallow = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.8"

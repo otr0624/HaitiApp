@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>Patient Provider details</title>
+
+    </head>
+    <body>
+        <a href="{{ url_for('dynamic_bp.index') }}">Back to index</a>
+
+        {% if not pp_set %}
+            <p>Could not find patient-provider set details</p>
+        {% else %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Provider ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for duo in pp_set.duos %}
+                        <tr>
+                            <td>{{ duo.patient_name }}</td>
+                            <td>{{ duo.provider_name }}</td>
+                        </tr>
+                    {% endfor%}
+                </tbody>
+            </table>
+        {% endif %}
+    </body>
+</html>

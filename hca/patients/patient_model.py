@@ -1,0 +1,104 @@
+from database import db, ma
+import uuid
+
+
+def generate_uuid():
+    return uuid.uuid4().hex
+
+
+class PatientDiagnosis(db.Model):
+    patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), primary_key=True)
+    diagnosis_id = db.Column(db.Integer, db.ForeignKey('diagnosis.id'), primary_key=True)
+    is_primary = db.Column(db.Boolean)
+    is_suspected = db.Column(db.Boolean)
+    notes = db.Column(db.Text)
+
+    patient = db.relationship('Patient')
+    diagnosis = db.relationship('Diagnosis')
+
+
+class Patient(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    uuid = db.Column(
+        db.String(32),
+        default=generate_uuid,
+        nullable=False,
+        index=True,
+        unique=True
+        )
+    first_name = db.Column(db.String(64))
+    last_name = db.Column(db.String(64))
+    date_of_birth = db.Column(db.Date)
+    is_date_of_birth_estimate = db.Column(db.Boolean)
+    date_of_death = db.Column(db.Date)
+    sex = db.Column(db.String(16))
+
+    clinical_details = db.relationship(
+        'PatientClinicalDetail',
+        uselist=False,
+        backref='patient'
+        )
+
+    diagnosis = db.relationship(
+        'PatientDiagnosis',
+        primaryjoin=id == PatientDiagnosis.patient_id,
+        lazy='joined',
+        viewonly=True
+        )
+
+
+class PatientClinicalDetail(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    status = db.Column(db.Integer, nullable=False)
+    urgency = db.Column(db.Integer, nullable=False)
+    syndrome = db.Column(db.Integer)
+    syndrome_notes = db.Column(db.Text)
+    patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
+
+
+class Diagnosis(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(32), nullable=False)
+    diagnosis = db.Column(db.Text)
+
+
+#
+# The 'Schema' definitions have to come after the SQL Alchemy Model definitions
+#
+
+
+class DiagnosisSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Diagnosis
+        load_instance = True
+        sqla_session = db.session
+
+
+class PatientClinicalDetailSchema(ma.SQLAlchemyAutoSchema):
+
+    class Meta:
+        model = PatientClinicalDetail
+        load_instance = True
+        sqla_session = db.session
+        exclude = ('id', )
+
+
+class PatientDiagnosisSchema(ma.SQLAlchemyAutoSchema):
+
+    diagnosis = ma.Nested(DiagnosisSchema)
+
+    class Meta:
+        model = PatientDiagnosis
+        load_instance = True
+        sqla_session = db.session
+
+
+class PatientSchema(ma.SQLAlchemyAutoSchema):
+
+    diagnosis = ma.Nested(PatientDiagnosisSchema, many=True)
+    clinical_details = ma.Nested(PatientClinicalDetailSchema)
+
+    class Meta:
+        model = Patient
+        load_instance = True
+        sqla_session = db.session

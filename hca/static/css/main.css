@@ -1,0 +1,83 @@
+.is-hidden {
+    display: none;
+}
+
+.card-container {
+    margin-top: 4rem;
+}
+
+.card-header-main {
+    height: 4.5rem;
+}
+
+.card-header-button {
+    position: absolute;
+    right: 2rem;
+}
+
+.card-title {
+   font-size: 150%;
+   font-weight: bold;
+}
+
+.form-container {
+    margin-top: 2rem;
+}
+
+.index-container {
+    margin-top: 5rem;
+}
+
+.index-card-body {
+    height: 20rem;
+}
+
+.error-alert {
+    color: red;
+}
+
+.patient-card-column {
+    margin-left: 5rem;
+    margin-right: 5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.patient-profile-card {
+    height: 30rem;
+}
+
+.patient-form-card {
+    height: 35rem;
+}
+
+.patient-profile-field {
+    margin-bottom: 2rem;
+}
+
+.patient-profile-footer {
+    height: 13rem;
+}
+
+.patient-button-col {
+    margin: 2rem;
+}
+
+.patient-button-top {
+    margin-bottom: 2rem;
+}
+
+.home-logo {
+    height: 2rem;
+    width: 2rem;
+}
+
+.save-add-button {
+    display: inline-block;
+    float: right;
+}
+
+.save-close-button {
+    display: inline-block;
+    float: right;
+    margin-right: 2rem;
+}
