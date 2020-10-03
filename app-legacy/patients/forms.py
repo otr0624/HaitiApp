@@ -26,7 +26,7 @@ class PatientProfileForm(ModelForm, FlaskForm):
     patient_dob_est = BooleanField('DOB Estimate?')
 
 # CLINICAL TAB
-    patient_diagnosis = QuerySelectField(query_factory=lambda: PatientDiagnosis.query)
+    patient_diagnosis = QuerySelectField(query_factory=lambda: PatientDiagnosis.query, default=None)
 
 # CONTACT TAB
 
