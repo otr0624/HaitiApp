@@ -6,7 +6,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class BaseConfig(object):
     """Base configuration class"""
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'qwerty'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = True
     DEBUG = False
@@ -16,6 +16,8 @@ class BaseConfig(object):
 class DevelopmentConfig(BaseConfig):
     """Development-environment-specific config class"""
     SECRET_KEY = 'qwerty'
+    DATABASE_FILENAME = os.path.join(basedir, 'development_database.db')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DATABASE_FILENAME
     DEBUG = True
     TESTING = True
 
@@ -23,4 +25,3 @@ class DevelopmentConfig(BaseConfig):
 class ProductionConfig(BaseConfig):
     """Production-environment-specific config class"""
     SECRET_KEY = os.environ.get('SECRET_KEY')
-
