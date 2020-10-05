@@ -17,9 +17,17 @@ class Provider(db.Model):
         )
     first_name = db.Column(db.String(64))
     last_name = db.Column(db.String(64))
-    provider_type = db.Column(db.String(64))
+    provider_category_id = db.Column(db.Integer, db.ForeignKey('provider_category.id'))
     is_active = db.Column(db.Boolean, default=True)
     notes = db.Column(db.Text)
+
+    category = db.relationship('ProviderCategory', backref='providers')
+
+
+class ProviderCategory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String(32))
+    category_code = db.Column(db.String(4))
 
 
 class ProviderSchema(ma.SQLAlchemyAutoSchema):
@@ -27,3 +35,4 @@ class ProviderSchema(ma.SQLAlchemyAutoSchema):
         model = Provider
         load_instance = True
         sqla_session = db.session
+

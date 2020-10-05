@@ -1,5 +1,5 @@
 from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis
-from hca.providers.provider_model import Provider
+from hca.providers.provider_model import Provider, ProviderCategory
 from hca.facilities.facility_model import Facility
 
 
@@ -15,10 +15,21 @@ def initialize_sample_data(db):
     db.session.add(p)
     db.session.commit()
 
+    pcat1 = ProviderCategory()
+    pcat1.category_code = "CARD"
+    pcat1.category = "Cardiologist"
+
+    pcat2 = ProviderCategory()
+    pcat2.category_code = "SURG"
+    pcat2.category = "Surgeon"
+
+    db.session.add_all([pcat1, pcat2])
+    db.session.commit()
+
     pro = Provider()
     pro.first_name = "Hannibal"
     pro.last_name = "Lecter"
-    pro.provider_type = "Specialist"
+    pro.provider_category_id = 1
     pro.notes = "Not presently accepting new patients."
     db.session.add(pro)
     db.session.commit()
