@@ -11,21 +11,35 @@
 			"item": [
 				{
 					"name": "/patients/",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4ee1edf7-c4cd-4b3a-8cfc-7aa4c157f523",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Patient uuid exists\", function () {\r",
+									"    pm.expect(jsonData[0].uuid).to.be.not.null;\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"patient_uuid\", jsonData[0].uuid);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/v1/patients",
-							"protocol": "http",
+							"raw": "{{url}}/patients",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{url}}"
 							],
-							"port": "5000",
 							"path": [
-								"v1",
 								"patients"
 							]
 						},
@@ -39,17 +53,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/v1/diagnosis",
-							"protocol": "http",
+							"raw": "{{url}}/diagnosis",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{url}}"
 							],
-							"port": "5000",
 							"path": [
-								"v1",
 								"diagnosis"
 							]
 						}
@@ -62,19 +70,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/v1/patients/6b2733c5ec5a471db59754e8b2bb53fb",
-							"protocol": "http",
+							"raw": "{{url}}/patients/{{patient_uuid}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{url}}"
 							],
-							"port": "5000",
 							"path": [
-								"v1",
 								"patients",
-								"6b2733c5ec5a471db59754e8b2bb53fb"
+								"{{patient_uuid}}"
 							]
 						}
 					},
@@ -98,17 +100,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/v1/patients",
-							"protocol": "http",
+							"raw": "{{url}}/patients",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{url}}"
 							],
-							"port": "5000",
 							"path": [
-								"v1",
 								"patients"
 							]
 						},
@@ -123,7 +119,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "    {\r\n        \"code\": \"9999\",\r\n        \"diagnosis\": \"Zombification\"\r\n    }",
+							"raw": "    {\r\n        \"code\": \"7562\",\r\n        \"diagnosis\": \"Malaria\"\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -131,17 +127,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/v1/diagnosis",
-							"protocol": "http",
+							"raw": "{{url}}/diagnosis",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{url}}"
 							],
-							"port": "5000",
 							"path": [
-								"v1",
 								"diagnosis"
 							]
 						}
@@ -163,21 +153,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/v1/patients/6b2733c5ec5a471db59754e8b2bb53fb/diagnosis/75",
-							"protocol": "http",
+							"raw": "{{url}}/patients/{{patient_uuid}}/diagnosis/3",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{url}}"
 							],
-							"port": "5000",
 							"path": [
-								"v1",
 								"patients",
-								"6b2733c5ec5a471db59754e8b2bb53fb",
+								"{{patient_uuid}}",
 								"diagnosis",
-								"75"
+								"3"
 							]
 						}
 					},
@@ -192,21 +176,33 @@
 			"item": [
 				{
 					"name": "/providers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "116ed3dd-b83a-445d-be61-945af9130721",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Provider uuid exists\", function () {\r",
+									"    pm.expect(jsonData[0].uuid).to.be.not.null;\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"provider_uuid\", jsonData[0].uuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/v1/providers",
-							"protocol": "http",
+							"raw": "{{url}}/providers",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{url}}"
 							],
-							"port": "5000",
 							"path": [
-								"v1",
 								"providers"
 							]
 						}
@@ -219,19 +215,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/v1/providers/7fd04c022f6c46969b58d39a3aa48bc7",
-							"protocol": "http",
+							"raw": "{{url}}/providers/{{provider_uuid}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{url}}"
 							],
-							"port": "5000",
 							"path": [
-								"v1",
 								"providers",
-								"7fd04c022f6c46969b58d39a3aa48bc7"
+								"{{provider_uuid}}"
 							]
 						}
 					},
@@ -252,17 +242,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/v1/providers",
-							"protocol": "http",
+							"raw": "{{url}}/providers",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{url}}"
 							],
-							"port": "5000",
 							"path": [
-								"v1",
 								"providers"
 							]
 						}
@@ -277,21 +261,33 @@
 			"item": [
 				{
 					"name": "/facilities",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e831ac0c-380a-4274-96b0-663cf7aa4bde",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Facility uuid exists\", function () {\r",
+									"    pm.expect(jsonData[0].uuid).to.be.not.null;\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"facility_uuid\", jsonData[0].uuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/v1/facilities",
-							"protocol": "http",
+							"raw": "{{url}}/facilities",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{url}}"
 							],
-							"port": "5000",
 							"path": [
-								"v1",
 								"facilities"
 							]
 						}
@@ -304,19 +300,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/v1/facilities/48ec73771258497aa3dafcff3364d2ed",
-							"protocol": "http",
+							"raw": "{{url}}/facilities/{{facility_uuid}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{url}}"
 							],
-							"port": "5000",
 							"path": [
-								"v1",
 								"facilities",
-								"48ec73771258497aa3dafcff3364d2ed"
+								"{{facility_uuid}}"
 							]
 						}
 					},
@@ -337,17 +327,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/v1/facilities",
-							"protocol": "http",
+							"raw": "{{url}}/facilities",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{url}}"
 							],
-							"port": "5000",
 							"path": [
-								"v1",
 								"facilities"
 							]
 						}
