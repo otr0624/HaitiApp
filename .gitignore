@@ -3,6 +3,7 @@
 .flaskenv
 **/__pycache__/
 *.pyc
+env/
 
 app.db
 app.db-journal
