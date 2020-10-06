@@ -30,6 +30,7 @@ def initialize_sample_data(db):
     pro.first_name = "Hannibal"
     pro.last_name = "Lecter"
     pro.provider_category_id = 1
+    pro.facility_id = 1
     pro.notes = "Not presently accepting new patients."
     db.session.add(pro)
     db.session.commit()
