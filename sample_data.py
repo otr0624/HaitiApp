@@ -1,4 +1,4 @@
-from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis
+from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis, PatientProvider
 from hca.providers.provider_model import Provider, ProviderCategory
 from hca.facilities.facility_model import Facility
 
@@ -73,7 +73,12 @@ def initialize_sample_data(db):
     pd2.is_primary = False
     pd2.is_suspected = True
 
-    db.session.add_all([d1, d2, pd, pd2])
+    ppr1 = PatientProvider()
+    ppr1.provider_id = 1
+    ppr1.patient = p
+    ppr1.is_primary = True
+
+    db.session.add_all([d1, d2, pd, pd2, ppr1])
     db.session.commit()
 
     patient = Patient.query.first()

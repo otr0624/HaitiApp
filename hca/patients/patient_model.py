@@ -1,4 +1,5 @@
 from database import db, ma
+from hca.providers.provider_model import Provider, ProviderSchema
 import uuid
 
 
@@ -15,6 +16,17 @@ class PatientDiagnosis(db.Model):
 
     patient = db.relationship('Patient')
     diagnosis = db.relationship('Diagnosis')
+
+
+class PatientProvider(db.Model):
+    patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), primary_key=True)
+    provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'), primary_key=True)
+    is_primary = db.Column(db.Boolean)
+    is_active = db.Column(db.Boolean)
+    notes = db.Column(db.Text)
+
+    patient = db.relationship('Patient')
+    provider = db.relationship('Provider')
 
 
 class Patient(db.Model):
@@ -42,6 +54,13 @@ class Patient(db.Model):
     diagnosis = db.relationship(
         'PatientDiagnosis',
         primaryjoin=id == PatientDiagnosis.patient_id,
+        lazy='joined',
+        viewonly=True
+        )
+
+    provider = db.relationship(
+        'PatientProvider',
+        primaryjoin=id == PatientProvider.patient_id,
         lazy='joined',
         viewonly=True
         )
@@ -93,10 +112,21 @@ class PatientDiagnosisSchema(ma.SQLAlchemyAutoSchema):
         sqla_session = db.session
 
 
+class PatientProviderSchema(ma.SQLAlchemyAutoSchema):
+
+    provider = ma.Nested(ProviderSchema)
+
+    class Meta:
+        model = PatientProvider
+        load_instance = True
+        sqla_session = db.session
+
+
 class PatientSchema(ma.SQLAlchemyAutoSchema):
 
     diagnosis = ma.Nested(PatientDiagnosisSchema, many=True)
     clinical_details = ma.Nested(PatientClinicalDetailSchema)
+    provider = ma.Nested(PatientProviderSchema, many=True)
 
     class Meta:
         model = Patient
