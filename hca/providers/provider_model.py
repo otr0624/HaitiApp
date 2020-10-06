@@ -30,9 +30,21 @@ class ProviderCategory(db.Model):
     category_code = db.Column(db.String(4))
 
 
+class ProviderCategorySchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = ProviderCategory
+        load_instance = True
+        sqla_session = db.session
+
+
 class ProviderSchema(ma.SQLAlchemyAutoSchema):
+
+    category = ma.Nested(ProviderCategorySchema)
+
     class Meta:
         model = Provider
         load_instance = True
         sqla_session = db.session
+
+
 
