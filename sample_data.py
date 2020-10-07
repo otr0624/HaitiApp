@@ -1,6 +1,6 @@
 from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis, PatientProvider
 from hca.providers.provider_model import Provider, ProviderCategory
-from hca.facilities.facility_model import Facility
+from hca.facilities.facility_model import Facility, FacilityCategory
 
 
 def initialize_sample_data(db):
@@ -26,6 +26,17 @@ def initialize_sample_data(db):
     db.session.add_all([pcat1, pcat2])
     db.session.commit()
 
+    fcat1 = FacilityCategory()
+    fcat1.category_code = "SURG"
+    fcat1.category = "Surgical Center"
+
+    fcat2 = FacilityCategory()
+    fcat2.category_code = "PRIM"
+    fcat2.category = "Primary Care Clinic"
+
+    db.session.add_all([fcat1, fcat2])
+    db.session.commit()
+
     pro = Provider()
     pro.first_name = "Hannibal"
     pro.last_name = "Lecter"
@@ -39,6 +50,7 @@ def initialize_sample_data(db):
     f.name = "General Hospital"
     f.facility_type = "Surgical Referral Center"
     f.notes = "This hospital is too expensive."
+    f.facility_category_id = 1
     db.session.add(f)
     db.session.commit()
 

@@ -140,6 +140,44 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PatientDiagnosis'
+#  '/patients/{patient_uuid}/provider/{provider_id}':
+#    post:
+#      tags:
+#        - Patient
+#      summary: Assign a Diagnosis to a Patient
+#      description: Assign a single Diagnosis record to a single Patient record.
+#      operationId: hca.patients.patient_api.post_patient_diagnosis
+#      parameters:
+#        - description: Patient unique identifier
+#          explode: false
+#          in: path
+#          name: patient_uuid
+#          required: true
+#          schema:
+#            type: string
+#          style: simple
+#        - description: Diagnosis identifier
+#          explode: false
+#          in: path
+#          name: diagnosis_id
+#          required: true
+#          schema:
+#            type: integer
+#          style: simple
+#      requestBody:
+#        content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/PatientDiagnosisBase'
+#      responses:
+#        '201':
+#          description: Return the set of PatientDiagnosis records, including the newly inserted PatientDiagnosis.
+#          content:
+#            application/json:
+#              schema:
+#                type: array
+#                items:
+#                  $ref: '#/components/schemas/PatientDiagnosis'
   '/providers':
     get:
       tags:
