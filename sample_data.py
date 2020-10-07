@@ -37,13 +37,22 @@ def initialize_sample_data(db):
     db.session.add_all([fcat1, fcat2])
     db.session.commit()
 
-    pro = Provider()
-    pro.first_name = "Hannibal"
-    pro.last_name = "Lecter"
-    pro.provider_category_id = 1
-    pro.facility_id = 1
-    pro.notes = "Not presently accepting new patients."
-    db.session.add(pro)
+    pro1 = Provider()
+    pro1.first_name = "Hannibal"
+    pro1.last_name = "Lecter"
+    pro1.provider_category_id = 1
+    pro1.facility_id = 1
+    pro1.notes = "Not presently accepting new patients."
+    db.session.add(pro1)
+    db.session.commit()
+
+    pro2 = Provider()
+    pro2.first_name = "Joe"
+    pro2.last_name = "Smith"
+    pro2.provider_category_id = 2
+    pro2.facility_id = 1
+    pro2.notes = "Also does caths."
+    db.session.add(pro2)
     db.session.commit()
 
     f = Facility()
