@@ -51,6 +51,12 @@ class Patient(db.Model):
         backref='patient'
         )
 
+    contact_details = db.relationship(
+        'PatientContactDetail',
+        uselist=False,
+        backref='patient'
+        )
+
     diagnosis = db.relationship(
         'PatientDiagnosis',
         primaryjoin=id == PatientDiagnosis.patient_id,
@@ -72,6 +78,17 @@ class PatientClinicalDetail(db.Model):
     urgency = db.Column(db.Integer, nullable=False)
     syndrome = db.Column(db.Integer)
     syndrome_notes = db.Column(db.Text)
+    patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
+
+
+class PatientContactDetail(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    address_line_1 = db.Column(db.String(128))
+    address_line_2 = db.Column(db.String(128))
+    address_city = db.Column(db.String(32))
+    address_state_or_dept = db.Column(db.String(32))
+    address_country = db.Column(db.String(32), default="Haiti")
+    address_notes = db.Column(db.Text())
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
 
 
@@ -102,6 +119,15 @@ class PatientClinicalDetailSchema(ma.SQLAlchemyAutoSchema):
         exclude = ('id', )
 
 
+class PatientContactDetailSchema(ma.SQLAlchemyAutoSchema):
+
+    class Meta:
+        model = PatientContactDetail
+        load_instance = True
+        sqla_session = db.session
+        exclude = ('id', )
+
+
 class PatientDiagnosisSchema(ma.SQLAlchemyAutoSchema):
 
     diagnosis = ma.Nested(DiagnosisSchema)
@@ -126,6 +152,7 @@ class PatientSchema(ma.SQLAlchemyAutoSchema):
 
     diagnosis = ma.Nested(PatientDiagnosisSchema, many=True)
     clinical_details = ma.Nested(PatientClinicalDetailSchema)
+    contact_details = ma.Nested(PatientContactDetailSchema)
     provider = ma.Nested(PatientProviderSchema, many=True)
 
     class Meta:

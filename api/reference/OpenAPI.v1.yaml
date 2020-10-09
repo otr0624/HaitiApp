@@ -300,9 +300,9 @@ components:
   schemas:
     PatientBase:
       x-tags:
-        - Provider
-      title: Provider (Create)
-      description: Base Provider schema for new record createion via POST.
+        - Patient
+      title: Patient (Create)
+      description: Base Patient schema for new record createion via POST.
       type: object
       properties:
         first_name:
@@ -344,6 +344,8 @@ components:
                 $ref: '#/components/schemas/PatientDiagnosis'
             clinical_details:
               $ref: '#/components/schemas/PatientClinicalDetails'
+            contact_details:
+              $ref: '#/components/schemas/PatientContactDetail'
     PatientDiagnosisBase:
       x-tags:
         - Patient
@@ -394,7 +396,7 @@ components:
       x-tags:
         - Patient
       title: Patient Clinical Details
-      description: ''
+      description: 'Subview of Patient to describe details of clinical status and history'
       type: object
       properties:
         status:
@@ -404,6 +406,25 @@ components:
         syndrome:
           type: integer
         syndrome_notes:
+          type: string
+    PatientContactDetail:
+      x-tags:
+        - Patient
+      title: Patient Contact Details
+      description: 'Subview of Patient to describe contact details'
+      type: object
+      properties:
+        address_line_1:
+          type: integer
+        address_line_2:
+          type: integer
+        address_city:
+          type: integer
+        address_state_or_dept:
+          type: string
+        address_country:
+          type: string
+        address_notes:
           type: string
     ProviderBase:
       x-tags:

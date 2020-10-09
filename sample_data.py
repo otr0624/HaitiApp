@@ -1,4 +1,4 @@
-from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis, PatientProvider
+from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis, PatientProvider, PatientContactDetail
 from hca.providers.provider_model import Provider, ProviderCategory
 from hca.facilities.facility_model import Facility, FacilityCategory
 
@@ -71,7 +71,16 @@ def initialize_sample_data(db):
     
     p.clinical_details = pcd
 
-    db.session.add_all([p, pcd])
+    pcon = PatientContactDetail()
+    pcon.address_line_1 = "5 Main Street"
+    pcon.address_line_2 = "Apt 2A"
+    pcon.address_city = "Port au Prince"
+    pcon.address_state_or_dept = "Ouest"
+    pcon.address_notes = "Blue house behind church"
+
+    p.contact_details = pcon
+
+    db.session.add_all([p, pcd, pcon])
     db.session.commit()
 
     d1 = Diagnosis()
