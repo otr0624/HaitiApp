@@ -89,6 +89,7 @@ class PatientContactDetail(db.Model):
     address_state_or_dept = db.Column(db.String(32))
     address_country = db.Column(db.String(32), default="Haiti")
     address_notes = db.Column(db.Text())
+
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
 
     patient_phone = db.relationship(
@@ -144,7 +145,7 @@ class PatientPhoneSchema(ma.SQLAlchemyAutoSchema):
 
 class PatientContactDetailSchema(ma.SQLAlchemyAutoSchema):
 
-    patient_phone = ma.Nested(PatientPhoneSchema, many=True)
+    patient_phone = ma.Nested(PatientPhoneSchema)
 
     class Meta:
         model = PatientContactDetail
