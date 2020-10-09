@@ -415,16 +415,35 @@ components:
       type: object
       properties:
         address_line_1:
-          type: integer
+          type: string
         address_line_2:
-          type: integer
+          type: string
         address_city:
-          type: integer
+          type: string
         address_state_or_dept:
           type: string
         address_country:
           type: string
         address_notes:
+          type: string
+        patient_phone:
+          $ref: '#/components/schemas/PatientPhone'
+    PatientPhone:
+      x-tags:
+        - Patient Contact
+      title: Patient Phone Numbers
+      description: 'Phone numbers and associated details for each contact card'
+      type: object
+      properties:
+        phone_number:
+          type: string
+        phone_owner:
+          type: string
+        phone_is_primary:
+          type: string
+        phone_is_active:
+          type: string
+        phone_notes:
           type: string
     ProviderBase:
       x-tags:

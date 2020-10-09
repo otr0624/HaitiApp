@@ -91,11 +91,27 @@ class PatientContactDetail(db.Model):
     address_notes = db.Column(db.Text())
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
 
+    patient_phone = db.relationship(
+        'PatientPhone',
+        uselist=False,
+        backref='patient_contact_details'
+        )
+
 
 class Diagnosis(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String(32), nullable=False)
     diagnosis = db.Column(db.Text)
+
+
+class PatientPhone(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    phone_number = db.Column(db.String(32), nullable=False)
+    phone_owner = db.Column(db.String(32))
+    phone_is_primary = db.Column(db.Boolean)
+    phone_is_active = db.Column(db.Boolean)
+    phone_notes = db.Column(db.String(128))
+    contact_detail_id = db.Column(db.Integer, db.ForeignKey('patient_contact_detail.id'), nullable=False)
 
 
 #
@@ -119,7 +135,16 @@ class PatientClinicalDetailSchema(ma.SQLAlchemyAutoSchema):
         exclude = ('id', )
 
 
+class PatientPhoneSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = PatientPhone
+        load_instance = True
+        sqla_session = db.session
+
+
 class PatientContactDetailSchema(ma.SQLAlchemyAutoSchema):
+
+    patient_phone = ma.Nested(PatientPhoneSchema, many=True)
 
     class Meta:
         model = PatientContactDetail

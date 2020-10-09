@@ -1,10 +1,10 @@
-from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis, PatientProvider, PatientContactDetail
+from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis, PatientProvider, \
+    PatientContactDetail, PatientPhone
 from hca.providers.provider_model import Provider, ProviderCategory
 from hca.facilities.facility_model import Facility, FacilityCategory
 
 
 def initialize_sample_data(db):
-
     # #
     # # TESTING ON STARTUP
     # #
@@ -68,7 +68,7 @@ def initialize_sample_data(db):
     pcd.urgency = 1
     pcd.syndrome = 2
     pcd.syndrome_notes = "These are the notes"
-    
+
     p.clinical_details = pcd
 
     pcon = PatientContactDetail()
@@ -82,6 +82,16 @@ def initialize_sample_data(db):
 
     db.session.add_all([p, pcd, pcon])
     db.session.commit()
+
+    # pp1 = PatientPhone()
+    # pp1.phone_number = "4432 5413"
+    # pp1.phone_owner = "Mother"
+    # pp1.phone_notes = "Only answers in evenings"
+    #
+    # pcon.patient_phone = pp1
+    #
+    # db.session.add_all([pcon, pp1])
+    # db.session.commit()
 
     d1 = Diagnosis()
     d1.code = "1234"
