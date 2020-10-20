@@ -404,7 +404,7 @@ components:
         urgency:
           type: integer
         syndrome:
-          type: string
+          type: integer
         syndrome_notes:
           type: string
     PatientContactDetail:
@@ -440,9 +440,11 @@ components:
         phone_owner:
           type: string
         phone_is_primary:
-          type: string
+          type: boolean
         phone_is_active:
-          type: string
+          type: boolean
+        phone_has_whatsapp:
+          type: boolean
         phone_notes:
           type: string
     ProviderBase:

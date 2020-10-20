@@ -1,5 +1,5 @@
 from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis, PatientProvider, \
-    PatientContactDetail, PatientPhone, PatientSyndrome
+    PatientContactDetail, PatientPhone, PatientSyndrome, PatientUrgency
 from hca.providers.provider_model import Provider, ProviderCategory
 from hca.facilities.facility_model import Facility, FacilityCategory
 
@@ -49,7 +49,22 @@ def initialize_sample_data(db):
     s3.syndrome = "Noonan Syndrome"
     s3.syndrome_code = "NS"
 
-    db.session.add_all([s1, s2, s3])
+    urg1 = PatientUrgency()
+    urg1.urgency = "ASAP"
+
+    urg2 = PatientUrgency()
+    urg2.urgency = "<6 months"
+
+    urg3 = PatientUrgency()
+    urg3.urgency = "6-12 months"
+
+    urg4 = PatientUrgency()
+    urg4.urgency = "12-24 months"
+
+    urg5 = PatientUrgency()
+    urg5.urgency = ">24 months"
+
+    db.session.add_all([s1, s2, s3, urg1, urg2, urg3, urg4, urg5])
     db.session.commit()
 
     pro1 = Provider()
@@ -80,8 +95,8 @@ def initialize_sample_data(db):
 
     pcd = PatientClinicalDetail()
     pcd.status = 3
-    pcd.urgency = 1
     pcd.patient_syndrome_id = 1
+    pcd.patient_urgency_id = 2
     pcd.syndrome_notes = "These are the notes"
 
     p.clinical_details = pcd

@@ -75,18 +75,25 @@ class Patient(db.Model):
 class PatientClinicalDetail(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.Integer, nullable=False)
-    urgency = db.Column(db.Integer, nullable=False)
+    # urgency = db.Column(db.Integer, nullable=False)
+    patient_urgency_id = db.Column(db.Integer, db.ForeignKey('patient_urgency.id'))
     patient_syndrome_id = db.Column(db.Integer, db.ForeignKey('patient_syndrome.id'))
     syndrome_notes = db.Column(db.Text)
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
 
     syndrome = db.relationship('PatientSyndrome', backref='patient_clinical_detail')
+    urgency = db.relationship('PatientUrgency', backref='patient_clinical_detail')
 
 
 class PatientSyndrome(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     syndrome = db.Column(db.String(32))
     syndrome_code = db.Column(db.String(4))
+
+
+class PatientUrgency(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    urgency = db.Column(db.String(32))
 
 
 class PatientContactDetail(db.Model):
@@ -119,6 +126,7 @@ class PatientPhone(db.Model):
     phone_owner = db.Column(db.String(32))
     phone_is_primary = db.Column(db.Boolean)
     phone_is_active = db.Column(db.Boolean, default=True)
+    phone_has_whatsapp = db.Column(db.Boolean)
     phone_notes = db.Column(db.String(128))
     contact_detail_id = db.Column(db.Integer, db.ForeignKey('patient_contact_detail.id'), nullable=False)
 
@@ -142,9 +150,17 @@ class PatientSyndromeSchema(ma.SQLAlchemyAutoSchema):
         sqla_session = db.session
 
 
+class PatientUrgencySchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = PatientUrgency
+        load_instance = True
+        sqla_session = db.session
+
+
 class PatientClinicalDetailSchema(ma.SQLAlchemyAutoSchema):
 
     syndrome = ma.Nested(PatientSyndromeSchema)
+    urgency = ma.Nested(PatientUrgencySchema)
 
     class Meta:
         model = PatientClinicalDetail
