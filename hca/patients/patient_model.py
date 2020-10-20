@@ -76,9 +76,17 @@ class PatientClinicalDetail(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.Integer, nullable=False)
     urgency = db.Column(db.Integer, nullable=False)
-    syndrome = db.Column(db.Integer)
+    patient_syndrome_id = db.Column(db.Integer, db.ForeignKey('patient_syndrome.id'))
     syndrome_notes = db.Column(db.Text)
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
+
+    syndrome = db.relationship('PatientSyndrome', backref='patient_clinical_detail')
+
+
+class PatientSyndrome(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    syndrome = db.Column(db.String(32))
+    syndrome_code = db.Column(db.String(4))
 
 
 class PatientContactDetail(db.Model):
@@ -127,7 +135,16 @@ class DiagnosisSchema(ma.SQLAlchemyAutoSchema):
         sqla_session = db.session
 
 
+class PatientSyndromeSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = PatientSyndrome
+        load_instance = True
+        sqla_session = db.session
+
+
 class PatientClinicalDetailSchema(ma.SQLAlchemyAutoSchema):
+
+    syndrome = ma.Nested(PatientSyndromeSchema)
 
     class Meta:
         model = PatientClinicalDetail

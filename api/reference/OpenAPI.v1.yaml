@@ -404,7 +404,7 @@ components:
         urgency:
           type: integer
         syndrome:
-          type: integer
+          type: string
         syndrome_notes:
           type: string
     PatientContactDetail:

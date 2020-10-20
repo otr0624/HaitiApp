@@ -1,5 +1,5 @@
 from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis, PatientProvider, \
-    PatientContactDetail, PatientPhone
+    PatientContactDetail, PatientPhone, PatientSyndrome
 from hca.providers.provider_model import Provider, ProviderCategory
 from hca.facilities.facility_model import Facility, FacilityCategory
 
@@ -37,6 +37,21 @@ def initialize_sample_data(db):
     db.session.add_all([fcat1, fcat2])
     db.session.commit()
 
+    s1 = PatientSyndrome()
+    s1.syndrome = "Down Syndrome (T21)"
+    s1.syndrome_code = "T21"
+
+    s2 = PatientSyndrome()
+    s2.syndrome = "Williams Syndrome"
+    s2.syndrome_code = "WS"
+
+    s3 = PatientSyndrome()
+    s3.syndrome = "Noonan Syndrome"
+    s3.syndrome_code = "NS"
+
+    db.session.add_all([s1, s2, s3])
+    db.session.commit()
+
     pro1 = Provider()
     pro1.first_name = "Hannibal"
     pro1.last_name = "Lecter"
@@ -66,7 +81,7 @@ def initialize_sample_data(db):
     pcd = PatientClinicalDetail()
     pcd.status = 3
     pcd.urgency = 1
-    pcd.syndrome = 2
+    pcd.patient_syndrome_id = 1
     pcd.syndrome_notes = "These are the notes"
 
     p.clinical_details = pcd
