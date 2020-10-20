@@ -439,11 +439,11 @@ components:
           type: string
         email_notes:
           type: string
-    PatientContactDetail:
+    PatientAddress:
       x-tags:
-        - Patient
-      title: Patient Contact Details
-      description: 'Subview of Patient to describe contact details'
+        - Patient Contact
+      title: Patient Residential Address
+      description: 'Patient street address for each contact card'
       type: object
       properties:
         address_line_1:
@@ -458,6 +458,17 @@ components:
           type: string
         address_notes:
           type: string
+    PatientContactDetail:
+      x-tags:
+        - Patient
+      title: Patient Contact Details
+      description: 'Subview of Patient to describe contact details'
+      type: object
+      properties:
+        patient_contact_notes:
+          type: string
+        patient_address:
+          $ref: '#/components/schemas/PatientAddress'
         patient_phone:
           $ref: '#/components/schemas/PatientPhone'
         patient_email:

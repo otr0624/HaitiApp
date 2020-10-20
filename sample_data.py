@@ -1,5 +1,5 @@
 from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis, PatientProvider, \
-    PatientContactDetail, PatientPhone, PatientSyndrome, PatientUrgency, PatientStatus, PatientEmail
+    PatientContactDetail, PatientPhone, PatientSyndrome, PatientUrgency, PatientStatus, PatientEmail, PatientAddress
 from hca.providers.provider_model import Provider, ProviderCategory
 from hca.facilities.facility_model import Facility, FacilityCategory
 
@@ -114,16 +114,21 @@ def initialize_sample_data(db):
     p.clinical_details = pcd
 
     pcon = PatientContactDetail()
-    pcon.address_line_1 = "5 Main Street"
-    pcon.address_line_2 = "Apt 2A"
-    pcon.address_city = "Port au Prince"
-    pcon.address_state_or_dept = "Ouest"
-    pcon.address_notes = "Blue house behind church"
+    pcon.patient_contact_notes = "This patient usually needs multiple reminders to go to appointments"
 
     p.contact_details = pcon
 
     db.session.add_all([p, pcd, pcon])
     db.session.commit()
+
+    pa1 = PatientAddress()
+    pa1.address_line_1 = "5 Main Street"
+    pa1.address_line_2 = "Apartment 6"
+    pa1.address_city = "Petionville"
+    pa1.address_state_or_dept = "Ouest"
+    pa1.address_notes = "Big blue house on corner"
+
+    pcon.patient_address = pa1
 
     pp1 = PatientPhone()
     pp1.phone_number = "4432 5413"
@@ -135,15 +140,16 @@ def initialize_sample_data(db):
     pp2.phone_owner = "Grandmother"
     pp2.phone_notes = "Lives next town over"
 
+    pcon.patient_phone.extend([pp1, pp2])
+
     pe1 = PatientEmail()
     pe1.email = "fake@email.com"
     pe1.email_owner = "US Advocate"
     pe1.email_notes = "Only email if patient unreachable by phone"
 
-    pcon.patient_phone.extend([pp1, pp2])
     pcon.patient_email.append(pe1)
 
-    db.session.add_all([pcon, pp1, pp2, pe1])
+    db.session.add_all([pcon, pa1, pp1, pp2, pe1])
     db.session.commit()
 
     d1 = Diagnosis()

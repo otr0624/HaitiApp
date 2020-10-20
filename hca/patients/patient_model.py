@@ -101,16 +101,19 @@ class PatientStatus(db.Model):
     status = db.Column(db.String(32))
 
 
+class Diagnosis(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(32), nullable=False)
+    diagnosis = db.Column(db.Text)
+
+
 class PatientContactDetail(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    address_line_1 = db.Column(db.String(128))
-    address_line_2 = db.Column(db.String(128))
-    address_city = db.Column(db.String(32))
-    address_state_or_dept = db.Column(db.String(32))
-    address_country = db.Column(db.String(32), default="Haiti")
-    address_notes = db.Column(db.Text())
-
+    patient_address_id = db.Column(db.Integer, db.ForeignKey('patient_address.id'))
+    patient_contact_notes = db.Column(db.Text())
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
+
+    patient_address = db.relationship('PatientAddress', backref='patient_contact_detail')
 
     patient_phone = db.relationship(
         'PatientPhone',
@@ -125,10 +128,14 @@ class PatientContactDetail(db.Model):
         )
 
 
-class Diagnosis(db.Model):
+class PatientAddress(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    code = db.Column(db.String(32), nullable=False)
-    diagnosis = db.Column(db.Text)
+    address_line_1 = db.Column(db.String(128))
+    address_line_2 = db.Column(db.String(128))
+    address_city = db.Column(db.String(32))
+    address_state_or_dept = db.Column(db.String(32))
+    address_country = db.Column(db.String(32), default="Haiti")
+    address_notes = db.Column(db.Text())
 
 
 class PatientPhone(db.Model):
@@ -196,6 +203,13 @@ class PatientClinicalDetailSchema(ma.SQLAlchemyAutoSchema):
         exclude = ('id', )
 
 
+class PatientAddressSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = PatientAddress
+        load_instance = True
+        sqla_session = db.session
+
+
 class PatientPhoneSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = PatientPhone
@@ -214,6 +228,7 @@ class PatientContactDetailSchema(ma.SQLAlchemyAutoSchema):
 
     patient_phone = ma.Nested(PatientPhoneSchema, many=True)
     patient_email = ma.Nested(PatientEmailSchema, many=True)
+    patient_address = ma.Nested(PatientAddressSchema)
 
     class Meta:
         model = PatientContactDetail
