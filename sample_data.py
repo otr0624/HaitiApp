@@ -1,5 +1,5 @@
 from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis, PatientProvider, \
-    PatientContactDetail, PatientPhone, PatientSyndrome, PatientUrgency, PatientStatus
+    PatientContactDetail, PatientPhone, PatientSyndrome, PatientUrgency, PatientStatus, PatientEmail
 from hca.providers.provider_model import Provider, ProviderCategory
 from hca.facilities.facility_model import Facility, FacilityCategory
 
@@ -135,9 +135,15 @@ def initialize_sample_data(db):
     pp2.phone_owner = "Grandmother"
     pp2.phone_notes = "Lives next town over"
 
-    pcon.patient_phone.extend([pp1, pp2])
+    pe1 = PatientEmail()
+    pe1.email = "fake@email.com"
+    pe1.email_owner = "US Advocate"
+    pe1.email_notes = "Only email if patient unreachable by phone"
 
-    db.session.add_all([pcon, pp1, pp2])
+    pcon.patient_phone.extend([pp1, pp2])
+    pcon.patient_email.append(pe1)
+
+    db.session.add_all([pcon, pp1, pp2, pe1])
     db.session.commit()
 
     d1 = Diagnosis()
