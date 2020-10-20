@@ -94,7 +94,7 @@ class PatientContactDetail(db.Model):
 
     patient_phone = db.relationship(
         'PatientPhone',
-        uselist=False,
+        uselist=True,
         backref='patient_contact_details'
         )
 
@@ -110,7 +110,7 @@ class PatientPhone(db.Model):
     phone_number = db.Column(db.String(32), nullable=False)
     phone_owner = db.Column(db.String(32))
     phone_is_primary = db.Column(db.Boolean)
-    phone_is_active = db.Column(db.Boolean)
+    phone_is_active = db.Column(db.Boolean, default=True)
     phone_notes = db.Column(db.String(128))
     contact_detail_id = db.Column(db.Integer, db.ForeignKey('patient_contact_detail.id'), nullable=False)
 
@@ -145,7 +145,7 @@ class PatientPhoneSchema(ma.SQLAlchemyAutoSchema):
 
 class PatientContactDetailSchema(ma.SQLAlchemyAutoSchema):
 
-    patient_phone = ma.Nested(PatientPhoneSchema)
+    patient_phone = ma.Nested(PatientPhoneSchema, many=True)
 
     class Meta:
         model = PatientContactDetail

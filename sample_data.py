@@ -88,9 +88,14 @@ def initialize_sample_data(db):
     pp1.phone_owner = "Mother"
     pp1.phone_notes = "Only answers in evenings"
 
-    pcon.patient_phone = pp1
+    pp2 = PatientPhone()
+    pp2.phone_number = "3545 4567"
+    pp2.phone_owner = "Grandmother"
+    pp2.phone_notes = "Lives next town over"
 
-    db.session.add_all([pcon, pp1])
+    pcon.patient_phone.extend([pp1, pp2])
+
+    db.session.add_all([pcon, pp1, pp2])
     db.session.commit()
 
     d1 = Diagnosis()
