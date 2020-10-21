@@ -63,6 +63,12 @@ class Patient(db.Model):
         backref='patient'
         )
 
+    encounter_details = db.relationship(
+        'PatientEncounterDetail',
+        uselist=False,
+        backref='patient'
+        )
+
     diagnosis = db.relationship(
         'PatientDiagnosis',
         primaryjoin=id == PatientDiagnosis.patient_id,
@@ -237,6 +243,45 @@ class PatientTravelDetail(db.Model):
         backref="patient_travel_detail"
     )
 
+
+class ClinicalEncounter(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    clinical_encounter_type = db.Column(db.String(32))
+    clinical_encounter_date = db.Column(db.Date)
+    clinical_encounter_provider = db.Column(db.String(128))
+    clinical_encounter_facility = db.Column(db.String(128))
+    clinical_encounter_notes = db.Column(db.Text())
+    encounter_detail_id = db.Column(db.Integer, db.ForeignKey('patient_encounter_detail.id'), nullable=False)
+
+
+class Surgery(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(32), nullable=False)
+    surgery_name = db.Column(db.Text)
+    rachs_score = db.Column(db.Integer)
+
+
+class PatientSurgery(db.Model):
+    patient_encounter_detail_id = db.Column(db.Integer, db.ForeignKey('patient_encounter_detail.id'), primary_key=True)
+    surgery_id = db.Column(db.Integer, db.ForeignKey('surgery.id'), primary_key=True)
+    surgery_date = db.Column(db.Date)
+    lead_surgeon = db.Column(db.String(128))
+    surgical_facility = db.Column(db.String(128))
+    surgery_notes = db.Column(db.Text)
+
+    patient_encounter_detail = db.relationship('PatientEncounterDetail')
+    surgery = db.relationship('Surgery')
+
+
+class PatientEncounterDetail(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
+
+    clinical_encounter = db.relationship(
+        'ClinicalEncounter',
+        uselist=True,
+        backref="patient_encounter_detail"
+    )
 #
 # The 'Schema' definitions have to come after the SQL Alchemy Model definitions
 #
@@ -384,6 +429,44 @@ class PatientTravelDetailSchema(ma.SQLAlchemyAutoSchema):
 
     class Meta:
         model = PatientTravelDetail
+        load_instance = True
+        sqla_session = db.session
+        exclude = ('id', )
+
+
+class SurgerySchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Surgery
+        load_instance = True
+        sqla_session = db.session
+
+
+class PatientSurgerySchema(ma.SQLAlchemyAutoSchema):
+
+    surgery = ma.Nested(SurgerySchema)
+
+    class Meta:
+        model = PatientSurgery
+        load_instance = True
+        sqla_session = db.session
+
+
+class ClinicalEncounterSchema(ma.SQLAlchemyAutoSchema):
+
+    class Meta:
+        model = ClinicalEncounter
+        load_instance = True
+        sqla_session = db.session
+        exclude = ('id', )
+
+
+class PatientEncounterDetailSchema(ma.SQLAlchemyAutoSchema):
+
+    clinical_encounter = ma.Nested(ClinicalEncounterSchema)
+    surgery = ma.Nested(PatientSurgerySchema)
+
+    class Meta:
+        model = PatientEncounterDetail
         load_instance = True
         sqla_session = db.session
         exclude = ('id', )

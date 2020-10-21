@@ -580,6 +580,85 @@ components:
           $ref: '#/components/schemas/TravelDocumentEvent'
         travel_document:
           $ref: '#/components/schemas/TravelDocument'
+    PatientSurgeryBase:
+      x-tags:
+        - Patient Encounter Details
+      title: PatientSurgery (Create)
+      description: Base PatientSurgery schema for new record creation via POST.
+      type: object
+      properties:
+        surgery_date:
+          type: date
+        lead_surgeon:
+          type: string
+        surgical_facility:
+          type: string
+        surgery_notes:
+          type: string
+    PatientSurgery:
+      x-tags:
+        - Patient Encounter Details
+      title: PatientSurgery
+      description: ''
+      allOf:
+        - $ref: '#/components/schemas/PatientSurgeryBase'
+        - type: object
+          properties:
+            diagnosis:
+              $ref: '#/components/schemas/Surgery'
+    SurgeryBase:
+      x-tags:
+        - Patient Encounter Details
+      title: Surgery (Create)
+      description: Base Surgery schema for new record creation via POST.
+      type: object
+      properties:
+        code:
+          type: string
+        surgery_name:
+          type: string
+        rachs_score:
+          type: integer
+    Surgery:
+      x-tags:
+        - Patient Encounter Details
+      title: Surgery
+      description: ''
+      allOf:
+        - $ref: '#/components/schemas/SurgeryBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+    ClinicalEncounter:
+      x-tags:
+        - Patient Encounter Details
+      title: Clinical Encounter
+      description: 'Records and details of individual patient clinical encounters'
+      type: object
+      properties:
+        clinical_encounter_type:
+          type: string
+        clinical_encounter_date:
+          type: date
+        clinical_encounter_provider:
+          type: string
+        clinical_encounter_facility:
+          type: string
+        clinical_encounter_notes:
+          type: string
+    PatientEncounterDetail:
+      x-tags:
+        - Patient
+      title: Patient Encounter Details
+      description: 'Subview of Patient to track individual patient encounters'
+      type: object
+      properties:
+        clinical_encounter:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClinicalEncounter'
+
     ProviderBase:
       x-tags:
         - Provider
