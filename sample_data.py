@@ -1,5 +1,6 @@
 from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis, PatientProvider, \
-    PatientContactDetail, PatientPhone, PatientSyndrome, PatientUrgency, PatientStatus, PatientEmail, PatientAddress
+    PatientContactDetail, PatientPhone, PatientSyndrome, PatientUrgency, PatientStatus, PatientEmail, PatientAddress, \
+    PatientTravelDetail, PassportPriority, TravelDocument, TravelDocumentEvent
 from hca.providers.provider_model import Provider, ProviderCategory
 from hca.facilities.facility_model import Facility, FacilityCategory
 
@@ -76,7 +77,19 @@ def initialize_sample_data(db):
     st4 = PatientStatus()
     st4.status = "Post-Op"
 
-    db.session.add_all([s1, s2, s3, urg1, urg2, urg3, urg4, urg5, st1, st2, st3, st4])
+    pp1 = PassportPriority()
+    pp1.passport_priority = "ASAP"
+
+    pp2 = PassportPriority()
+    pp2.passport_priority = "High"
+
+    pp3 = PassportPriority()
+    pp3.passport_priority = "Medium"
+
+    pp4 = PassportPriority()
+    pp4.passport_priority = "Low"
+
+    db.session.add_all([s1, s2, s3, urg1, urg2, urg3, urg4, urg5, st1, st2, st3, st4, pp1, pp2, pp3, pp4])
     db.session.commit()
 
     pro1 = Provider()
@@ -118,7 +131,13 @@ def initialize_sample_data(db):
 
     p.contact_details = pcon
 
-    db.session.add_all([p, pcd, pcon])
+    ptrav = PatientTravelDetail()
+    ptrav.passport_priority_notes = "The patient's family can get their own passports"
+    ptrav.passport_priority_id = 3
+
+    p.travel_details = ptrav
+
+    db.session.add_all([p, pcd, pcon, ptrav])
     db.session.commit()
 
     pa1 = PatientAddress()

@@ -57,6 +57,12 @@ class Patient(db.Model):
         backref='patient'
         )
 
+    travel_details = db.relationship(
+        'PatientTravelDetail',
+        uselist=False,
+        backref='patient'
+        )
+
     diagnosis = db.relationship(
         'PatientDiagnosis',
         primaryjoin=id == PatientDiagnosis.patient_id,
@@ -156,6 +162,43 @@ class PatientEmail(db.Model):
     email_notes = db.Column(db.String(128))
     contact_detail_id = db.Column(db.Integer, db.ForeignKey('patient_contact_detail.id'), nullable=False)
 
+
+class PassportPriority(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    passport_priority = db.Column(db.String(32))
+
+
+class TravelDocumentEvent(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    travel_document_event_notes = db.Column(db.Text())
+    travel_detail_id = db.Column(db.Integer, db.ForeignKey('patient_travel_detail.id'), nullable=False)
+
+
+class TravelDocument(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    travel_document_notes = db.Column(db.Text())
+    travel_detail_id = db.Column(db.Integer, db.ForeignKey('patient_travel_detail.id'), nullable=False)
+
+
+class PatientTravelDetail(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    passport_priority_id = db.Column(db.Integer, db.ForeignKey('passport_priority.id'))
+    passport_priority_notes = db.Column(db.Text())
+    patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
+
+    passport_priority = db.relationship('PassportPriority', backref='patient_travel_detail')
+
+    travel_document_event = db.relationship(
+        'TravelDocumentEvent',
+        uselist=True,
+        backref="patient_travel_detail"
+    )
+
+    travel_document = db.relationship(
+        'TravelDocument',
+        uselist=True,
+        backref="patient_travel_detail"
+    )
 
 #
 # The 'Schema' definitions have to come after the SQL Alchemy Model definitions
@@ -257,11 +300,46 @@ class PatientProviderSchema(ma.SQLAlchemyAutoSchema):
         sqla_session = db.session
 
 
+class PassportPrioritySchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = PassportPriority
+        load_instance = True
+        sqla_session = db.session
+
+
+class TravelDocumentEventSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = TravelDocumentEvent
+        load_instance = True
+        sqla_session = db.session
+
+
+class TravelDocumentSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = TravelDocument
+        load_instance = True
+        sqla_session = db.session
+
+
+class PatientTravelDetailSchema(ma.SQLAlchemyAutoSchema):
+
+    passport_priority = ma.Nested(PassportPrioritySchema)
+    travel_document_event = ma.Nested(TravelDocumentEventSchema, many=True)
+    travel_document = ma.Nested(TravelDocumentSchema, many=True)
+
+    class Meta:
+        model = PatientTravelDetail
+        load_instance = True
+        sqla_session = db.session
+        exclude = ('id', )
+
+
 class PatientSchema(ma.SQLAlchemyAutoSchema):
 
     diagnosis = ma.Nested(PatientDiagnosisSchema, many=True)
     clinical_details = ma.Nested(PatientClinicalDetailSchema)
     contact_details = ma.Nested(PatientContactDetailSchema)
+    travel_details = ma.Nested(PatientTravelDetailSchema)
     provider = ma.Nested(PatientProviderSchema, many=True)
 
     class Meta:

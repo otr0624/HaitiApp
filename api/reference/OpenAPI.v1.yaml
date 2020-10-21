@@ -430,7 +430,7 @@ components:
       x-tags:
         - Patient Contact
       title: Patient Email Addresses
-      description: 'Phone numbers and associated details for each contact card'
+      description: 'Email addresses and associated details for each contact card'
       type: object
       properties:
         email:
@@ -473,6 +473,48 @@ components:
           $ref: '#/components/schemas/PatientPhone'
         patient_email:
           $ref: '#/components/schemas/PatientEmail'
+    PassportPriority:
+      x-tags:
+        - Patient Travel
+      title: Passport Priority
+      description: 'Table of drop-down values for passport priority choices'
+      type: object
+      properties:
+        passport_priority:
+          type: string
+    TravelDocumentEvent:
+      x-tags:
+        - Patient Travel
+      title: Travel Document Event
+      description: 'Records of individual transactions related to travel documents'
+      type: object
+      properties:
+        travel_document_event_notes:
+          type: string
+    TravelDocument:
+      x-tags:
+        - Patient Travel
+      title: Travel Document
+      description: 'Records and details of specific travel documents'
+      type: object
+      properties:
+        travel_document_notes:
+          type: string
+    PatientTravelDetail:
+      x-tags:
+        - Patient
+      title: Patient Travel Details
+      description: 'Subview of Patient to track travel document progress'
+      type: object
+      properties:
+        passport_priority_notes:
+          type: string
+        passport_priority:
+          $ref: '#/components/schemas/PassportPriority'
+        travel_document_event:
+          $ref: '#/components/schemas/TravelDocumentEvent'
+        travel_document:
+          $ref: '#/components/schemas/TravelDocument'
     ProviderBase:
       x-tags:
         - Provider
