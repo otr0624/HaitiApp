@@ -1,6 +1,7 @@
 from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis, PatientProvider, \
     PatientContactDetail, PatientPhone, PatientSyndrome, PatientUrgency, PatientStatus, PatientEmail, PatientAddress, \
-    PatientTravelDetail, PassportPriority, TravelDocument, TravelDocumentEvent, TravelDocumentType
+    PatientTravelDetail, PassportPriority, TravelDocument, TravelDocumentEvent, TravelDocumentType, \
+    TravelDocumentEventType, TravelDocumentDocType
 from hca.providers.provider_model import Provider, ProviderCategory
 from hca.facilities.facility_model import Facility, FacilityCategory
 
@@ -101,7 +102,44 @@ def initialize_sample_data(db):
     tdt4 = TravelDocumentType()
     tdt4.travel_document_type = "Other"
 
-    db.session.add_all([s1, s2, s3, urg1, urg2, urg3, urg4, urg5, st1, st2, st3, st4, pp1, pp2, pp3, pp4, tdt1, tdt2, tdt3, tdt4])
+    tdet1 = TravelDocumentEventType()
+    tdet1.travel_document_event_type = "Applied"
+
+    tdet2 = TravelDocumentEventType()
+    tdet2.travel_document_event_type = "Completed"
+
+    tdet3 = TravelDocumentEventType()
+    tdet3.travel_document_event_type = "Assigned Task"
+
+    tdet4 = TravelDocumentEventType()
+    tdet4.travel_document_event_type = "Other"
+
+    tddt1 = TravelDocumentDocType()
+    tddt1.travel_document_doc_type = "Birth Certificate"
+
+    tddt2 = TravelDocumentDocType()
+    tddt2.travel_document_doc_type = "Archives Document"
+
+    tddt3 = TravelDocumentDocType()
+    tddt3.travel_document_doc_type = "Electoral Card"
+
+    tddt4 = TravelDocumentDocType()
+    tddt4.travel_document_doc_type = "Court Document"
+
+    tddt5 = TravelDocumentDocType()
+    tddt5.travel_document_doc_type = "Parental Travel Authorization"
+
+    tddt6 = TravelDocumentDocType()
+    tddt6.travel_document_doc_type = "Passport"
+
+    tddt7 = TravelDocumentDocType()
+    tddt7.travel_document_doc_type = "Visa"
+
+    tddt8 = TravelDocumentDocType()
+    tddt8.travel_document_doc_type = "Other"
+
+    db.session.add_all([s1, s2, s3, urg1, urg2, urg3, urg4, urg5, st1, st2, st3, st4, pp1, pp2, pp3, pp4, tdt1, tdt2,
+                        tdt3, tdt4, tdet1, tdet2, tdet3, tdet4, tddt1, tddt2, tddt3, tddt4, tddt5, tddt6, tddt7, tddt8])
     db.session.commit()
 
     pro1 = Provider()
