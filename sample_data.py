@@ -199,6 +199,15 @@ def initialize_sample_data(db):
 
     ptrav.travel_document.append(ptd1)
 
+    ptde1 = TravelDocumentEvent()
+    ptde1.travel_document_event_type_id = 1
+    ptde1.travel_document_doc_type_id = 3
+    ptde1.travel_document_doc_owner = "Patient"
+    ptde1.travel_document_event_owner = "A1 Paperwork Agency"
+    ptde1.travel_document_event_notes = "Expect two week turnaround"
+
+    ptrav.travel_document_event.append(ptde1)
+
     pa1 = PatientAddress()
     pa1.address_line_1 = "5 Main Street"
     pa1.address_line_2 = "Apartment 6"
@@ -227,7 +236,7 @@ def initialize_sample_data(db):
 
     pcon.patient_email.append(pe1)
 
-    db.session.add_all([pcon, ptrav, ptd1, pa1, pp1, pp2, pe1])
+    db.session.add_all([pcon, ptrav, ptd1, ptde1, pa1, pp1, pp2, pe1])
     db.session.commit()
 
     d1 = Diagnosis()
