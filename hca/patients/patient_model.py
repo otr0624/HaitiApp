@@ -174,10 +174,28 @@ class TravelDocumentEvent(db.Model):
     travel_detail_id = db.Column(db.Integer, db.ForeignKey('patient_travel_detail.id'), nullable=False)
 
 
+class TravelDocumentType(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    travel_document_type = db.Column(db.String(32))
+
+
 class TravelDocument(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     travel_document_notes = db.Column(db.Text())
+    travel_document_type_id = db.Column(db.Integer, db.ForeignKey('travel_document_type.id'))
+    travel_document_country = db.Column(db.String(32))
+    travel_document_owner = db.Column(db.String(32))
+    travel_document_last_name = db.Column(db.String(128))
+    travel_document_first_name = db.Column(db.String(128))
+    travel_document_dob = db.Column(db.Date)
+    travel_document_number = db.Column(db.String(32))
+    travel_document_issue_date = db.Column(db.Date)
+    travel_document_expiration_date = db.Column(db.Date)
+    travel_document_entries = db.Column(db.String(32))
+    travel_document_scan_saved = db.Column(db.Boolean)
     travel_detail_id = db.Column(db.Integer, db.ForeignKey('patient_travel_detail.id'), nullable=False)
+
+    travel_document_type = db.relationship('TravelDocumentType', backref='travel_document')
 
 
 class PatientTravelDetail(db.Model):

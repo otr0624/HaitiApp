@@ -1,6 +1,6 @@
 from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis, PatientProvider, \
     PatientContactDetail, PatientPhone, PatientSyndrome, PatientUrgency, PatientStatus, PatientEmail, PatientAddress, \
-    PatientTravelDetail, PassportPriority, TravelDocument, TravelDocumentEvent
+    PatientTravelDetail, PassportPriority, TravelDocument, TravelDocumentEvent, TravelDocumentType
 from hca.providers.provider_model import Provider, ProviderCategory
 from hca.facilities.facility_model import Facility, FacilityCategory
 
@@ -89,7 +89,19 @@ def initialize_sample_data(db):
     pp4 = PassportPriority()
     pp4.passport_priority = "Low"
 
-    db.session.add_all([s1, s2, s3, urg1, urg2, urg3, urg4, urg5, st1, st2, st3, st4, pp1, pp2, pp3, pp4])
+    tdt1 = TravelDocumentType()
+    tdt1.travel_document_type = "Passport"
+
+    tdt2 = TravelDocumentType()
+    tdt2.travel_document_type = "Visa (Visitor)"
+
+    tdt3 = TravelDocumentType()
+    tdt3.travel_document_type = "Visa (Transit)"
+
+    tdt4 = TravelDocumentType()
+    tdt4.travel_document_type = "Other"
+
+    db.session.add_all([s1, s2, s3, urg1, urg2, urg3, urg4, urg5, st1, st2, st3, st4, pp1, pp2, pp3, pp4, tdt1, tdt2, tdt3, tdt4])
     db.session.commit()
 
     pro1 = Provider()
@@ -140,6 +152,15 @@ def initialize_sample_data(db):
     db.session.add_all([p, pcd, pcon, ptrav])
     db.session.commit()
 
+    ptd1 = TravelDocument()
+    ptd1.travel_document_country = "USA"
+    ptd1.travel_document_type_id = 2
+    ptd1.travel_document_owner = "Patient"
+    ptd1.travel_document_number = "F1234567"
+    ptd1.travel_document_entries = "Multiple"
+
+    ptrav.travel_document.append(ptd1)
+
     pa1 = PatientAddress()
     pa1.address_line_1 = "5 Main Street"
     pa1.address_line_2 = "Apartment 6"
@@ -168,7 +189,7 @@ def initialize_sample_data(db):
 
     pcon.patient_email.append(pe1)
 
-    db.session.add_all([pcon, pa1, pp1, pp2, pe1])
+    db.session.add_all([pcon, ptrav, ptd1, pa1, pp1, pp2, pe1])
     db.session.commit()
 
     d1 = Diagnosis()

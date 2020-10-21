@@ -491,6 +491,15 @@ components:
       properties:
         travel_document_event_notes:
           type: string
+    TravelDocumentType:
+      x-tags:
+        - Travel Document
+      title: Travel Document Type
+      description: 'Table of drop-down values for travel document type choices'
+      type: object
+      properties:
+        travel_document_type:
+          type: string
     TravelDocument:
       x-tags:
         - Patient Travel
@@ -500,6 +509,34 @@ components:
       properties:
         travel_document_notes:
           type: string
+        travel_document_type:
+          $ref: '#/components/schemas/TravelDocumentType'
+        travel_document_country:
+          type: string
+        travel_document_owner:
+          type: string
+        travel_document_last_name:
+          type: string
+        travel_document_first_name:
+          type: string
+        travel_document_dob:
+          type: string
+        travel_document_number:
+          type: string
+        travel_document_issue_date:
+          description: 'Issue date in UTC YYYY-MM-DD'
+          example: '2008-05-24'
+          format: date
+          type: string
+        travel_document_expiration_date:
+          description: 'Expiration date in UTC YYYY-MM-DD'
+          example: '2008-05-24'
+          format: date
+          type: string
+        travel_document_entries:
+          type: string
+        travel_document_scan_saved:
+          type: boolean
     PatientTravelDetail:
       x-tags:
         - Patient
