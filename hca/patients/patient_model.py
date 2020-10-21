@@ -170,6 +170,11 @@ class PassportPriority(db.Model):
 
 class TravelDocumentEvent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    travel_document_event_type = db.Column(db.String(32))
+    travel_document_event_owner = db.Column(db.String(32))
+    travel_document_event_date = db.Column(db.Date)
+    travel_document_doc_type = db.Column(db.String(32))
+    travel_document_doc_owner = db.Column(db.String(32))
     travel_document_event_notes = db.Column(db.Text())
     travel_detail_id = db.Column(db.Integer, db.ForeignKey('patient_travel_detail.id'), nullable=False)
 

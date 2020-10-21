@@ -491,6 +491,16 @@ components:
       properties:
         travel_document_event_notes:
           type: string
+        travel_document_event_type:
+          type: string
+        travel_document_event_owner:
+          type: string
+        travel_document_event_date:
+          type: date
+        travel_document_doc_type:
+          type: string
+        travel_document_doc_owner:
+          type: string
     TravelDocumentType:
       x-tags:
         - Travel Document
