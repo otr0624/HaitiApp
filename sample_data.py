@@ -11,33 +11,9 @@ def initialize_sample_data(db):
     # # TESTING ON STARTUP
     # #
 
-    p = Patient()
-    p.first_name = "Mike"
-    p.last_name = "Smith"
-    db.session.add(p)
-    db.session.commit()
+    # INITIALIZATION OF ALL DROP-DOWN LIST SAMPLE VALUES
 
-    pcat1 = ProviderCategory()
-    pcat1.category_code = "CARD"
-    pcat1.category = "Cardiologist"
-
-    pcat2 = ProviderCategory()
-    pcat2.category_code = "SURG"
-    pcat2.category = "Surgeon"
-
-    db.session.add_all([pcat1, pcat2])
-    db.session.commit()
-
-    fcat1 = FacilityCategory()
-    fcat1.category_code = "SURG"
-    fcat1.category = "Surgical Center"
-
-    fcat2 = FacilityCategory()
-    fcat2.category_code = "PRIM"
-    fcat2.category = "Primary Care Clinic"
-
-    db.session.add_all([fcat1, fcat2])
-    db.session.commit()
+    # # Syndrome list
 
     s1 = PatientSyndrome()
     s1.syndrome = "Down Syndrome (T21)"
@@ -50,6 +26,8 @@ def initialize_sample_data(db):
     s3 = PatientSyndrome()
     s3.syndrome = "Noonan Syndrome"
     s3.syndrome_code = "NS"
+
+    # # Patient Urgency list
 
     urg1 = PatientUrgency()
     urg1.urgency = "ASAP"
@@ -66,6 +44,8 @@ def initialize_sample_data(db):
     urg5 = PatientUrgency()
     urg5.urgency = ">24 months"
 
+    # # Patient Status list
+
     st1 = PatientStatus()
     st1.status = "Pre-Op"
 
@@ -77,6 +57,8 @@ def initialize_sample_data(db):
 
     st4 = PatientStatus()
     st4.status = "Post-Op"
+
+    # # Passport Priority list
 
     pp1 = PassportPriority()
     pp1.passport_priority = "ASAP"
@@ -90,6 +72,8 @@ def initialize_sample_data(db):
     pp4 = PassportPriority()
     pp4.passport_priority = "Low"
 
+    # # Travel Document Type List
+
     tdt1 = TravelDocumentType()
     tdt1.travel_document_type = "Passport"
 
@@ -102,6 +86,8 @@ def initialize_sample_data(db):
     tdt4 = TravelDocumentType()
     tdt4.travel_document_type = "Other"
 
+    # # Travel Document Event Type List
+
     tdet1 = TravelDocumentEventType()
     tdet1.travel_document_event_type = "Applied"
 
@@ -113,6 +99,8 @@ def initialize_sample_data(db):
 
     tdet4 = TravelDocumentEventType()
     tdet4.travel_document_event_type = "Other"
+
+    # # Travel Document Supporting Document Type List
 
     tddt1 = TravelDocumentDocType()
     tddt1.travel_document_doc_type = "Birth Certificate"
@@ -138,9 +126,50 @@ def initialize_sample_data(db):
     tddt8 = TravelDocumentDocType()
     tddt8.travel_document_doc_type = "Other"
 
+    # # Provider Category List
+
+    pcat1 = ProviderCategory()
+    pcat1.category_code = "CARD"
+    pcat1.category = "Cardiologist"
+
+    pcat2 = ProviderCategory()
+    pcat2.category_code = "SURG"
+    pcat2.category = "Surgeon"
+
+    # # Facility Category List
+
+    fcat1 = FacilityCategory()
+    fcat1.category_code = "SURG"
+    fcat1.category = "Surgical Center"
+
+    fcat2 = FacilityCategory()
+    fcat2.category_code = "PRIM"
+    fcat2.category = "Primary Care Clinic"
+
+    # # Diagnosis List
+
+    d1 = Diagnosis()
+    d1.code = "1234"
+    d1.diagnosis = "Scraped Knee"
+
+    d2 = Diagnosis()
+    d2.code = "5678"
+    d2.diagnosis = "Runny Nose"
+
     db.session.add_all([s1, s2, s3, urg1, urg2, urg3, urg4, urg5, st1, st2, st3, st4, pp1, pp2, pp3, pp4, tdt1, tdt2,
-                        tdt3, tdt4, tdet1, tdet2, tdet3, tdet4, tddt1, tddt2, tddt3, tddt4, tddt5, tddt6, tddt7, tddt8])
+                        tdt3, tdt4, tdet1, tdet2, tdet3, tdet4, tddt1, tddt2, tddt3, tddt4, tddt5, tddt6, tddt7, tddt8,
+                        pcat1, pcat2, fcat1, fcat2, d1, d2])
     db.session.commit()
+
+    # INITIALIZATION OF PATIENT OBJECT
+
+    p = Patient()
+    p.first_name = "Mike"
+    p.last_name = "Smith"
+    db.session.add(p)
+    db.session.commit()
+
+    # INITIALIZATION OF PROVIDER OBJECTS
 
     pro1 = Provider()
     pro1.first_name = "Hannibal"
@@ -160,6 +189,8 @@ def initialize_sample_data(db):
     db.session.add(pro2)
     db.session.commit()
 
+    # INITIALIZATION OF FACILITY OBJECTS
+
     f = Facility()
     f.name = "General Hospital"
     f.facility_type = "Surgical Referral Center"
@@ -167,6 +198,8 @@ def initialize_sample_data(db):
     f.facility_category_id = 1
     db.session.add(f)
     db.session.commit()
+
+    # APPENDING OF ALL PATIENT DETAILS TO PATIENT OBJECT
 
     pcd = PatientClinicalDetail()
     pcd.patient_status_id = 2
@@ -239,14 +272,6 @@ def initialize_sample_data(db):
     db.session.add_all([pcon, ptrav, ptd1, ptde1, pa1, pp1, pp2, pe1])
     db.session.commit()
 
-    d1 = Diagnosis()
-    d1.code = "1234"
-    d1.diagnosis = "Scraped Knee"
-
-    d2 = Diagnosis()
-    d2.code = "5678"
-    d2.diagnosis = "Runny Nose"
-
     pd = PatientDiagnosis()
     pd.diagnosis = d1
     pd.patient = p
@@ -264,7 +289,7 @@ def initialize_sample_data(db):
     ppr1.patient = p
     ppr1.is_primary = True
 
-    db.session.add_all([d1, d2, pd, pd2, ppr1])
+    db.session.add_all([pd, pd2, ppr1])
     db.session.commit()
 
     patient = Patient.query.first()
