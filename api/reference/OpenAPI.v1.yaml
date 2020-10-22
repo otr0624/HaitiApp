@@ -651,7 +651,7 @@ components:
       description: 'Table of drop-down values for clinical encounter type choices'
       type: object
       properties:
-        clinical_encounter_type:
+        type:
           type: string
     ClinicalEncounter:
       x-tags:
@@ -660,15 +660,15 @@ components:
       description: 'Records and details of individual patient clinical encounters'
       type: object
       properties:
-        clinical_encounter_type:
+        type:
           $ref: '#/components/schemas/ClinicalEncounterType'
-        clinical_encounter_date:
+        date:
           type: date
-        clinical_encounter_provider:
+        provider:
           $ref: '#/components/schemas/Provider'
-        clinical_encounter_facility:
+        facility:
           $ref: '#/components/schemas/Facility'
-        clinical_encounter_notes:
+        notes:
           type: string
     PatientEncounterDetail:
       x-tags:

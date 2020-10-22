@@ -206,16 +206,16 @@ def initialize_sample_data(db):
     # # Clinical Encounter Type List
 
     cet1 = ClinicalEncounterType()
-    cet1.clinical_encounter_type = "Outpatient Cardiac"
+    cet1.type = "Outpatient Cardiac"
 
     cet2 = ClinicalEncounterType()
-    cet2.clinical_encounter_type = "Outpatient Non-Cardiac"
+    cet2.type = "Outpatient Non-Cardiac"
 
     cet3 = ClinicalEncounterType()
-    cet3.clinical_encounter_type = "Inpatient Admission"
+    cet3.type = "Inpatient Admission"
 
     cet4 = ClinicalEncounterType()
-    cet4.clinical_encounter_type = "Other"
+    cet4.type = "Other"
 
     db.session.add_all([s1, s2, s3, urg1, urg2, urg3, urg4, urg5, st1, st2, st3, st4, pp1, pp2, pp3, pp4, tdt1, tdt2,
                         tdt3, tdt4, tdet1, tdet2, tdet3, tdet4, tddt1, tddt2, tddt3, tddt4, tddt5, tddt6, tddt7, tddt8,
@@ -382,11 +382,11 @@ def initialize_sample_data(db):
     penc.surgery_encounter.append(psurg1)
 
     pclin1 = ClinicalEncounter()
-    pclin1.clinical_encounter_type_id = 1
-    pclin1.clinical_encounter_date = datetime(2020, 10, 1)
-    pclin1.clinical_encounter_facility_id = 2
-    pclin1.clinical_encounter_provider_id = 1
-    pclin1.clinical_encounter_notes = "Routine checkup"
+    pclin1.type_id = 1
+    pclin1.date = datetime(2020, 10, 1)
+    pclin1.facility_id = 2
+    pclin1.provider_id = 1
+    pclin1.notes = "Routine checkup"
 
     penc.clinical_encounter.append(pclin1)
 

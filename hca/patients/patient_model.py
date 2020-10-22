@@ -252,21 +252,21 @@ class PatientTravelDetail(db.Model):
 
 class ClinicalEncounterType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    clinical_encounter_type = db.Column(db.String(32))
+    type = db.Column(db.String(32))
 
 
 class ClinicalEncounter(db.Model):
     patient_encounter_detail_id = db.Column(db.Integer, db.ForeignKey('patient_encounter_detail.id'), primary_key=True)
-    clinical_encounter_type_id = db.Column(db.Integer, db.ForeignKey('clinical_encounter_type.id'), primary_key=True)
-    clinical_encounter_date = db.Column(db.Date)
-    clinical_encounter_provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'), primary_key=True)
-    clinical_encounter_facility_id = db.Column(db.Integer, db.ForeignKey('facility.id'), primary_key=True)
-    clinical_encounter_notes = db.Column(db.Text())
+    type_id = db.Column(db.Integer, db.ForeignKey('clinical_encounter_type.id'), primary_key=True)
+    date = db.Column(db.Date)
+    provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'), primary_key=True)
+    facility_id = db.Column(db.Integer, db.ForeignKey('facility.id'), primary_key=True)
+    notes = db.Column(db.Text())
 
     patient_encounter_detail = db.relationship('PatientEncounterDetail')
-    clinical_encounter_provider = db.relationship('Provider')
-    clinical_encounter_facility = db.relationship('Facility')
-    clinical_encounter_type = db.relationship('ClinicalEncounterType')
+    provider = db.relationship('Provider')
+    facility = db.relationship('Facility')
+    type = db.relationship('ClinicalEncounterType')
 
 
 class Surgery(db.Model):
@@ -484,9 +484,9 @@ class ClinicalEncounterTypeSchema(ma.SQLAlchemyAutoSchema):
 
 class ClinicalEncounterSchema(ma.SQLAlchemyAutoSchema):
 
-    clinical_encounter_provider = ma.Nested(ProviderSchema)
-    clinical_encounter_facility = ma.Nested(FacilitySchema)
-    clinical_encounter_type = ma.Nested(ClinicalEncounterTypeSchema)
+    provider = ma.Nested(ProviderSchema)
+    facility = ma.Nested(FacilitySchema)
+    type = ma.Nested(ClinicalEncounterTypeSchema)
 
     class Meta:
         model = ClinicalEncounter
