@@ -2,7 +2,7 @@ from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis
     PatientContactDetail, PatientPhone, PatientSyndrome, PatientUrgency, PatientStatus, PatientEmail, PatientAddress, \
     PatientTravelDetail, PassportPriority, TravelDocument, TravelDocumentEvent, TravelDocumentType, \
     TravelDocumentEventType, TravelDocumentDocType, ClinicalEncounter, ClinicalEncounterType, PatientEncounterDetail, \
-    Surgery, PatientSurgery
+    Surgery, SurgeryEncounter
 from hca.providers.provider_model import Provider, ProviderCategory
 from hca.facilities.facility_model import Facility, FacilityCategory
 from datetime import datetime
@@ -372,14 +372,14 @@ def initialize_sample_data(db):
 
     # CREATE CLINICAL OBJECTS WITHIN CLINICAL DETAIL
 
-    psurg1 = PatientSurgery()
+    psurg1 = SurgeryEncounter()
     psurg1.surgery_id = 1
     psurg1.lead_surgeon_id = 2
     psurg1.surgical_facility_id = 1
     psurg1.date = datetime(2019, 7, 3)
     psurg1.notes = "No complications reported"
 
-    penc.patient_surgery.append(psurg1)
+    penc.surgery_encounter.append(psurg1)
 
     pclin1 = ClinicalEncounter()
     pclin1.clinical_encounter_type_id = 1

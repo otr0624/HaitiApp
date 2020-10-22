@@ -276,7 +276,7 @@ class Surgery(db.Model):
     rachs_score = db.Column(db.Integer)
 
 
-class PatientSurgery(db.Model):
+class SurgeryEncounter(db.Model):
     patient_encounter_detail_id = db.Column(db.Integer, db.ForeignKey('patient_encounter_detail.id'), primary_key=True)
     surgery_id = db.Column(db.Integer, db.ForeignKey('surgery.id'), primary_key=True)
     date = db.Column(db.Date)
@@ -300,8 +300,8 @@ class PatientEncounterDetail(db.Model):
         uselist=True
     )
 
-    patient_surgery = db.relationship(
-        'PatientSurgery',
+    surgery_encounter = db.relationship(
+        'SurgeryEncounter',
         uselist=True
     )
 #
@@ -463,14 +463,14 @@ class SurgerySchema(ma.SQLAlchemyAutoSchema):
         sqla_session = db.session
 
 
-class PatientSurgerySchema(ma.SQLAlchemyAutoSchema):
+class SurgeryEncounterSchema(ma.SQLAlchemyAutoSchema):
 
     surgery = ma.Nested(SurgerySchema)
     lead_surgeon = ma.Nested(ProviderSchema)
     surgical_facility = ma.Nested(FacilitySchema)
 
     class Meta:
-        model = PatientSurgery
+        model = SurgeryEncounter
         load_instance = True
         sqla_session = db.session
 
@@ -497,7 +497,7 @@ class ClinicalEncounterSchema(ma.SQLAlchemyAutoSchema):
 class PatientEncounterDetailSchema(ma.SQLAlchemyAutoSchema):
 
     clinical_encounter = ma.Nested(ClinicalEncounterSchema, many=True)
-    patient_surgery = ma.Nested(PatientSurgerySchema, many=True)
+    surgery_encounter = ma.Nested(SurgeryEncounterSchema, many=True)
 
     class Meta:
         model = PatientEncounterDetail

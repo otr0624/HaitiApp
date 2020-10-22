@@ -592,11 +592,11 @@ components:
           $ref: '#/components/schemas/TravelDocumentEvent'
         travel_document:
           $ref: '#/components/schemas/TravelDocument'
-    PatientSurgeryBase:
+    SurgeryEncounterBase:
       x-tags:
         - Patient Encounter Details
-      title: PatientSurgery (Create)
-      description: Base PatientSurgery schema for new record creation via POST.
+      title: Surgery Encounter (Create)
+      description: Base Surgery Encounter schema for new record creation via POST.
       type: object
       properties:
         date:
@@ -609,13 +609,13 @@ components:
           $ref: '#/components/schemas/Facility'
         notes:
           type: string
-    PatientSurgery:
+    SurgeryEncounter:
       x-tags:
         - Patient Encounter Details
-      title: PatientSurgery
+      title: Surgery Encounter
       description: ''
       allOf:
-        - $ref: '#/components/schemas/PatientSurgeryBase'
+        - $ref: '#/components/schemas/SurgeryEncounterBase'
         - type: object
           properties:
             surgery:
@@ -684,7 +684,7 @@ components:
         patient_surgery:
           type: array
           items:
-            $ref: '#/components/schemas/PatientSurgery'
+            $ref: '#/components/schemas/SurgeryEncounter'
     ProviderBase:
       x-tags:
         - Provider
