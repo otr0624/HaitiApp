@@ -256,14 +256,14 @@ class ClinicalEncounterType(db.Model):
 
 
 class ClinicalEncounter(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    clinical_encounter_type_id = db.Column(db.Integer, db.ForeignKey('clinical_encounter_type.id'))
+    patient_encounter_detail_id = db.Column(db.Integer, db.ForeignKey('patient_encounter_detail.id'), primary_key=True)
+    clinical_encounter_type_id = db.Column(db.Integer, db.ForeignKey('clinical_encounter_type.id'), primary_key=True)
     clinical_encounter_date = db.Column(db.Date)
     clinical_encounter_provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'), primary_key=True)
     clinical_encounter_facility_id = db.Column(db.Integer, db.ForeignKey('facility.id'), primary_key=True)
     clinical_encounter_notes = db.Column(db.Text())
-    encounter_detail_id = db.Column(db.Integer, db.ForeignKey('patient_encounter_detail.id'), nullable=False)
 
+    patient_encounter_detail = db.relationship('PatientEncounterDetail')
     clinical_encounter_provider = db.relationship('Provider')
     clinical_encounter_facility = db.relationship('Facility')
     clinical_encounter_type = db.relationship('ClinicalEncounterType')
@@ -280,6 +280,7 @@ class PatientSurgery(db.Model):
     patient_encounter_detail_id = db.Column(db.Integer, db.ForeignKey('patient_encounter_detail.id'), primary_key=True)
     surgery_id = db.Column(db.Integer, db.ForeignKey('surgery.id'), primary_key=True)
     surgery_date = db.Column(db.Date)
+    in_network_surgery = db.Column(db.Boolean, default=True)
     lead_surgeon_id = db.Column(db.Integer, db.ForeignKey('provider.id'), primary_key=True)
     surgical_facility_id = db.Column(db.Integer, db.ForeignKey('facility.id'), primary_key=True)
     surgery_notes = db.Column(db.Text)
@@ -296,14 +297,12 @@ class PatientEncounterDetail(db.Model):
 
     clinical_encounter = db.relationship(
         'ClinicalEncounter',
-        uselist=True,
-        backref="patient_encounter_detail"
+        uselist=True
     )
 
     patient_surgery = db.relationship(
         'PatientSurgery',
-        uselist=True,
-        # backref="patient_encounter_detail"
+        uselist=True
     )
 #
 # The 'Schema' definitions have to come after the SQL Alchemy Model definitions
@@ -493,13 +492,12 @@ class ClinicalEncounterSchema(ma.SQLAlchemyAutoSchema):
         model = ClinicalEncounter
         load_instance = True
         sqla_session = db.session
-        exclude = ('id', )
 
 
 class PatientEncounterDetailSchema(ma.SQLAlchemyAutoSchema):
 
-    clinical_encounter = ma.Nested(ClinicalEncounterSchema)
-    surgery = ma.Nested(PatientSurgerySchema)
+    clinical_encounter = ma.Nested(ClinicalEncounterSchema, many=True)
+    patient_surgery = ma.Nested(PatientSurgerySchema, many=True)
 
     class Meta:
         model = PatientEncounterDetail
@@ -514,6 +512,7 @@ class PatientSchema(ma.SQLAlchemyAutoSchema):
     clinical_details = ma.Nested(PatientClinicalDetailSchema)
     contact_details = ma.Nested(PatientContactDetailSchema)
     travel_details = ma.Nested(PatientTravelDetailSchema)
+    encounter_details = ma.Nested(PatientEncounterDetailSchema)
     provider = ma.Nested(PatientProviderSchema, many=True)
 
     class Meta:

@@ -601,6 +601,8 @@ components:
       properties:
         surgery_date:
           type: date
+        in_network_surgery:
+          type: boolean
         lead_surgeon:
           $ref: '#/components/schemas/Provider'
         surgical_facility:

@@ -381,16 +381,16 @@ def initialize_sample_data(db):
 
     penc.patient_surgery.append(psurg1)
 
-    # pclin1 = ClinicalEncounter()
-    # pclin1.clinical_encounter_type_id = 1
-    # pclin1.clinical_encounter_date = datetime(2020, 10, 1)
-    # pclin1.clinical_encounter_facility_id = 2
-    # pclin1.clinical_encounter_provider_id = 1
-    # pclin1.clinical_encounter_notes = "Routine checkup"
-    #
-    # penc.clinical_encounter.append(pclin1)
+    pclin1 = ClinicalEncounter()
+    pclin1.clinical_encounter_type_id = 1
+    pclin1.clinical_encounter_date = datetime(2020, 10, 1)
+    pclin1.clinical_encounter_facility_id = 2
+    pclin1.clinical_encounter_provider_id = 1
+    pclin1.clinical_encounter_notes = "Routine checkup"
 
-    db.session.add_all([penc, psurg1]) #pclin1
+    penc.clinical_encounter.append(pclin1)
+
+    db.session.add_all([penc, psurg1, pclin1])
     db.session.commit()
 
     # CREATE DIAGNOSIS OBJECTS WITHIN DIAGNOSIS ARRAY
