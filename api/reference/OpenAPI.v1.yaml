@@ -428,15 +428,15 @@ components:
       properties:
         phone_number:
           type: string
-        phone_owner:
+        owner:
           type: string
-        phone_is_primary:
+        is_primary:
           type: boolean
-        phone_is_active:
+        is_active:
           type: boolean
-        phone_has_whatsapp:
+        has_whatsapp:
           type: boolean
-        phone_notes:
+        notes:
           type: string
     PatientEmail:
       x-tags:

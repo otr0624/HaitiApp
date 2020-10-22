@@ -159,11 +159,11 @@ class PatientAddress(db.Model):
 class PatientPhone(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     phone_number = db.Column(db.String(32), nullable=False)
-    phone_owner = db.Column(db.String(32))
-    phone_is_primary = db.Column(db.Boolean)
-    phone_is_active = db.Column(db.Boolean, default=True)
-    phone_has_whatsapp = db.Column(db.Boolean)
-    phone_notes = db.Column(db.String(128))
+    owner = db.Column(db.String(32))
+    is_primary = db.Column(db.Boolean)
+    is_active = db.Column(db.Boolean, default=True)
+    has_whatsapp = db.Column(db.Boolean)
+    notes = db.Column(db.String(128))
     contact_detail_id = db.Column(db.Integer, db.ForeignKey('patient_contact_detail.id'), nullable=False)
 
 

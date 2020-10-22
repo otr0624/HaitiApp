@@ -306,17 +306,17 @@ def initialize_sample_data(db):
 
     pp1 = PatientPhone()
     pp1.phone_number = "4432 5413"
-    pp1.phone_owner = "Mother"
-    pp1.phone_is_primary = True
-    pp1.phone_has_whatsapp = False
-    pp1.phone_notes = "Only answers in evenings"
+    pp1.owner = "Mother"
+    pp1.is_primary = True
+    pp1.has_whatsapp = False
+    pp1.notes = "Only answers in evenings"
 
     pp2 = PatientPhone()
     pp2.phone_number = "3545 4567"
-    pp2.phone_owner = "Grandmother"
-    pp2.phone_is_primary = False
-    pp2.phone_has_whatsapp = True
-    pp2.phone_notes = "Lives next town over"
+    pp2.owner = "Grandmother"
+    pp2.is_primary = False
+    pp2.has_whatsapp = True
+    pp2.notes = "Lives next town over"
 
     pcon.patient_phone.extend([pp1, pp2])
 
