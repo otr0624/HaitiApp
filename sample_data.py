@@ -1,9 +1,11 @@
 from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis, PatientProvider, \
     PatientContactDetail, PatientPhone, PatientSyndrome, PatientUrgency, PatientStatus, PatientEmail, PatientAddress, \
     PatientTravelDetail, PassportPriority, TravelDocument, TravelDocumentEvent, TravelDocumentType, \
-    TravelDocumentEventType, TravelDocumentDocType, ClinicalEncounterType
+    TravelDocumentEventType, TravelDocumentDocType, ClinicalEncounter, ClinicalEncounterType, PatientEncounterDetail, \
+    Surgery, PatientSurgery
 from hca.providers.provider_model import Provider, ProviderCategory
 from hca.facilities.facility_model import Facility, FacilityCategory
+from datetime import datetime
 
 
 def initialize_sample_data(db):
@@ -126,6 +128,23 @@ def initialize_sample_data(db):
     tddt8 = TravelDocumentDocType()
     tddt8.travel_document_doc_type = "Other"
 
+    # # Surgery Type List
+
+    surg1 = Surgery()
+    surg1.code = "3.4"
+    surg1.rachs_score = 3
+    surg1.surgery_name = "Ventriculomyotomy"
+
+    surg2 = Surgery()
+    surg2.code = "3.5"
+    surg2.rachs_score = 3
+    surg2.surgery_name = "Aortoplasty"
+
+    surg3 = Surgery()
+    surg3.code = "3.6"
+    surg3.rachs_score = 3
+    surg3.surgery_name = "Mitral valvuloplasty or replacement"
+
     # # Provider Category List
 
     pcat1 = ProviderCategory()
@@ -200,7 +219,7 @@ def initialize_sample_data(db):
 
     db.session.add_all([s1, s2, s3, urg1, urg2, urg3, urg4, urg5, st1, st2, st3, st4, pp1, pp2, pp3, pp4, tdt1, tdt2,
                         tdt3, tdt4, tdet1, tdet2, tdet3, tdet4, tddt1, tddt2, tddt3, tddt4, tddt5, tddt6, tddt7, tddt8,
-                        pcat1, pcat2, fcat1, fcat2, d1, d2, d3, d4, cet1, cet2, cet3, cet4])
+                        pcat1, pcat2, fcat1, fcat2, d1, d2, d3, d4, cet1, cet2, cet3, cet4, surg1, surg2, surg3])
     db.session.commit()
 
     # INITIALIZATION OF PATIENT OBJECT
@@ -208,6 +227,9 @@ def initialize_sample_data(db):
     p = Patient()
     p.first_name = "Mike"
     p.last_name = "Smith"
+    p.date_of_birth = datetime(2004, 4, 8)
+    p.is_date_of_birth_estimate = False
+    p.sex = "M"
     db.session.add(p)
     db.session.commit()
 
@@ -219,8 +241,6 @@ def initialize_sample_data(db):
     pro1.provider_category_id = 1
     pro1.facility_id = 1
     pro1.notes = "Not presently accepting new patients."
-    db.session.add(pro1)
-    db.session.commit()
 
     pro2 = Provider()
     pro2.first_name = "Joe"
@@ -228,20 +248,24 @@ def initialize_sample_data(db):
     pro2.provider_category_id = 2
     pro2.facility_id = 1
     pro2.notes = "Also does caths."
-    db.session.add(pro2)
+    db.session.add_all([pro1, pro2])
     db.session.commit()
 
     # INITIALIZATION OF FACILITY OBJECTS
 
-    f = Facility()
-    f.name = "General Hospital"
-    f.facility_type = "Surgical Referral Center"
-    f.notes = "This hospital is too expensive."
-    f.facility_category_id = 1
-    db.session.add(f)
+    f1 = Facility()
+    f1.name = "General Hospital"
+    f1.notes = "This hospital is too expensive."
+    f1.facility_category_id = 1
+
+    f2 = Facility()
+    f2.name = "Smalltown Clinic"
+    f2.notes = "Basic services only."
+    f2.facility_category_id = 2
+    db.session.add_all([f1, f2])
     db.session.commit()
 
-    # APPENDING OF ALL PATIENT DETAILS TO PATIENT OBJECT
+    # INITIALIZATION OF PATIENT DATA COLLECTION SUB-TABLES FOR SAMPLE PATIENT
 
     pcd = PatientClinicalDetail()
     pcd.patient_status_id = 2
@@ -262,26 +286,14 @@ def initialize_sample_data(db):
 
     p.travel_details = ptrav
 
-    db.session.add_all([p, pcd, pcon, ptrav])
+    penc = PatientEncounterDetail()
+
+    p.encounter_details = penc
+
+    db.session.add_all([p, pcd, pcon, ptrav, penc])
     db.session.commit()
 
-    ptd1 = TravelDocument()
-    ptd1.travel_document_country = "USA"
-    ptd1.travel_document_type_id = 2
-    ptd1.travel_document_owner = "Patient"
-    ptd1.travel_document_number = "F1234567"
-    ptd1.travel_document_entries = "Multiple"
-
-    ptrav.travel_document.append(ptd1)
-
-    ptde1 = TravelDocumentEvent()
-    ptde1.travel_document_event_type_id = 1
-    ptde1.travel_document_doc_type_id = 3
-    ptde1.travel_document_doc_owner = "Patient"
-    ptde1.travel_document_event_owner = "A1 Paperwork Agency"
-    ptde1.travel_document_event_notes = "Expect two week turnaround"
-
-    ptrav.travel_document_event.append(ptde1)
+    # CREATE CONTACT OBJECTS WITHIN CONTACT DETAIL
 
     pa1 = PatientAddress()
     pa1.address_line_1 = "5 Main Street"
@@ -295,11 +307,15 @@ def initialize_sample_data(db):
     pp1 = PatientPhone()
     pp1.phone_number = "4432 5413"
     pp1.phone_owner = "Mother"
+    pp1.phone_is_primary = True
+    pp1.phone_has_whatsapp = False
     pp1.phone_notes = "Only answers in evenings"
 
     pp2 = PatientPhone()
     pp2.phone_number = "3545 4567"
     pp2.phone_owner = "Grandmother"
+    pp2.phone_is_primary = False
+    pp2.phone_has_whatsapp = True
     pp2.phone_notes = "Lives next town over"
 
     pcon.patient_phone.extend([pp1, pp2])
@@ -311,14 +327,79 @@ def initialize_sample_data(db):
 
     pcon.patient_email.append(pe1)
 
-    db.session.add_all([pcon, ptrav, ptd1, ptde1, pa1, pp1, pp2, pe1])
+    db.session.add_all([p, pcon, pa1, pp1, pp2, pe1])
     db.session.commit()
 
-    pd = PatientDiagnosis()
-    pd.diagnosis = d1
-    pd.patient = p
-    pd.is_primary = True
-    pd.is_suspected = False
+    # CREATE TRAVEL OBJECTS WITHIN TRAVEL DETAIL
+
+    ptd1 = TravelDocument()
+    ptd1.travel_document_country = "USA"
+    ptd1.travel_document_type_id = 2
+    ptd1.travel_document_owner = "Patient"
+    ptd1.travel_document_number = "F1234567"
+    ptd1.travel_document_entries = "Multiple"
+    ptd1.travel_document_issue_date = datetime(2020, 5, 5)
+    ptd1.travel_document_expiration_date = datetime(2025, 5, 4)
+
+    ptd2 = TravelDocument()
+    ptd2.travel_document_country = "Haiti"
+    ptd2.travel_document_type_id = 1
+    ptd2.travel_document_owner = "Mother"
+    ptd2.travel_document_number = "512345267"
+    ptd2.travel_document_issue_date = datetime(2017, 1, 3)
+    ptd2.travel_document_expiration_date = datetime(2027, 1, 2)
+
+    ptrav.travel_document.extend([ptd1, ptd2])
+
+    ptde1 = TravelDocumentEvent()
+    ptde1.travel_document_event_type_id = 1
+    ptde1.travel_document_doc_type_id = 3
+    ptde1.travel_document_doc_owner = "Patient"
+    ptde1.travel_document_event_owner = "A1 Paperwork Agency"
+    ptde1.travel_document_event_notes = "Expect two week turnaround"
+
+    ptde2 = TravelDocumentEvent()
+    ptde2.travel_document_event_type_id = 2
+    ptde2.travel_document_doc_type_id = 2
+    ptde2.travel_document_doc_owner = "Father"
+    ptde2.travel_document_event_owner = "National Archives Office"
+    ptde2.travel_document_event_notes = "Father will notify when done"
+
+    ptrav.travel_document_event.extend([ptde1, ptde2])
+
+    db.session.add_all([p, ptrav, ptd1, ptd2, ptde1, ptde2])
+    db.session.commit()
+
+    # CREATE CLINICAL OBJECTS WITHIN CLINICAL DETAIL
+
+    psurg1 = PatientSurgery()
+    psurg1.surgery_id = 1
+    psurg1.lead_surgeon_id = 2
+    psurg1.surgical_facility_id = 1
+    psurg1.surgery_date = datetime(2019, 7, 3)
+    psurg1.surgery_notes = "No complications reported"
+
+    penc.patient_surgery.append(psurg1)
+
+    # pclin1 = ClinicalEncounter()
+    # pclin1.clinical_encounter_type_id = 1
+    # pclin1.clinical_encounter_date = datetime(2020, 10, 1)
+    # pclin1.clinical_encounter_facility_id = 2
+    # pclin1.clinical_encounter_provider_id = 1
+    # pclin1.clinical_encounter_notes = "Routine checkup"
+    #
+    # penc.clinical_encounter.append(pclin1)
+
+    db.session.add_all([penc, psurg1]) #pclin1
+    db.session.commit()
+
+    # CREATE DIAGNOSIS OBJECTS WITHIN DIAGNOSIS ARRAY
+
+    pd1 = PatientDiagnosis()
+    pd1.diagnosis = d1
+    pd1.patient = p
+    pd1.is_primary = True
+    pd1.is_suspected = False
 
     pd2 = PatientDiagnosis()
     pd2.diagnosis = d2
@@ -326,13 +407,21 @@ def initialize_sample_data(db):
     pd2.is_primary = False
     pd2.is_suspected = True
 
+    db.session.add_all([pd1, pd2])
+    db.session.commit()
+
+    # CREATE PROVIDER RELATIONSHIPS
+
     ppr1 = PatientProvider()
     ppr1.provider_id = 1
     ppr1.patient = p
     ppr1.is_primary = True
 
-    db.session.add_all([pd, pd2, ppr1])
+    ppr2 = PatientProvider()
+    ppr2.provider_id = 2
+    ppr2.patient = p
+    ppr2.is_primary = False
+
+    db.session.add_all([ppr1, ppr2])
     db.session.commit()
 
-    patient = Patient.query.first()
-    print(patient.diagnosis)

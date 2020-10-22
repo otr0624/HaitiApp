@@ -299,6 +299,12 @@ class PatientEncounterDetail(db.Model):
         uselist=True,
         backref="patient_encounter_detail"
     )
+
+    patient_surgery = db.relationship(
+        'PatientSurgery',
+        uselist=True,
+        # backref="patient_encounter_detail"
+    )
 #
 # The 'Schema' definitions have to come after the SQL Alchemy Model definitions
 #

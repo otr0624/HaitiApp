@@ -346,6 +346,8 @@ components:
               $ref: '#/components/schemas/PatientClinicalDetails'
             contact_details:
               $ref: '#/components/schemas/PatientContactDetail'
+            encounter_details:
+              $ref: '#/components/schemas/PatientEncounterDetail'
     PatientDiagnosisBase:
       x-tags:
         - Patient
@@ -677,7 +679,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ClinicalEncounter'
-
+        patient_surgery:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatientSurgery'
     ProviderBase:
       x-tags:
         - Provider
