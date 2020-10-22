@@ -279,11 +279,11 @@ class Surgery(db.Model):
 class PatientSurgery(db.Model):
     patient_encounter_detail_id = db.Column(db.Integer, db.ForeignKey('patient_encounter_detail.id'), primary_key=True)
     surgery_id = db.Column(db.Integer, db.ForeignKey('surgery.id'), primary_key=True)
-    surgery_date = db.Column(db.Date)
-    in_network_surgery = db.Column(db.Boolean, default=True)
+    date = db.Column(db.Date)
+    in_network = db.Column(db.Boolean, default=True)
     lead_surgeon_id = db.Column(db.Integer, db.ForeignKey('provider.id'), primary_key=True)
     surgical_facility_id = db.Column(db.Integer, db.ForeignKey('facility.id'), primary_key=True)
-    surgery_notes = db.Column(db.Text)
+    notes = db.Column(db.Text)
 
     patient_encounter_detail = db.relationship('PatientEncounterDetail')
     surgery = db.relationship('Surgery')

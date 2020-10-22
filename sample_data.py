@@ -376,8 +376,8 @@ def initialize_sample_data(db):
     psurg1.surgery_id = 1
     psurg1.lead_surgeon_id = 2
     psurg1.surgical_facility_id = 1
-    psurg1.surgery_date = datetime(2019, 7, 3)
-    psurg1.surgery_notes = "No complications reported"
+    psurg1.date = datetime(2019, 7, 3)
+    psurg1.notes = "No complications reported"
 
     penc.patient_surgery.append(psurg1)
 

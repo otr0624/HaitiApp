@@ -599,15 +599,15 @@ components:
       description: Base PatientSurgery schema for new record creation via POST.
       type: object
       properties:
-        surgery_date:
+        date:
           type: date
-        in_network_surgery:
+        in_network:
           type: boolean
         lead_surgeon:
           $ref: '#/components/schemas/Provider'
         surgical_facility:
           $ref: '#/components/schemas/Facility'
-        surgery_notes:
+        notes:
           type: string
     PatientSurgery:
       x-tags:
@@ -618,7 +618,7 @@ components:
         - $ref: '#/components/schemas/PatientSurgeryBase'
         - type: object
           properties:
-            diagnosis:
+            surgery:
               $ref: '#/components/schemas/Surgery'
     SurgeryBase:
       x-tags:
