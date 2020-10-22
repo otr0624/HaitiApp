@@ -590,9 +590,9 @@ components:
         surgery_date:
           type: date
         lead_surgeon:
-          type: string
+          $ref: '#/components/schemas/Provider'
         surgical_facility:
-          type: string
+          $ref: '#/components/schemas/Facility'
         surgery_notes:
           type: string
     PatientSurgery:
@@ -642,9 +642,9 @@ components:
         clinical_encounter_date:
           type: date
         clinical_encounter_provider:
-          type: string
+          $ref: '#/components/schemas/Provider'
         clinical_encounter_facility:
-          type: string
+          $ref: '#/components/schemas/Facility'
         clinical_encounter_notes:
           type: string
     PatientEncounterDetail:

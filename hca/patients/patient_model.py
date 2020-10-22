@@ -1,5 +1,6 @@
 from database import db, ma
 from hca.providers.provider_model import Provider, ProviderSchema
+from hca.facilities.facility_model import Facility, FacilitySchema
 import uuid
 
 
@@ -248,10 +249,13 @@ class ClinicalEncounter(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     clinical_encounter_type = db.Column(db.String(32))
     clinical_encounter_date = db.Column(db.Date)
-    clinical_encounter_provider = db.Column(db.String(128))
-    clinical_encounter_facility = db.Column(db.String(128))
+    clinical_encounter_provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'), primary_key=True)
+    clinical_encounter_facility_id = db.Column(db.Integer, db.ForeignKey('facility.id'), primary_key=True)
     clinical_encounter_notes = db.Column(db.Text())
     encounter_detail_id = db.Column(db.Integer, db.ForeignKey('patient_encounter_detail.id'), nullable=False)
+
+    clinical_encounter_provider = db.relationship('Provider')
+    clinical_encounter_facility = db.relationship('Facility')
 
 
 class Surgery(db.Model):
@@ -265,12 +269,14 @@ class PatientSurgery(db.Model):
     patient_encounter_detail_id = db.Column(db.Integer, db.ForeignKey('patient_encounter_detail.id'), primary_key=True)
     surgery_id = db.Column(db.Integer, db.ForeignKey('surgery.id'), primary_key=True)
     surgery_date = db.Column(db.Date)
-    lead_surgeon = db.Column(db.String(128))
-    surgical_facility = db.Column(db.String(128))
+    lead_surgeon_id = db.Column(db.Integer, db.ForeignKey('provider.id'), primary_key=True)
+    surgical_facility_id = db.Column(db.Integer, db.ForeignKey('facility.id'), primary_key=True)
     surgery_notes = db.Column(db.Text)
 
     patient_encounter_detail = db.relationship('PatientEncounterDetail')
     surgery = db.relationship('Surgery')
+    lead_surgeon = db.relationship('Provider')
+    surgical_facility = db.relationship('Facility')
 
 
 class PatientEncounterDetail(db.Model):
@@ -444,6 +450,8 @@ class SurgerySchema(ma.SQLAlchemyAutoSchema):
 class PatientSurgerySchema(ma.SQLAlchemyAutoSchema):
 
     surgery = ma.Nested(SurgerySchema)
+    lead_surgeon = ma.Nested(ProviderSchema)
+    surgical_facility = ma.Nested(FacilitySchema)
 
     class Meta:
         model = PatientSurgery
@@ -452,6 +460,9 @@ class PatientSurgerySchema(ma.SQLAlchemyAutoSchema):
 
 
 class ClinicalEncounterSchema(ma.SQLAlchemyAutoSchema):
+
+    clinical_encounter_provider = ma.Nested(ProviderSchema)
+    clinical_encounter_facility = ma.Nested(FacilitySchema)
 
     class Meta:
         model = ClinicalEncounter
