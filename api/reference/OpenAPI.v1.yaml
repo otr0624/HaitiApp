@@ -547,35 +547,35 @@ components:
       description: 'Records and details of specific travel documents'
       type: object
       properties:
-        travel_document_notes:
+        notes:
           type: string
-        travel_document_type:
+        document_type:
           $ref: '#/components/schemas/TravelDocumentType'
-        travel_document_country:
+        country:
           type: string
-        travel_document_owner:
+        owner:
           type: string
-        travel_document_last_name:
+        last_name:
           type: string
-        travel_document_first_name:
+        first_name:
           type: string
-        travel_document_dob:
+        date_of_birth:
           type: string
-        travel_document_number:
+        document_number:
           type: string
-        travel_document_issue_date:
+        issue_date:
           description: 'Issue date in UTC YYYY-MM-DD'
           example: '2008-05-24'
           format: date
           type: string
-        travel_document_expiration_date:
+        expiration_date:
           description: 'Expiration date in UTC YYYY-MM-DD'
           example: '2008-05-24'
           format: date
           type: string
-        travel_document_entries:
+        entries_allowed:
           type: string
-        travel_document_scan_saved:
+        scan_saved:
           type: boolean
     PatientTravelDetail:
       x-tags:

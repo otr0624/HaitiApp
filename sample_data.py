@@ -77,16 +77,16 @@ def initialize_sample_data(db):
     # # Travel Document Type List
 
     tdt1 = TravelDocumentType()
-    tdt1.travel_document_type = "Passport"
+    tdt1.document_type = "Passport"
 
     tdt2 = TravelDocumentType()
-    tdt2.travel_document_type = "Visa (Visitor)"
+    tdt2.document_type = "Visa (Visitor)"
 
     tdt3 = TravelDocumentType()
-    tdt3.travel_document_type = "Visa (Transit)"
+    tdt3.document_type = "Visa (Transit)"
 
     tdt4 = TravelDocumentType()
-    tdt4.travel_document_type = "Other"
+    tdt4.document_type = "Other"
 
     # # Travel Document Event Type List
 
@@ -333,21 +333,21 @@ def initialize_sample_data(db):
     # CREATE TRAVEL OBJECTS WITHIN TRAVEL DETAIL
 
     ptd1 = TravelDocument()
-    ptd1.travel_document_country = "USA"
-    ptd1.travel_document_type_id = 2
-    ptd1.travel_document_owner = "Patient"
-    ptd1.travel_document_number = "F1234567"
-    ptd1.travel_document_entries = "Multiple"
-    ptd1.travel_document_issue_date = datetime(2020, 5, 5)
-    ptd1.travel_document_expiration_date = datetime(2025, 5, 4)
+    ptd1.country = "USA"
+    ptd1.type_id = 2
+    ptd1.owner = "Patient"
+    ptd1.document_number = "F1234567"
+    ptd1.entries_allowed = "Multiple"
+    ptd1.issue_date = datetime(2020, 5, 5)
+    ptd1.expiration_date = datetime(2025, 5, 4)
 
     ptd2 = TravelDocument()
-    ptd2.travel_document_country = "Haiti"
-    ptd2.travel_document_type_id = 1
-    ptd2.travel_document_owner = "Mother"
-    ptd2.travel_document_number = "512345267"
-    ptd2.travel_document_issue_date = datetime(2017, 1, 3)
-    ptd2.travel_document_expiration_date = datetime(2027, 1, 2)
+    ptd2.country = "Haiti"
+    ptd2.type_id = 1
+    ptd2.owner = "Mother"
+    ptd2.document_number = "512345267"
+    ptd2.issue_date = datetime(2017, 1, 3)
+    ptd2.expiration_date = datetime(2027, 1, 2)
 
     ptrav.travel_document.extend([ptd1, ptd2])
 
