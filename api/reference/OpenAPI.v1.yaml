@@ -377,9 +377,19 @@ components:
       description: Base Diagnosis schema for new record creation via POST.
       type: object
       properties:
-        code:
+        icd_cat_code:
           type: string
-        diagnosis:
+        icd_cat_name:
+          type: string
+        icd_subcat_code:
+          type: string
+        icd_subcat_name:
+          type: string
+        icd_dx_code:
+          type: string
+        icd_dx_name:
+          type: string
+        icd_dx_short_name:
           type: string
     Diagnosis:
       x-tags:
@@ -630,6 +640,15 @@ components:
           properties:
             id:
               type: integer
+    ClinicalEncounterType:
+      x-tags:
+        - Clinical Encounter
+      title: Clinical Encounter Type
+      description: 'Table of drop-down values for clinical encounter type choices'
+      type: object
+      properties:
+        clinical_encounter_type:
+          type: string
     ClinicalEncounter:
       x-tags:
         - Patient Encounter Details
@@ -638,7 +657,7 @@ components:
       type: object
       properties:
         clinical_encounter_type:
-          type: string
+          $ref: '#/components/schemas/ClinicalEncounterType'
         clinical_encounter_date:
           type: date
         clinical_encounter_provider:

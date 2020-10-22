@@ -1,7 +1,7 @@
 from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis, PatientProvider, \
     PatientContactDetail, PatientPhone, PatientSyndrome, PatientUrgency, PatientStatus, PatientEmail, PatientAddress, \
     PatientTravelDetail, PassportPriority, TravelDocument, TravelDocumentEvent, TravelDocumentType, \
-    TravelDocumentEventType, TravelDocumentDocType
+    TravelDocumentEventType, TravelDocumentDocType, ClinicalEncounterType
 from hca.providers.provider_model import Provider, ProviderCategory
 from hca.facilities.facility_model import Facility, FacilityCategory
 
@@ -149,16 +149,58 @@ def initialize_sample_data(db):
     # # Diagnosis List
 
     d1 = Diagnosis()
-    d1.code = "1234"
-    d1.diagnosis = "Scraped Knee"
+    d1.icd_cat_code = "Q"
+    d1.icd_cat_name = "Congenital malformations, deformations and chromosomal abnormalities"
+    d1.icd_subcat_code = "Q21"
+    d1.icd_subcat_name = "Congenital malformations of the circulatory system › Congenital malformations of the cardiac septa"
+    d1.icd_dx_code = "0"
+    d1.icd_dx_name = "Ventricular septal defect"
+    d1.icd_dx_short_name = "VSD"
 
     d2 = Diagnosis()
-    d2.code = "5678"
-    d2.diagnosis = "Runny Nose"
+    d2.icd_cat_code = "Q"
+    d2.icd_cat_name = "Congenital malformations, deformations and chromosomal abnormalities"
+    d2.icd_subcat_code = "Q21"
+    d2.icd_subcat_name = "Congenital malformations of the circulatory system › Congenital malformations of the cardiac septa"
+    d2.icd_dx_code = "1"
+    d2.icd_dx_name = "Atrial septal defect"
+    d2.icd_dx_short_name = "ASD"
+
+    d3 = Diagnosis()
+    d3.icd_cat_code = "Q"
+    d3.icd_cat_name = "Congenital malformations, deformations and chromosomal abnormalities"
+    d3.icd_subcat_code = "Q21"
+    d3.icd_subcat_name = "Congenital malformations of the circulatory system › Congenital malformations of the cardiac septa"
+    d3.icd_dx_code = "2"
+    d3.icd_dx_name = "Atrioventricular septal defect"
+    d3.icd_dx_short_name = "AVSD"
+
+    d4 = Diagnosis()
+    d4.icd_cat_code = "Q"
+    d4.icd_cat_name = "Congenital malformations, deformations and chromosomal abnormalities"
+    d4.icd_subcat_code = "Q21"
+    d4.icd_subcat_name = "Congenital malformations of the circulatory system › Congenital malformations of the cardiac septa"
+    d4.icd_dx_code = "2"
+    d4.icd_dx_name = "Tetralogy of Fallot"
+    d4.icd_dx_short_name = "TOF"
+
+    # # Clinical Encounter Type List
+
+    cet1 = ClinicalEncounterType()
+    cet1.clinical_encounter_type = "Outpatient Cardiac"
+
+    cet2 = ClinicalEncounterType()
+    cet2.clinical_encounter_type = "Outpatient Non-Cardiac"
+
+    cet3 = ClinicalEncounterType()
+    cet3.clinical_encounter_type = "Inpatient Admission"
+
+    cet4 = ClinicalEncounterType()
+    cet4.clinical_encounter_type = "Other"
 
     db.session.add_all([s1, s2, s3, urg1, urg2, urg3, urg4, urg5, st1, st2, st3, st4, pp1, pp2, pp3, pp4, tdt1, tdt2,
                         tdt3, tdt4, tdet1, tdet2, tdet3, tdet4, tddt1, tddt2, tddt3, tddt4, tddt5, tddt6, tddt7, tddt8,
-                        pcat1, pcat2, fcat1, fcat2, d1, d2])
+                        pcat1, pcat2, fcat1, fcat2, d1, d2, d3, d4, cet1, cet2, cet3, cet4])
     db.session.commit()
 
     # INITIALIZATION OF PATIENT OBJECT

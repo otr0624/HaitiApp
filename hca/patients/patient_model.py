@@ -116,8 +116,13 @@ class PatientStatus(db.Model):
 
 class Diagnosis(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    code = db.Column(db.String(32), nullable=False)
-    diagnosis = db.Column(db.Text)
+    icd_cat_code = db.Column(db.String(8))
+    icd_cat_name = db.Column(db.String(128))
+    icd_subcat_code = db.Column(db.String(8))
+    icd_subcat_name = db.Column(db.String(128))
+    icd_dx_code = db.Column(db.String(8))
+    icd_dx_name = db.Column(db.String(128))
+    icd_dx_short_name = db.Column(db.String(32))
 
 
 class PatientContactDetail(db.Model):
@@ -245,9 +250,14 @@ class PatientTravelDetail(db.Model):
     )
 
 
-class ClinicalEncounter(db.Model):
+class ClinicalEncounterType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     clinical_encounter_type = db.Column(db.String(32))
+
+
+class ClinicalEncounter(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    clinical_encounter_type_id = db.Column(db.Integer, db.ForeignKey('clinical_encounter_type.id'))
     clinical_encounter_date = db.Column(db.Date)
     clinical_encounter_provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'), primary_key=True)
     clinical_encounter_facility_id = db.Column(db.Integer, db.ForeignKey('facility.id'), primary_key=True)
@@ -256,6 +266,7 @@ class ClinicalEncounter(db.Model):
 
     clinical_encounter_provider = db.relationship('Provider')
     clinical_encounter_facility = db.relationship('Facility')
+    clinical_encounter_type = db.relationship('ClinicalEncounterType')
 
 
 class Surgery(db.Model):
@@ -397,14 +408,14 @@ class PassportPrioritySchema(ma.SQLAlchemyAutoSchema):
 
 class TravelDocumentEventTypeSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        model = PassportPriority
+        model = TravelDocumentEventType
         load_instance = True
         sqla_session = db.session
 
 
 class TravelDocumentDocTypeSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        model = PassportPriority
+        model = TravelDocumentDocType
         load_instance = True
         sqla_session = db.session
 
@@ -459,10 +470,18 @@ class PatientSurgerySchema(ma.SQLAlchemyAutoSchema):
         sqla_session = db.session
 
 
+class ClinicalEncounterTypeSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = ClinicalEncounterType
+        load_instance = True
+        sqla_session = db.session
+
+
 class ClinicalEncounterSchema(ma.SQLAlchemyAutoSchema):
 
     clinical_encounter_provider = ma.Nested(ProviderSchema)
     clinical_encounter_facility = ma.Nested(FacilitySchema)
+    clinical_encounter_type = ma.Nested(ClinicalEncounterTypeSchema)
 
     class Meta:
         model = ClinicalEncounter
