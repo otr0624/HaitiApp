@@ -150,10 +150,10 @@ class PatientAddress(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     address_line_1 = db.Column(db.String(128))
     address_line_2 = db.Column(db.String(128))
-    address_city = db.Column(db.String(32))
-    address_state_or_dept = db.Column(db.String(32))
-    address_country = db.Column(db.String(32), default="Haiti")
-    address_notes = db.Column(db.Text())
+    city = db.Column(db.String(32))
+    state_or_dept = db.Column(db.String(32))
+    country = db.Column(db.String(32), default="Haiti")
+    notes = db.Column(db.Text())
 
 
 class PatientPhone(db.Model):

@@ -298,9 +298,9 @@ def initialize_sample_data(db):
     pa1 = PatientAddress()
     pa1.address_line_1 = "5 Main Street"
     pa1.address_line_2 = "Apartment 6"
-    pa1.address_city = "Petionville"
-    pa1.address_state_or_dept = "Ouest"
-    pa1.address_notes = "Big blue house on corner"
+    pa1.city = "Petionville"
+    pa1.state_or_dept = "Ouest"
+    pa1.notes = "Big blue house on corner"
 
     pcon.patient_address = pa1
 

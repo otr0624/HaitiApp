@@ -462,13 +462,13 @@ components:
           type: string
         address_line_2:
           type: string
-        address_city:
+        city:
           type: string
-        address_state_or_dept:
+        state_or_dept:
           type: string
-        address_country:
+        country:
           type: string
-        address_notes:
+        notes:
           type: string
     PatientContactDetail:
       x-tags:
