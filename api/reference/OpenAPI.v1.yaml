@@ -445,11 +445,11 @@ components:
       description: 'Email addresses and associated details for each contact card'
       type: object
       properties:
-        email:
+        email_address:
           type: string
-        email_owner:
+        owner:
           type: string
-        email_notes:
+        notes:
           type: string
     PatientAddress:
       x-tags:

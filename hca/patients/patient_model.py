@@ -169,9 +169,9 @@ class PatientPhone(db.Model):
 
 class PatientEmail(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(32), nullable=False)
-    email_owner = db.Column(db.String(32))
-    email_notes = db.Column(db.String(128))
+    email_address = db.Column(db.String(32), nullable=False)
+    owner = db.Column(db.String(32))
+    notes = db.Column(db.String(128))
     contact_detail_id = db.Column(db.Integer, db.ForeignKey('patient_contact_detail.id'), nullable=False)
 
 

@@ -321,9 +321,9 @@ def initialize_sample_data(db):
     pcon.patient_phone.extend([pp1, pp2])
 
     pe1 = PatientEmail()
-    pe1.email = "fake@email.com"
-    pe1.email_owner = "US Advocate"
-    pe1.email_notes = "Only email if patient unreachable by phone"
+    pe1.email_address = "fake@email.com"
+    pe1.owner = "US Advocate"
+    pe1.notes = "Only email if patient unreachable by phone"
 
     pcon.patient_email.append(pe1)
 
