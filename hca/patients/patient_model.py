@@ -183,26 +183,26 @@ class PassportPriority(db.Model):
 # This class includes a list of intermediate documents (birth certs, etc) not directly used for travel
 class TravelDocumentDocType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    travel_document_doc_type = db.Column(db.String(32))
+    doc_type = db.Column(db.String(32))
 
 
 class TravelDocumentEventType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    travel_document_event_type = db.Column(db.String(32))
+    event_type = db.Column(db.String(32))
 
 
 class TravelDocumentEvent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    travel_document_event_type_id = db.Column(db.Integer, db.ForeignKey('travel_document_event_type.id'))
-    travel_document_event_owner = db.Column(db.String(32))
-    travel_document_event_date = db.Column(db.Date)
-    travel_document_doc_type_id = db.Column(db.Integer, db.ForeignKey('travel_document_doc_type.id'))
-    travel_document_doc_owner = db.Column(db.String(32))
-    travel_document_event_notes = db.Column(db.Text())
+    event_type_id = db.Column(db.Integer, db.ForeignKey('travel_document_event_type.id'))
+    task_owner = db.Column(db.String(32))
+    event_date = db.Column(db.Date)
+    doc_type_id = db.Column(db.Integer, db.ForeignKey('travel_document_doc_type.id'))
+    doc_owner = db.Column(db.String(32))
+    notes = db.Column(db.Text())
     travel_detail_id = db.Column(db.Integer, db.ForeignKey('patient_travel_detail.id'), nullable=False)
 
-    travel_document_event_type = db.relationship('TravelDocumentEventType', backref='travel_document_event')
-    travel_document_doc_type = db.relationship('TravelDocumentDocType', backref='travel_document_event')
+    event_type = db.relationship('TravelDocumentEventType', backref='travel_document_event')
+    doc_type = db.relationship('TravelDocumentDocType', backref='travel_document_event')
 
 
 class TravelDocumentType(db.Model):
@@ -427,8 +427,8 @@ class TravelDocumentDocTypeSchema(ma.SQLAlchemyAutoSchema):
 
 class TravelDocumentEventSchema(ma.SQLAlchemyAutoSchema):
 
-    travel_document_event_type = ma.Nested(TravelDocumentEventTypeSchema)
-    travel_document_doc_type = ma.Nested(TravelDocumentDocTypeSchema)
+    event_type = ma.Nested(TravelDocumentEventTypeSchema)
+    doc_type = ma.Nested(TravelDocumentDocTypeSchema)
 
     class Meta:
         model = TravelDocumentEvent
@@ -436,7 +436,17 @@ class TravelDocumentEventSchema(ma.SQLAlchemyAutoSchema):
         sqla_session = db.session
 
 
+class TravelDocumentTypeSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = TravelDocumentDocType
+        load_instance = True
+        sqla_session = db.session
+
+
 class TravelDocumentSchema(ma.SQLAlchemyAutoSchema):
+
+    travel_document_type = ma.Nested(TravelDocumentTypeSchema)
+
     class Meta:
         model = TravelDocument
         load_instance = True

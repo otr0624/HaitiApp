@@ -91,42 +91,42 @@ def initialize_sample_data(db):
     # # Travel Document Event Type List
 
     tdet1 = TravelDocumentEventType()
-    tdet1.travel_document_event_type = "Applied"
+    tdet1.event_type = "Applied"
 
     tdet2 = TravelDocumentEventType()
-    tdet2.travel_document_event_type = "Completed"
+    tdet2.event_type = "Completed"
 
     tdet3 = TravelDocumentEventType()
-    tdet3.travel_document_event_type = "Assigned Task"
+    tdet3.event_type = "Assigned Task"
 
     tdet4 = TravelDocumentEventType()
-    tdet4.travel_document_event_type = "Other"
+    tdet4.event_type = "Other"
 
     # # Travel Document Supporting Document Type List
 
     tddt1 = TravelDocumentDocType()
-    tddt1.travel_document_doc_type = "Birth Certificate"
+    tddt1.doc_type = "Birth Certificate"
 
     tddt2 = TravelDocumentDocType()
-    tddt2.travel_document_doc_type = "Archives Document"
+    tddt2.doc_type = "Archives Document"
 
     tddt3 = TravelDocumentDocType()
-    tddt3.travel_document_doc_type = "Electoral Card"
+    tddt3.doc_type = "Electoral Card"
 
     tddt4 = TravelDocumentDocType()
-    tddt4.travel_document_doc_type = "Court Document"
+    tddt4.doc_type = "Court Document"
 
     tddt5 = TravelDocumentDocType()
-    tddt5.travel_document_doc_type = "Parental Travel Authorization"
+    tddt5.doc_type = "Parental Travel Authorization"
 
     tddt6 = TravelDocumentDocType()
-    tddt6.travel_document_doc_type = "Passport"
+    tddt6.doc_type = "Passport"
 
     tddt7 = TravelDocumentDocType()
-    tddt7.travel_document_doc_type = "Visa"
+    tddt7.doc_type = "Visa"
 
     tddt8 = TravelDocumentDocType()
-    tddt8.travel_document_doc_type = "Other"
+    tddt8.doc_type = "Other"
 
     # # Surgery Type List
 
@@ -352,18 +352,18 @@ def initialize_sample_data(db):
     ptrav.travel_document.extend([ptd1, ptd2])
 
     ptde1 = TravelDocumentEvent()
-    ptde1.travel_document_event_type_id = 1
-    ptde1.travel_document_doc_type_id = 3
-    ptde1.travel_document_doc_owner = "Patient"
-    ptde1.travel_document_event_owner = "A1 Paperwork Agency"
-    ptde1.travel_document_event_notes = "Expect two week turnaround"
+    ptde1.event_type_id = 1
+    ptde1.doc_type_id = 3
+    ptde1.doc_owner = "Patient"
+    ptde1.task_owner = "A1 Paperwork Agency"
+    ptde1.notes = "Expect two week turnaround"
 
     ptde2 = TravelDocumentEvent()
-    ptde2.travel_document_event_type_id = 2
-    ptde2.travel_document_doc_type_id = 2
-    ptde2.travel_document_doc_owner = "Father"
-    ptde2.travel_document_event_owner = "National Archives Office"
-    ptde2.travel_document_event_notes = "Father will notify when done"
+    ptde2.event_type_id = 2
+    ptde2.doc_type_id = 2
+    ptde2.doc_owner = "Father"
+    ptde2.task_owner = "National Archives Office"
+    ptde2.notes = "Father will notify when done"
 
     ptrav.travel_document_event.extend([ptde1, ptde2])
 

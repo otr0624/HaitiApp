@@ -501,7 +501,7 @@ components:
       description: 'Table of drop-down values for travel document event type choices'
       type: object
       properties:
-        travel_document_event_type:
+        event_type:
           type: string
     TravelDocumentDocType:
       x-tags:
@@ -510,7 +510,7 @@ components:
       description: 'Table of drop-down values for travel document choices, including intermediate documents'
       type: object
       properties:
-        travel_document_doc_type:
+        doc_type:
           type: string
     TravelDocumentEvent:
       x-tags:
@@ -519,17 +519,17 @@ components:
       description: 'Records of individual transactions related to travel documents'
       type: object
       properties:
-        travel_document_event_notes:
+        notes:
           type: string
-        travel_document_event_type:
+        event_type:
           $ref: '#/components/schemas/TravelDocumentEventType'
-        travel_document_event_owner:
+        task_owner:
           type: string
-        travel_document_event_date:
+        event_date:
           type: date
-        travel_document_doc_type:
+        doc_type:
           $ref: '#/components/schemas/TravelDocumentDocType'
-        travel_document_doc_owner:
+        doc_owner:
           type: string
     TravelDocumentType:
       x-tags:
