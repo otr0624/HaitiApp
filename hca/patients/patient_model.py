@@ -250,6 +250,14 @@ class PatientTravelDetail(db.Model):
     )
 
 
+class SocialEncounter(db.Model):
+    patient_encounter_detail_id = db.Column(db.Integer, db.ForeignKey('patient_encounter_detail.id'), primary_key=True)
+    date = db.Column(db.Date)
+    notes = db.Column(db.Text())
+
+    patient_encounter_detail = db.relationship('PatientEncounterDetail')
+
+
 class ClinicalEncounterType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(32))
@@ -302,6 +310,11 @@ class PatientEncounterDetail(db.Model):
 
     surgery_encounter = db.relationship(
         'SurgeryEncounter',
+        uselist=True
+    )
+
+    social_encounter = db.relationship(
+        'SocialEncounter',
         uselist=True
     )
 #
@@ -485,6 +498,14 @@ class SurgeryEncounterSchema(ma.SQLAlchemyAutoSchema):
         sqla_session = db.session
 
 
+class SocialEncounterSchema(ma.SQLAlchemyAutoSchema):
+
+    class Meta:
+        model = SocialEncounter
+        load_instance = True
+        sqla_session = db.session
+
+
 class ClinicalEncounterTypeSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = ClinicalEncounterType
@@ -508,6 +529,7 @@ class PatientEncounterDetailSchema(ma.SQLAlchemyAutoSchema):
 
     clinical_encounter = ma.Nested(ClinicalEncounterSchema, many=True)
     surgery_encounter = ma.Nested(SurgeryEncounterSchema, many=True)
+    social_encounter = ma.Nested(SocialEncounterSchema, many=True)
 
     class Meta:
         model = PatientEncounterDetail

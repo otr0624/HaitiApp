@@ -670,6 +670,17 @@ components:
           $ref: '#/components/schemas/Facility'
         notes:
           type: string
+    SocialEncounter:
+      x-tags:
+        - Patient Encounter Details
+      title: Social Encounter
+      description: 'Records and details of individual patient social encounters'
+      type: object
+      properties:
+        date:
+          type: date
+        notes:
+          type: string
     PatientEncounterDetail:
       x-tags:
         - Patient
@@ -681,10 +692,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ClinicalEncounter'
-        patient_surgery:
+        surgery_encounter:
           type: array
           items:
             $ref: '#/components/schemas/SurgeryEncounter'
+        social_encounter:
+          type: array
+          items:
+            $ref: '#/components/schemas/SocialEncounter'
     ProviderBase:
       x-tags:
         - Provider
