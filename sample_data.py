@@ -1,8 +1,8 @@
 from hca.patients.patient_model import Patient, Diagnosis, PatientDiagnosis, PatientProvider, \
     PatientPhone, PatientSyndrome, PatientUrgency, PatientStatus, PatientEmail, PatientAddress, \
     PatientTravelDetail, PassportPriority, TravelDocument, TravelDocumentEvent, TravelDocumentType, \
-    TravelDocumentEventType, TravelDocumentDocType, ClinicalEncounter, ClinicalEncounterType, PatientEncounterDetail, \
-    Surgery, SurgeryEncounter
+    TravelDocumentEventType, TravelDocumentDocType, ClinicalEncounter, ClinicalEncounterType, \
+    Surgery, SurgeryEncounter, SocialEncounter
 from hca.providers.provider_model import Provider, ProviderCategory
 from hca.facilities.facility_model import Facility, FacilityCategory
 from datetime import datetime
@@ -280,11 +280,11 @@ def initialize_sample_data(db):
 
     p.travel_details = ptrav
 
-    penc = PatientEncounterDetail()
+    # penc = PatientEncounterDetail()
+    #
+    # p.encounter_details = penc
 
-    p.encounter_details = penc
-
-    db.session.add_all([p, ptrav, penc])
+    db.session.add_all([p, ptrav])
     db.session.commit()
 
     # CREATE CONTACT OBJECTS WITHIN CONTACT DETAIL
@@ -366,26 +366,26 @@ def initialize_sample_data(db):
 
     # CREATE CLINICAL OBJECTS WITHIN CLINICAL DETAIL
 
-    psurg1 = SurgeryEncounter()
-    psurg1.surgery_id = 1
-    psurg1.lead_surgeon_id = 2
-    psurg1.surgical_facility_id = 1
-    psurg1.date = datetime(2019, 7, 3)
-    psurg1.notes = "No complications reported"
-
-    penc.surgery_encounter.append(psurg1)
-
-    pclin1 = ClinicalEncounter()
-    pclin1.type_id = 1
-    pclin1.date = datetime(2020, 10, 1)
-    pclin1.facility_id = 2
-    pclin1.provider_id = 1
-    pclin1.notes = "Routine checkup"
-
-    penc.clinical_encounter.append(pclin1)
-
-    db.session.add_all([penc, psurg1, pclin1])
-    db.session.commit()
+    # psurg1 = SurgeryEncounter()
+    # psurg1.surgery_id = 1
+    # psurg1.lead_surgeon_id = 2
+    # psurg1.surgical_facility_id = 1
+    # psurg1.date = datetime(2019, 7, 3)
+    # psurg1.notes = "No complications reported"
+    #
+    # p.surgery_encounter.append(psurg1)
+    #
+    # pclin1 = ClinicalEncounter()
+    # pclin1.type_id = 1
+    # pclin1.date = datetime(2020, 10, 1)
+    # pclin1.facility_id = 2
+    # pclin1.provider_id = 1
+    # pclin1.notes = "Routine checkup"
+    #
+    # p.clinical_encounter.append(pclin1)
+    #
+    # db.session.add_all([psurg1, pclin1])
+    # db.session.commit()
 
     # CREATE DIAGNOSIS OBJECTS WITHIN DIAGNOSIS ARRAY
 

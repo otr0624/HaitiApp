@@ -9,7 +9,7 @@ from hca.patients.submodels.travel_detail_model import PassportPriority, TravelD
     TravelDocumentEventType, TravelDocumentEvent, TravelDocumentType, TravelDocument, PatientTravelDetail, \
     PatientTravelDetailSchema
 from hca.patients.submodels.encounter_detail_model import SocialEncounter, ClinicalEncounterType, ClinicalEncounter, \
-    Surgery, SurgeryEncounter, PatientEncounterDetail, PatientEncounterDetailSchema
+    Surgery, SurgeryEncounter, ClinicalEncounterSchema, SurgeryEncounterSchema, SocialEncounterSchema
 import uuid
 
 
@@ -67,12 +67,6 @@ class Patient(db.Model):
         backref='patient'
         )
 
-    encounter_details = db.relationship(
-        'PatientEncounterDetail',
-        uselist=False,
-        backref='patient'
-        )
-
     diagnosis = db.relationship(
         'PatientDiagnosis',
         primaryjoin=id == PatientDiagnosis.patient_id,
@@ -98,6 +92,21 @@ class Patient(db.Model):
         uselist=True,
         backref="patient"
         )
+
+    clinical_encounter = db.relationship(
+        'ClinicalEncounter',
+        uselist=True
+    )
+
+    surgery_encounter = db.relationship(
+        'SurgeryEncounter',
+        uselist=True
+    )
+
+    social_encounter = db.relationship(
+        'SocialEncounter',
+        uselist=True
+    )
 
     syndrome = db.relationship('PatientSyndrome', backref='patient')
     status = db.relationship('PatientStatus', backref='patient')
@@ -151,7 +160,6 @@ class PatientSchema(ma.SQLAlchemyAutoSchema):
 
     diagnosis = ma.Nested(PatientDiagnosisSchema, many=True)
     travel_details = ma.Nested(PatientTravelDetailSchema)
-    encounter_details = ma.Nested(PatientEncounterDetailSchema)
     provider = ma.Nested(PatientProviderSchema, many=True)
     syndrome = ma.Nested(PatientSyndromeSchema)
     urgency = ma.Nested(PatientUrgencySchema)
@@ -159,6 +167,9 @@ class PatientSchema(ma.SQLAlchemyAutoSchema):
     patient_address = ma.Nested(PatientAddressSchema)
     patient_phone = ma.Nested(PatientPhoneSchema, many=True)
     patient_email = ma.Nested(PatientEmailSchema, many=True)
+    clinical_encounter = ma.Nested(ClinicalEncounterSchema, many=True)
+    surgery_encounter = ma.Nested(SurgeryEncounterSchema, many=True)
+    social_encounter = ma.Nested(SocialEncounterSchema, many=True)
 
     class Meta:
         model = Patient
