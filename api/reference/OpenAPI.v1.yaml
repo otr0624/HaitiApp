@@ -342,12 +342,52 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/PatientDiagnosis'
-            clinical_details:
-              $ref: '#/components/schemas/PatientClinicalDetails'
-            contact_details:
-              $ref: '#/components/schemas/PatientContactDetail'
-            encounter_details:
-              $ref: '#/components/schemas/PatientEncounterDetail'
+            syndrome_notes:
+              type: string
+            patient_contact_notes:
+              type: string
+            provider:
+              type: array
+              items:
+                $ref: '#/components/schemas/Provider'
+            patient_phone:
+              type: array
+              items:
+                $ref: '#/components/schemas/PatientPhone'
+            patient_email:
+              type: array
+              items:
+                $ref: '#/components/schemas/PatientEmail'
+            clinical_encounter:
+              type: array
+              items:
+                $ref: '#/components/schemas/ClinicalEncounter'
+            surgery_encounter:
+              type: array
+              items:
+                $ref: '#/components/schemas/SurgeryEncounter'
+            social_encounter:
+              type: array
+              items:
+                $ref: '#/components/schemas/SocialEncounter'
+            travel_document_event:
+              type: array
+              items:
+                $ref: '#/components/schemas/TravelDocumentEvent'
+            travel_document:
+              type: array
+              items:
+                $ref: '#/components/schemas/TravelDocument'
+            syndrome:
+              $ref: '#/components/schemas/PatientSyndrome'
+            status:
+              $ref: '#/components/schemas/PatientStatus'
+            urgency:
+              $ref: '#/components/schemas/PatientUrgency'
+            patient_address:
+              $ref: '#/components/schemas/PatientAddress'
+            passport_priority:
+              $ref: '#/components/schemas/PassportPriority'
     PatientDiagnosisBase:
       x-tags:
         - Patient
@@ -404,21 +444,6 @@ components:
           properties:
             id:
               type: integer
-    PatientClinicalDetails:
-      x-tags:
-        - Patient
-      title: Patient Clinical Details
-      description: 'Subview of Patient to describe details of clinical status and history'
-      type: object
-      properties:
-        status:
-          type: integer
-        urgency:
-          type: integer
-        syndrome:
-          type: integer
-        syndrome_notes:
-          type: string
     PatientPhone:
       x-tags:
         - Patient Contact
@@ -470,21 +495,6 @@ components:
           type: string
         notes:
           type: string
-    PatientContactDetail:
-      x-tags:
-        - Patient
-      title: Patient Contact Details
-      description: 'Subview of Patient to describe contact details'
-      type: object
-      properties:
-        patient_contact_notes:
-          type: string
-        patient_address:
-          $ref: '#/components/schemas/PatientAddress'
-        patient_phone:
-          $ref: '#/components/schemas/PatientPhone'
-        patient_email:
-          $ref: '#/components/schemas/PatientEmail'
     PassportPriority:
       x-tags:
         - Patient Travel
@@ -514,7 +524,7 @@ components:
           type: string
     TravelDocumentEvent:
       x-tags:
-        - Patient Travel
+        - Patient
       title: Travel Document Event
       description: 'Records of individual transactions related to travel documents'
       type: object
@@ -542,7 +552,7 @@ components:
           type: string
     TravelDocument:
       x-tags:
-        - Patient Travel
+        - Patient
       title: Travel Document
       description: 'Records and details of specific travel documents'
       type: object
@@ -577,24 +587,38 @@ components:
           type: string
         scan_saved:
           type: boolean
-    PatientTravelDetail:
+    PatientSyndrome:
       x-tags:
         - Patient
-      title: Patient Travel Details
-      description: 'Subview of Patient to track travel document progress'
+      title: Patient Syndrome
+      description: 'Optional syndrome associated with each patient'
       type: object
       properties:
-        passport_priority_notes:
+        syndrome:
           type: string
-        passport_priority:
-          $ref: '#/components/schemas/PassportPriority'
-        travel_document_event:
-          $ref: '#/components/schemas/TravelDocumentEvent'
-        travel_document:
-          $ref: '#/components/schemas/TravelDocument'
+        syndrome_code:
+          type: string
+    PatientUrgency:
+      x-tags:
+        - Patient
+      title: Patient Syndrome
+      description: 'Optional syndrome associated with each patient'
+      type: object
+      properties:
+        urgency:
+          type: string
+    PatientStatus:
+      x-tags:
+        - Patient
+      title: Patient Syndrome
+      description: 'Optional syndrome associated with each patient'
+      type: object
+      properties:
+        status:
+          type: string
     SurgeryEncounterBase:
       x-tags:
-        - Patient Encounter Details
+        - Patient
       title: Surgery Encounter (Create)
       description: Base Surgery Encounter schema for new record creation via POST.
       type: object
@@ -611,7 +635,7 @@ components:
           type: string
     SurgeryEncounter:
       x-tags:
-        - Patient Encounter Details
+        - Patient
       title: Surgery Encounter
       description: ''
       allOf:
@@ -622,7 +646,7 @@ components:
               $ref: '#/components/schemas/Surgery'
     SurgeryBase:
       x-tags:
-        - Patient Encounter Details
+        - Patient
       title: Surgery (Create)
       description: Base Surgery schema for new record creation via POST.
       type: object
@@ -635,7 +659,7 @@ components:
           type: integer
     Surgery:
       x-tags:
-        - Patient Encounter Details
+        - Patient
       title: Surgery
       description: ''
       allOf:
@@ -655,7 +679,7 @@ components:
           type: string
     ClinicalEncounter:
       x-tags:
-        - Patient Encounter Details
+        - Patient
       title: Clinical Encounter
       description: 'Records and details of individual patient clinical encounters'
       type: object
@@ -672,7 +696,7 @@ components:
           type: string
     SocialEncounter:
       x-tags:
-        - Patient Encounter Details
+        - Patient
       title: Social Encounter
       description: 'Records and details of individual patient social encounters'
       type: object
@@ -681,25 +705,6 @@ components:
           type: date
         notes:
           type: string
-    PatientEncounterDetail:
-      x-tags:
-        - Patient
-      title: Patient Encounter Details
-      description: 'Subview of Patient to track individual patient encounters'
-      type: object
-      properties:
-        clinical_encounter:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClinicalEncounter'
-        surgery_encounter:
-          type: array
-          items:
-            $ref: '#/components/schemas/SurgeryEncounter'
-        social_encounter:
-          type: array
-          items:
-            $ref: '#/components/schemas/SocialEncounter'
     ProviderBase:
       x-tags:
         - Provider

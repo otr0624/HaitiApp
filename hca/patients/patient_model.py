@@ -91,17 +91,20 @@ class Patient(db.Model):
 
     clinical_encounter = db.relationship(
         'ClinicalEncounter',
-        uselist=True
+        uselist=True,
+        backref="patient"
     )
 
     surgery_encounter = db.relationship(
         'SurgeryEncounter',
-        uselist=True
+        uselist=True,
+        backref="patient"
     )
 
     social_encounter = db.relationship(
         'SocialEncounter',
-        uselist=True
+        uselist=True,
+        backref="patient"
     )
 
     travel_document_event = db.relationship(
