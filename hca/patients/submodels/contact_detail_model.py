@@ -1,27 +1,6 @@
 from database import db, ma
 
 
-class PatientContactDetail(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    patient_address_id = db.Column(db.Integer, db.ForeignKey('patient_address.id'))
-    patient_contact_notes = db.Column(db.Text())
-    patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
-
-    patient_address = db.relationship('PatientAddress', backref='patient_contact_detail')
-
-    patient_phone = db.relationship(
-        'PatientPhone',
-        uselist=True,
-        backref='patient_contact_details'
-        )
-
-    patient_email = db.relationship(
-        'PatientEmail',
-        uselist=True,
-        backref="patient_contact_details"
-        )
-
-
 class PatientAddress(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     address_line_1 = db.Column(db.String(128))
@@ -40,7 +19,7 @@ class PatientPhone(db.Model):
     is_active = db.Column(db.Boolean, default=True)
     has_whatsapp = db.Column(db.Boolean)
     notes = db.Column(db.String(128))
-    contact_detail_id = db.Column(db.Integer, db.ForeignKey('patient_contact_detail.id'), nullable=False)
+    patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
 
 
 class PatientEmail(db.Model):
@@ -48,7 +27,7 @@ class PatientEmail(db.Model):
     email_address = db.Column(db.String(32), nullable=False)
     owner = db.Column(db.String(32))
     notes = db.Column(db.String(128))
-    contact_detail_id = db.Column(db.Integer, db.ForeignKey('patient_contact_detail.id'), nullable=False)
+    patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
 
 
 class PatientAddressSchema(ma.SQLAlchemyAutoSchema):
@@ -70,16 +49,3 @@ class PatientEmailSchema(ma.SQLAlchemyAutoSchema):
         model = PatientEmail
         load_instance = True
         sqla_session = db.session
-
-
-class PatientContactDetailSchema(ma.SQLAlchemyAutoSchema):
-
-    patient_phone = ma.Nested(PatientPhoneSchema, many=True)
-    patient_email = ma.Nested(PatientEmailSchema, many=True)
-    patient_address = ma.Nested(PatientAddressSchema)
-
-    class Meta:
-        model = PatientContactDetail
-        load_instance = True
-        sqla_session = db.session
-        exclude = ('id', )

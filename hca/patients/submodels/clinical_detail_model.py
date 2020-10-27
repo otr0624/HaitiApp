@@ -1,19 +1,6 @@
 from database import db, ma
 
 
-class PatientClinicalDetail(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    patient_status_id = db.Column(db.Integer, db.ForeignKey('patient_status.id'))
-    patient_urgency_id = db.Column(db.Integer, db.ForeignKey('patient_urgency.id'))
-    patient_syndrome_id = db.Column(db.Integer, db.ForeignKey('patient_syndrome.id'))
-    syndrome_notes = db.Column(db.Text)
-    patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
-
-    syndrome = db.relationship('PatientSyndrome', backref='patient_clinical_detail')
-    urgency = db.relationship('PatientUrgency', backref='patient_clinical_detail')
-    status = db.relationship('PatientStatus', backref='patient_clinical_detail')
-
-
 class PatientSyndrome(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     syndrome = db.Column(db.String(32))
@@ -49,16 +36,3 @@ class PatientStatusSchema(ma.SQLAlchemyAutoSchema):
         model = PatientStatus
         load_instance = True
         sqla_session = db.session
-
-
-class PatientClinicalDetailSchema(ma.SQLAlchemyAutoSchema):
-
-    syndrome = ma.Nested(PatientSyndromeSchema)
-    urgency = ma.Nested(PatientUrgencySchema)
-    status = ma.Nested(PatientStatusSchema)
-
-    class Meta:
-        model = PatientClinicalDetail
-        load_instance = True
-        sqla_session = db.session
-        exclude = ('id', )

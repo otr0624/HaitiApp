@@ -1,5 +1,5 @@
-from hca.patients.patient_model import Patient, PatientClinicalDetail, Diagnosis, PatientDiagnosis, PatientProvider, \
-    PatientContactDetail, PatientPhone, PatientSyndrome, PatientUrgency, PatientStatus, PatientEmail, PatientAddress, \
+from hca.patients.patient_model import Patient, Diagnosis, PatientDiagnosis, PatientProvider, \
+    PatientPhone, PatientSyndrome, PatientUrgency, PatientStatus, PatientEmail, PatientAddress, \
     PatientTravelDetail, PassportPriority, TravelDocument, TravelDocumentEvent, TravelDocumentType, \
     TravelDocumentEventType, TravelDocumentDocType, ClinicalEncounter, ClinicalEncounterType, PatientEncounterDetail, \
     Surgery, SurgeryEncounter
@@ -267,18 +267,12 @@ def initialize_sample_data(db):
 
     # INITIALIZATION OF PATIENT DATA COLLECTION SUB-TABLES FOR SAMPLE PATIENT
 
-    pcd = PatientClinicalDetail()
-    pcd.patient_status_id = 2
-    pcd.patient_syndrome_id = 1
-    pcd.patient_urgency_id = 2
-    pcd.syndrome_notes = "These are the notes"
+    p.patient_syndrome_id = 1
+    p.syndrome_notes = "These are the syndrome notes"
+    p.patient_status_id = 2
+    p.patient_urgency_id = 2
 
-    p.clinical_details = pcd
-
-    pcon = PatientContactDetail()
-    pcon.patient_contact_notes = "This patient usually needs multiple reminders to go to appointments"
-
-    p.contact_details = pcon
+    p.patient_contact_notes = "This patient usually needs multiple reminders to go to appointments"
 
     ptrav = PatientTravelDetail()
     ptrav.passport_priority_notes = "The patient's family can get their own passports"
@@ -290,7 +284,7 @@ def initialize_sample_data(db):
 
     p.encounter_details = penc
 
-    db.session.add_all([p, pcd, pcon, ptrav, penc])
+    db.session.add_all([p, ptrav, penc])
     db.session.commit()
 
     # CREATE CONTACT OBJECTS WITHIN CONTACT DETAIL
@@ -302,7 +296,7 @@ def initialize_sample_data(db):
     pa1.state_or_dept = "Ouest"
     pa1.notes = "Big blue house on corner"
 
-    pcon.patient_address = pa1
+    p.patient_address = pa1
 
     pp1 = PatientPhone()
     pp1.phone_number = "4432 5413"
@@ -318,16 +312,16 @@ def initialize_sample_data(db):
     pp2.has_whatsapp = True
     pp2.notes = "Lives next town over"
 
-    pcon.patient_phone.extend([pp1, pp2])
+    p.patient_phone.extend([pp1, pp2])
 
     pe1 = PatientEmail()
     pe1.email_address = "fake@email.com"
     pe1.owner = "US Advocate"
     pe1.notes = "Only email if patient unreachable by phone"
 
-    pcon.patient_email.append(pe1)
+    p.patient_email.append(pe1)
 
-    db.session.add_all([p, pcon, pa1, pp1, pp2, pe1])
+    db.session.add_all([p, pa1, pp1, pp2, pe1])
     db.session.commit()
 
     # CREATE TRAVEL OBJECTS WITHIN TRAVEL DETAIL

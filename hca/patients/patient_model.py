@@ -1,10 +1,10 @@
 from database import db, ma
 from hca.providers.provider_model import Provider, ProviderSchema
 from hca.facilities.facility_model import Facility, FacilitySchema
-from hca.patients.submodels.clinical_detail_model import PatientClinicalDetail, PatientSyndrome, PatientUrgency, \
-    PatientStatus, PatientClinicalDetailSchema
-from hca.patients.submodels.contact_detail_model import PatientContactDetail, PatientPhone, PatientAddress, \
-    PatientEmail, PatientContactDetailSchema
+from hca.patients.submodels.clinical_detail_model import PatientSyndrome, PatientUrgency, \
+    PatientStatus, PatientSyndromeSchema, PatientStatusSchema, PatientUrgencySchema
+from hca.patients.submodels.contact_detail_model import PatientPhone, PatientAddress, \
+    PatientEmail, PatientAddressSchema, PatientPhoneSchema, PatientEmailSchema
 from hca.patients.submodels.travel_detail_model import PassportPriority, TravelDocumentDocType, \
     TravelDocumentEventType, TravelDocumentEvent, TravelDocumentType, TravelDocument, PatientTravelDetail, \
     PatientTravelDetailSchema
@@ -54,18 +54,12 @@ class Patient(db.Model):
     is_date_of_birth_estimate = db.Column(db.Boolean)
     date_of_death = db.Column(db.Date)
     sex = db.Column(db.String(16))
-
-    clinical_details = db.relationship(
-        'PatientClinicalDetail',
-        uselist=False,
-        backref='patient'
-        )
-
-    contact_details = db.relationship(
-        'PatientContactDetail',
-        uselist=False,
-        backref='patient'
-        )
+    patient_syndrome_id = db.Column(db.Integer, db.ForeignKey('patient_syndrome.id'))
+    syndrome_notes = db.Column(db.Text)
+    patient_status_id = db.Column(db.Integer, db.ForeignKey('patient_status.id'))
+    patient_urgency_id = db.Column(db.Integer, db.ForeignKey('patient_urgency.id'))
+    patient_address_id = db.Column(db.Integer, db.ForeignKey('patient_address.id'))
+    patient_contact_notes = db.Column(db.Text())
 
     travel_details = db.relationship(
         'PatientTravelDetail',
@@ -92,6 +86,23 @@ class Patient(db.Model):
         lazy='joined',
         viewonly=True
         )
+
+    patient_phone = db.relationship(
+        'PatientPhone',
+        uselist=True,
+        backref='patient'
+        )
+
+    patient_email = db.relationship(
+        'PatientEmail',
+        uselist=True,
+        backref="patient"
+        )
+
+    syndrome = db.relationship('PatientSyndrome', backref='patient')
+    status = db.relationship('PatientStatus', backref='patient')
+    urgency = db.relationship('PatientUrgency', backref='patient')
+    patient_address = db.relationship('PatientAddress', backref='patient')
 
 
 class Diagnosis(db.Model):
@@ -139,11 +150,15 @@ class PatientProviderSchema(ma.SQLAlchemyAutoSchema):
 class PatientSchema(ma.SQLAlchemyAutoSchema):
 
     diagnosis = ma.Nested(PatientDiagnosisSchema, many=True)
-    clinical_details = ma.Nested(PatientClinicalDetailSchema)
-    contact_details = ma.Nested(PatientContactDetailSchema)
     travel_details = ma.Nested(PatientTravelDetailSchema)
     encounter_details = ma.Nested(PatientEncounterDetailSchema)
     provider = ma.Nested(PatientProviderSchema, many=True)
+    syndrome = ma.Nested(PatientSyndromeSchema)
+    urgency = ma.Nested(PatientUrgencySchema)
+    status = ma.Nested(PatientStatusSchema)
+    patient_address = ma.Nested(PatientAddressSchema)
+    patient_phone = ma.Nested(PatientPhoneSchema, many=True)
+    patient_email = ma.Nested(PatientEmailSchema, many=True)
 
     class Meta:
         model = Patient
