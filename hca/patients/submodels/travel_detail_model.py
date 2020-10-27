@@ -25,7 +25,7 @@ class TravelDocumentEvent(db.Model):
     doc_type_id = db.Column(db.Integer, db.ForeignKey('travel_document_doc_type.id'))
     doc_owner = db.Column(db.String(32))
     notes = db.Column(db.Text())
-    travel_detail_id = db.Column(db.Integer, db.ForeignKey('patient_travel_detail.id'), nullable=False)
+    patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
 
     event_type = db.relationship('TravelDocumentEventType', backref='travel_document_event')
     doc_type = db.relationship('TravelDocumentDocType', backref='travel_document_event')
@@ -50,30 +50,9 @@ class TravelDocument(db.Model):
     expiration_date = db.Column(db.Date)
     entries_allowed = db.Column(db.String(32))
     scan_saved = db.Column(db.Boolean)
-    travel_detail_id = db.Column(db.Integer, db.ForeignKey('patient_travel_detail.id'), nullable=False)
-
-    document_type = db.relationship('TravelDocumentType', backref='travel_document')
-
-
-class PatientTravelDetail(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    passport_priority_id = db.Column(db.Integer, db.ForeignKey('passport_priority.id'))
-    passport_priority_notes = db.Column(db.Text())
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
 
-    passport_priority = db.relationship('PassportPriority', backref='patient_travel_detail')
-
-    travel_document_event = db.relationship(
-        'TravelDocumentEvent',
-        uselist=True,
-        backref="patient_travel_detail"
-    )
-
-    travel_document = db.relationship(
-        'TravelDocument',
-        uselist=True,
-        backref="patient_travel_detail"
-    )
+    document_type = db.relationship('TravelDocumentType', backref='travel_document')
 
 
 class PassportPrioritySchema(ma.SQLAlchemyAutoSchema):
@@ -123,16 +102,3 @@ class TravelDocumentSchema(ma.SQLAlchemyAutoSchema):
         model = TravelDocument
         load_instance = True
         sqla_session = db.session
-
-
-class PatientTravelDetailSchema(ma.SQLAlchemyAutoSchema):
-
-    passport_priority = ma.Nested(PassportPrioritySchema)
-    travel_document_event = ma.Nested(TravelDocumentEventSchema, many=True)
-    travel_document = ma.Nested(TravelDocumentSchema, many=True)
-
-    class Meta:
-        model = PatientTravelDetail
-        load_instance = True
-        sqla_session = db.session
-        exclude = ('id', )

@@ -1,6 +1,6 @@
 from hca.patients.patient_model import Patient, Diagnosis, PatientDiagnosis, PatientProvider, \
     PatientPhone, PatientSyndrome, PatientUrgency, PatientStatus, PatientEmail, PatientAddress, \
-    PatientTravelDetail, PassportPriority, TravelDocument, TravelDocumentEvent, TravelDocumentType, \
+    PassportPriority, TravelDocument, TravelDocumentEvent, TravelDocumentType, \
     TravelDocumentEventType, TravelDocumentDocType, ClinicalEncounter, ClinicalEncounterType, \
     Surgery, SurgeryEncounter, SocialEncounter
 from hca.providers.provider_model import Provider, ProviderCategory
@@ -274,17 +274,10 @@ def initialize_sample_data(db):
 
     p.patient_contact_notes = "This patient usually needs multiple reminders to go to appointments"
 
-    ptrav = PatientTravelDetail()
-    ptrav.passport_priority_notes = "The patient's family can get their own passports"
-    ptrav.passport_priority_id = 3
+    p.passport_priority_notes = "The patient's family can get their own passports"
+    p.passport_priority_id = 3
 
-    p.travel_details = ptrav
-
-    # penc = PatientEncounterDetail()
-    #
-    # p.encounter_details = penc
-
-    db.session.add_all([p, ptrav])
+    db.session.add(p)
     db.session.commit()
 
     # CREATE CONTACT OBJECTS WITHIN CONTACT DETAIL
@@ -343,7 +336,7 @@ def initialize_sample_data(db):
     ptd2.issue_date = datetime(2017, 1, 3)
     ptd2.expiration_date = datetime(2027, 1, 2)
 
-    ptrav.travel_document.extend([ptd1, ptd2])
+    p.travel_document.extend([ptd1, ptd2])
 
     ptde1 = TravelDocumentEvent()
     ptde1.event_type_id = 1
@@ -359,9 +352,9 @@ def initialize_sample_data(db):
     ptde2.task_owner = "National Archives Office"
     ptde2.notes = "Father will notify when done"
 
-    ptrav.travel_document_event.extend([ptde1, ptde2])
+    p.travel_document_event.extend([ptde1, ptde2])
 
-    db.session.add_all([p, ptrav, ptd1, ptd2, ptde1, ptde2])
+    db.session.add_all([p, ptd1, ptd2, ptde1, ptde2])
     db.session.commit()
 
     # CREATE CLINICAL OBJECTS WITHIN CLINICAL DETAIL
@@ -384,7 +377,7 @@ def initialize_sample_data(db):
     #
     # p.clinical_encounter.append(pclin1)
     #
-    # db.session.add_all([psurg1, pclin1])
+    # db.session.add_all([p, psurg1, pclin1])
     # db.session.commit()
 
     # CREATE DIAGNOSIS OBJECTS WITHIN DIAGNOSIS ARRAY
