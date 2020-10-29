@@ -359,26 +359,26 @@ def initialize_sample_data(db):
 
     # CREATE CLINICAL OBJECTS WITHIN CLINICAL DETAIL
 
-    # psurg1 = SurgeryEncounter()
-    # psurg1.surgery_id = 1
-    # psurg1.lead_surgeon_id = 2
-    # psurg1.surgical_facility_id = 1
-    # psurg1.date = datetime(2019, 7, 3)
-    # psurg1.notes = "No complications reported"
-    #
-    # p.surgery_encounter.append(psurg1)
-    #
-    # pclin1 = ClinicalEncounter()
-    # pclin1.type_id = 1
-    # pclin1.date = datetime(2020, 10, 1)
-    # pclin1.facility_id = 2
-    # pclin1.provider_id = 1
-    # pclin1.notes = "Routine checkup"
-    #
-    # p.clinical_encounter.append(pclin1)
-    #
-    # db.session.add_all([p, psurg1, pclin1])
-    # db.session.commit()
+    psurg1 = SurgeryEncounter()
+    psurg1.surgery_id = 1
+    psurg1.lead_surgeon_id = 2
+    psurg1.surgical_facility_id = 1
+    psurg1.date = datetime(2019, 7, 3)
+    psurg1.notes = "No complications reported"
+
+    p.surgery_encounter.append(psurg1)
+
+    pclin1 = ClinicalEncounter()
+    pclin1.type_id = 1
+    pclin1.date = datetime(2020, 10, 1)
+    pclin1.facility_id = 2
+    pclin1.provider_id = 1
+    pclin1.notes = "Routine checkup"
+
+    p.clinical_encounter.append(pclin1)
+
+    db.session.add_all([p, psurg1, pclin1])
+    db.session.commit()
 
     # CREATE DIAGNOSIS OBJECTS WITHIN DIAGNOSIS ARRAY
 

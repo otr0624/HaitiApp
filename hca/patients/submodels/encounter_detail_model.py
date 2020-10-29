@@ -17,10 +17,10 @@ class ClinicalEncounterType(db.Model):
 
 class ClinicalEncounter(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    type_id = db.Column(db.Integer, db.ForeignKey('clinical_encounter_type.id'), primary_key=True)
+    type_id = db.Column(db.Integer, db.ForeignKey('clinical_encounter_type.id'), nullable=False)
     date = db.Column(db.Date)
-    provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'), primary_key=True)
-    facility_id = db.Column(db.Integer, db.ForeignKey('facility.id'), primary_key=True)
+    provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'), nullable=False)
+    facility_id = db.Column(db.Integer, db.ForeignKey('facility.id'), nullable=False)
     notes = db.Column(db.Text())
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
 
@@ -38,11 +38,11 @@ class Surgery(db.Model):
 
 class SurgeryEncounter(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    surgery_id = db.Column(db.Integer, db.ForeignKey('surgery.id'), primary_key=True)
+    surgery_id = db.Column(db.Integer, db.ForeignKey('surgery.id'), nullable=False)
     date = db.Column(db.Date)
     in_network = db.Column(db.Boolean, default=True)
-    lead_surgeon_id = db.Column(db.Integer, db.ForeignKey('provider.id'), primary_key=True)
-    surgical_facility_id = db.Column(db.Integer, db.ForeignKey('facility.id'), primary_key=True)
+    lead_surgeon_id = db.Column(db.Integer, db.ForeignKey('provider.id'), nullable=False)
+    surgical_facility_id = db.Column(db.Integer, db.ForeignKey('facility.id'), nullable=False)
     notes = db.Column(db.Text)
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
 
