@@ -222,15 +222,24 @@ def initialize_sample_data(db):
                         pcat1, pcat2, fcat1, fcat2, d1, d2, d3, d4, cet1, cet2, cet3, cet4, surg1, surg2, surg3])
     db.session.commit()
 
-    # INITIALIZATION OF PATIENT OBJECT
+    # INITIALIZATION OF PATIENT OBJECTS
 
-    p = Patient()
-    p.first_name = "Mike"
-    p.last_name = "Smith"
-    p.date_of_birth = datetime(2004, 4, 8)
-    p.is_date_of_birth_estimate = False
-    p.sex = "M"
-    db.session.add(p)
+    p1 = Patient()
+    p1.first_name = "Mike"
+    p1.last_name = "Smith"
+    p1.date_of_birth = datetime(2004, 4, 8)
+    p1.is_date_of_birth_estimate = False
+    p1.sex = "M"
+    db.session.add(p1)
+    db.session.commit()
+
+    p2 = Patient()
+    p2.first_name = "Jane"
+    p2.last_name = "Doe"
+    p2.date_of_birth = datetime(2000, 6, 26)
+    p2.is_date_of_birth_estimate = False
+    p2.sex = "F"
+    db.session.add(p2)
     db.session.commit()
 
     # INITIALIZATION OF PROVIDER OBJECTS
@@ -267,17 +276,28 @@ def initialize_sample_data(db):
 
     # INITIALIZATION OF PATIENT DATA COLLECTION SUB-TABLES FOR SAMPLE PATIENT
 
-    p.patient_syndrome_id = 1
-    p.syndrome_notes = "These are the syndrome notes"
-    p.patient_status_id = 2
-    p.patient_urgency_id = 2
+    p1.patient_syndrome_id = 1
+    p1.syndrome_notes = "These are the syndrome notes"
+    p1.patient_status_id = 2
+    p1.patient_urgency_id = 2
 
-    p.patient_contact_notes = "This patient usually needs multiple reminders to go to appointments"
+    p1.patient_contact_notes = "This patient usually needs multiple reminders to go to appointments"
 
-    p.passport_priority_notes = "The patient's family can get their own passports"
-    p.passport_priority_id = 3
+    p1.passport_priority_notes = "The patient's family can get their own passports"
+    p1.passport_priority_id = 3
 
-    db.session.add(p)
+    db.session.add(p1)
+    db.session.commit()
+
+    p2.patient_status_id = 3
+    p1.patient_urgency_id = 1
+
+    p2.patient_contact_notes = "Call only in the evenings"
+
+    p2.passport_priority_notes = "Needs urgent passport help"
+    p2.passport_priority_id = 1
+
+    db.session.add(p2)
     db.session.commit()
 
     # CREATE CONTACT OBJECTS WITHIN CONTACT DETAIL
@@ -289,7 +309,14 @@ def initialize_sample_data(db):
     pa1.state_or_dept = "Ouest"
     pa1.notes = "Big blue house on corner"
 
-    p.patient_address = pa1
+    p1.patient_address = pa1
+
+    pa2 = PatientAddress()
+    pa2.address_line_1 = "46 Rue Delmas"
+    pa2.city = "Delmas"
+    pa2.state_or_dept = "Ouest"
+
+    p2.patient_address = pa2
 
     pp1 = PatientPhone()
     pp1.phone_number = "4432 5413"
@@ -305,16 +332,32 @@ def initialize_sample_data(db):
     pp2.has_whatsapp = True
     pp2.notes = "Lives next town over"
 
-    p.patient_phone.extend([pp1, pp2])
+    pp3 = PatientPhone()
+    pp3.phone_number = "4036 3535"
+    pp3.owner = "Father"
+    pp3.is_primary = True
+    pp3.has_whatsapp = True
+    pp3.notes = "Always use this number"
+
+    pp4 = PatientPhone()
+    pp4.phone_number = "3446 3772"
+    pp4.owner = "Cousin"
+    pp4.is_primary = False
+    pp4.has_whatsapp = True
+    pp4.notes = "Only in emergency"
+
+    p1.patient_phone.extend([pp1, pp2])
+
+    p2.patient_phone.extend([pp3, pp4])
 
     pe1 = PatientEmail()
     pe1.email_address = "fake@email.com"
     pe1.owner = "US Advocate"
     pe1.notes = "Only email if patient unreachable by phone"
 
-    p.patient_email.append(pe1)
+    p1.patient_email.append(pe1)
 
-    db.session.add_all([p, pa1, pp1, pp2, pe1])
+    db.session.add_all([p1, p2, pa1, pa2, pp1, pp2, pp3, pp4, pe1])
     db.session.commit()
 
     # CREATE TRAVEL OBJECTS WITHIN TRAVEL DETAIL
@@ -336,7 +379,7 @@ def initialize_sample_data(db):
     ptd2.issue_date = datetime(2017, 1, 3)
     ptd2.expiration_date = datetime(2027, 1, 2)
 
-    p.travel_document.extend([ptd1, ptd2])
+    p1.travel_document.extend([ptd1, ptd2])
 
     ptde1 = TravelDocumentEvent()
     ptde1.event_type_id = 1
@@ -352,9 +395,9 @@ def initialize_sample_data(db):
     ptde2.task_owner = "National Archives Office"
     ptde2.notes = "Father will notify when done"
 
-    p.travel_document_event.extend([ptde1, ptde2])
+    p1.travel_document_event.extend([ptde1, ptde2])
 
-    db.session.add_all([p, ptd1, ptd2, ptde1, ptde2])
+    db.session.add_all([p1, ptd1, ptd2, ptde1, ptde2])
     db.session.commit()
 
     # CREATE ENCOUNTER OBJECTS WITHIN ENCOUNTER DETAIL
@@ -366,7 +409,7 @@ def initialize_sample_data(db):
     psurg1.date = datetime(2019, 7, 3)
     psurg1.notes = "No complications reported"
 
-    p.surgery_encounter.append(psurg1)
+    p1.surgery_encounter.append(psurg1)
 
     pclin1 = ClinicalEncounter()
     pclin1.type_id = 1
@@ -376,7 +419,33 @@ def initialize_sample_data(db):
     pclin1.notes = "Routine checkup"
     pclin1.next_encounter_due = datetime(2021, 1, 1)
 
-    p.clinical_encounter.append(pclin1)
+    pclin2 = ClinicalEncounter()
+    pclin2.type_id = 1
+    pclin2.date = datetime(2019, 9, 15)
+    pclin2.facility_id = 1
+    pclin2.provider_id = 1
+    pclin2.notes = "Routine checkup"
+    pclin2.next_encounter_due = datetime(2020, 3, 15)
+
+    p1.clinical_encounter.extend([pclin1, pclin2])
+
+    pclin3 = ClinicalEncounter()
+    pclin3.type_id = 1
+    pclin3.date = datetime(2020, 6, 15)
+    pclin3.facility_id = 2
+    pclin3.provider_id = 1
+    pclin3.notes = "Routine checkup"
+    pclin3.next_encounter_due = datetime(2020, 12, 15)
+
+    pclin4 = ClinicalEncounter()
+    pclin4.type_id = 1
+    pclin4.date = datetime(2019, 7, 10)
+    pclin4.facility_id = 1
+    pclin4.provider_id = 1
+    pclin4.notes = "Routine checkup"
+    pclin4.next_encounter_due = datetime(2020, 1, 10)
+
+    p2.clinical_encounter.extend([pclin3, pclin4])
 
     psoc1 = SocialEncounter()
     psoc1.date = datetime(2020, 9, 3)
@@ -385,15 +454,11 @@ def initialize_sample_data(db):
     psoc1.phone_reached_id = 1
     psoc1.next_outreach_due = datetime(2020, 10, 1)
 
-    p.social_encounter.append(psoc1)
-
     psoc2 = SocialEncounter()
     psoc2.date = datetime(2020, 10, 2)
     psoc2.outreach_failed = True
     psoc2.notes = "Phones go to voicemail"
     psoc2.next_outreach_due = datetime(2020, 11, 1)
-
-    p.social_encounter.append(psoc2)
 
     psoc3 = SocialEncounter()
     psoc3.date = datetime(2020, 11, 1)
@@ -402,22 +467,44 @@ def initialize_sample_data(db):
     psoc3.phone_reached_id = 2
     psoc3.next_outreach_due = datetime(2020, 12, 1)
 
-    p.social_encounter.append(psoc3)
+    p1.social_encounter.extend([psoc1, psoc2, psoc3])
 
-    db.session.add_all([p, psurg1, pclin1, psoc1, psoc2, psoc3])
+    psoc4 = SocialEncounter()
+    psoc4.date = datetime(2020, 7, 13)
+    psoc4.outreach_failed = False
+    psoc4.notes = "Only spoke to aunt"
+    psoc4.phone_reached_id = 1
+    psoc4.next_outreach_due = datetime(2020, 8, 13)
+
+    psoc5 = SocialEncounter()
+    psoc5.date = datetime(2020, 9, 2)
+    psoc5.outreach_failed = True
+    psoc5.notes = "Phones go to voicemail"
+    psoc5.next_outreach_due = datetime(2020, 10, 2)
+
+    psoc6 = SocialEncounter()
+    psoc6.date = datetime(2020, 10, 18)
+    psoc6.outreach_failed = False
+    psoc6.notes = "Everything going well"
+    psoc6.phone_reached_id = 2
+    psoc6.next_outreach_due = datetime(2020, 11, 18)
+
+    p2.social_encounter.extend([psoc4, psoc5, psoc6])
+
+    db.session.add_all([p1, p2, psurg1, pclin1, pclin2, pclin3, pclin4, psoc1, psoc2, psoc3, psoc4, psoc5, psoc6])
     db.session.commit()
 
     # CREATE DIAGNOSIS OBJECTS WITHIN DIAGNOSIS ARRAY
 
     pd1 = PatientDiagnosis()
     pd1.diagnosis = d1
-    pd1.patient = p
+    pd1.patient = p1
     pd1.is_primary = True
     pd1.is_suspected = False
 
     pd2 = PatientDiagnosis()
     pd2.diagnosis = d2
-    pd2.patient = p
+    pd2.patient = p1
     pd2.is_primary = False
     pd2.is_suspected = True
 
@@ -428,12 +515,12 @@ def initialize_sample_data(db):
 
     ppr1 = PatientProvider()
     ppr1.provider_id = 1
-    ppr1.patient = p
+    ppr1.patient = p1
     ppr1.is_primary = True
 
     ppr2 = PatientProvider()
     ppr2.provider_id = 2
-    ppr2.patient = p
+    ppr2.patient = p1
     ppr2.is_primary = False
 
     db.session.add_all([ppr1, ppr2])
