@@ -1,6 +1,7 @@
 from database import db, ma
 from hca.providers.provider_model import ProviderSchema
 from hca.facilities.facility_model import FacilitySchema
+from hca.patients.submodels.contact_detail_model import PatientPhoneSchema
 
 
 class SocialEncounter(db.Model):
@@ -8,6 +9,11 @@ class SocialEncounter(db.Model):
     date = db.Column(db.Date)
     notes = db.Column(db.Text())
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
+    phone_reached_id = db.Column(db.Integer, db.ForeignKey('patient_phone.id'))
+    outreach_failed = db.Column(db.Boolean)
+    next_outreach_due = db.Column(db.Date)
+
+    phone_reached = db.relationship('PatientPhone')
 
 
 class ClinicalEncounterType(db.Model):
@@ -23,6 +29,7 @@ class ClinicalEncounter(db.Model):
     facility_id = db.Column(db.Integer, db.ForeignKey('facility.id'), nullable=False)
     notes = db.Column(db.Text())
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
+    next_encounter_due = db.Column(db.Date)
 
     provider = db.relationship('Provider')
     facility = db.relationship('Facility')
@@ -72,6 +79,8 @@ class SurgeryEncounterSchema(ma.SQLAlchemyAutoSchema):
 
 
 class SocialEncounterSchema(ma.SQLAlchemyAutoSchema):
+
+    phone_reached = ma.Nested(PatientPhoneSchema)
 
     class Meta:
         model = SocialEncounter

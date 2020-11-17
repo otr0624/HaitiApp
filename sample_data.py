@@ -357,7 +357,7 @@ def initialize_sample_data(db):
     db.session.add_all([p, ptd1, ptd2, ptde1, ptde2])
     db.session.commit()
 
-    # CREATE CLINICAL OBJECTS WITHIN CLINICAL DETAIL
+    # CREATE ENCOUNTER OBJECTS WITHIN ENCOUNTER DETAIL
 
     psurg1 = SurgeryEncounter()
     psurg1.surgery_id = 1
@@ -374,10 +374,37 @@ def initialize_sample_data(db):
     pclin1.facility_id = 2
     pclin1.provider_id = 1
     pclin1.notes = "Routine checkup"
+    pclin1.next_encounter_due = datetime(2021, 1, 1)
 
     p.clinical_encounter.append(pclin1)
 
-    db.session.add_all([p, psurg1, pclin1])
+    psoc1 = SocialEncounter()
+    psoc1.date = datetime(2020, 9, 3)
+    psoc1.outreach_failed = False
+    psoc1.notes = "Has a cold"
+    psoc1.phone_reached_id = 1
+    psoc1.next_outreach_due = datetime(2020, 10, 1)
+
+    p.social_encounter.append(psoc1)
+
+    psoc2 = SocialEncounter()
+    psoc2.date = datetime(2020, 10, 2)
+    psoc2.outreach_failed = True
+    psoc2.notes = "Phones go to voicemail"
+    psoc2.next_outreach_due = datetime(2020, 11, 1)
+
+    p.social_encounter.append(psoc2)
+
+    psoc3 = SocialEncounter()
+    psoc3.date = datetime(2020, 11, 1)
+    psoc3.outreach_failed = False
+    psoc3.notes = "Everything going well"
+    psoc3.phone_reached_id = 2
+    psoc3.next_outreach_due = datetime(2020, 12, 1)
+
+    p.social_encounter.append(psoc3)
+
+    db.session.add_all([p, psurg1, pclin1, psoc1, psoc2, psoc3])
     db.session.commit()
 
     # CREATE DIAGNOSIS OBJECTS WITHIN DIAGNOSIS ARRAY

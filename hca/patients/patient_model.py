@@ -62,6 +62,7 @@ class Patient(db.Model):
     patient_contact_notes = db.Column(db.Text())
     passport_priority_id = db.Column(db.Integer, db.ForeignKey('passport_priority.id'))
     passport_priority_notes = db.Column(db.Text())
+    failed_outreach_count = db.Column(db.Integer)
 
     diagnosis = db.relationship(
         'PatientDiagnosis',
