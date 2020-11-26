@@ -2,6 +2,7 @@ import connexion
 
 from database import db, ma
 import sample_data
+import data_csv_report
 
 import os
 import config
@@ -60,5 +61,7 @@ if __name__ == '__main__':
             db.create_all()
             # Populate with sample Patient data
             sample_data.initialize_sample_data(db)
+            # Export CSV of social encounters due
+            data_csv_report.export_social_encounters_due(db)
 
     connex.run()
