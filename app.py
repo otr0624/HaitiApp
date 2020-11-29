@@ -62,6 +62,7 @@ if __name__ == '__main__':
             # Populate with sample Patient data
             sample_data.initialize_sample_data(db)
             # Export CSV of social encounters due
-            data_csv_report.export_social_encounters_due(db)
+            conn = db.engine.connect().connection
+            data_csv_report.export_social_encounters_due(conn)
 
     connex.run()
