@@ -452,20 +452,20 @@ def initialize_sample_data(db):
     psoc1.outreach_failed = False
     psoc1.notes = "Has a cold"
     psoc1.phone_reached_id = 1
-    psoc1.next_outreach_due = datetime(2020, 10, 1)
+    psoc1.next_outreach_due = datetime(2020, 12, 15)
 
     psoc2 = SocialEncounter()
     psoc2.date = datetime(2020, 10, 2)
     psoc2.outreach_failed = True
     psoc2.notes = "Phones go to voicemail"
-    psoc2.next_outreach_due = datetime(2020, 11, 1)
+    psoc2.next_outreach_due = datetime(2020, 12, 6)
 
     psoc3 = SocialEncounter()
     psoc3.date = datetime(2020, 11, 1)
     psoc3.outreach_failed = False
     psoc3.notes = "Everything going well"
     psoc3.phone_reached_id = 2
-    psoc3.next_outreach_due = datetime(2020, 12, 1)
+    psoc3.next_outreach_due = datetime(2020, 12, 25)
 
     p1.social_encounter.extend([psoc1, psoc2, psoc3])
 
@@ -474,7 +474,7 @@ def initialize_sample_data(db):
     psoc4.outreach_failed = False
     psoc4.notes = "Only spoke to aunt"
     psoc4.phone_reached_id = 1
-    psoc4.next_outreach_due = datetime(2020, 8, 13)
+    psoc4.next_outreach_due = datetime(2021, 1, 1)
 
     psoc5 = SocialEncounter()
     psoc5.date = datetime(2020, 9, 2)
