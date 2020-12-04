@@ -4,7 +4,7 @@ import pandas as pd
 def export_social_encounters_due(conn):
     sql_query = pd.read_sql_query('''
         SELECT 
-            patient.id, 
+            patient.id AS patient_id, 
             last_name, 
             first_name, 
             sex, 

@@ -64,5 +64,6 @@ if __name__ == '__main__':
             # Export CSV of social encounters due
             conn = db.engine.connect().connection
             data_csv_report.export_social_encounters_due(conn)
+            conn.close()
 
     connex.run()
