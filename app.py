@@ -66,6 +66,8 @@ if __name__ == '__main__':
             # data_csv_report.export_social_encounters_due(conn)
             # conn.close()
             # Test print HCA dataframe
-            hca_master_import.import_hca_master_file()
+            conn = db.engine.connect().connection
+            hca_master_import.import_hca_master_file(conn)
+            conn.close()
 
     connex.run()
