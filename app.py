@@ -2,7 +2,7 @@ import connexion
 
 from database import db, ma
 import sample_data
-import data_csv_report
+import data_csv_report, hca_master_import
 
 import os
 import config
@@ -62,8 +62,10 @@ if __name__ == '__main__':
             # Populate with sample Patient data
             sample_data.initialize_sample_data(db)
             # Export CSV of social encounters due
-            conn = db.engine.connect().connection
-            data_csv_report.export_social_encounters_due(conn)
-            conn.close()
+            # conn = db.engine.connect().connection
+            # data_csv_report.export_social_encounters_due(conn)
+            # conn.close()
+            # Test print HCA dataframe
+            hca_master_import.import_hca_master_file()
 
     connex.run()
