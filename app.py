@@ -60,14 +60,19 @@ if __name__ == '__main__':
             # Create non-existent tables
             db.create_all()
             # Populate with sample Patient data
-            sample_data.initialize_sample_data(db)
+            # sample_data.initialize_sample_data(db)
             # Export CSV of social encounters due
             # conn = db.engine.connect().connection
             # data_csv_report.export_social_encounters_due(conn)
             # conn.close()
-            # Test print HCA dataframe
+            # Create raw patient data table
             conn = db.engine.connect().connection
             hca_master_import.import_hca_master_file(conn)
             conn.close()
+            # Parse data from raw data table and insert into destination patient table
+            conn = db.engine.connect().connection
+            hca_master_import.parse_master_file_data(conn)
+            conn.close()
+
 
     connex.run()
