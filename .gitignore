@@ -3,9 +3,11 @@
 .flaskenv
 **/__pycache__/
 *.pyc
+env/
 
 app.db
 app.db-journal
 
 development_database.db
 development_database.db-journal
+social_encounters_due.csv

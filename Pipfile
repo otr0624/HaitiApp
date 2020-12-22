@@ -23,6 +23,7 @@ python-dateutil = ">=2.6.0"
 flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
 marshmallow = "*"
+pandas = "*"
 
 [requires]
 python_version = "3.8"

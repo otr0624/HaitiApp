@@ -140,6 +140,44 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PatientDiagnosis'
+  '/patients/{patient_uuid}/provider/{provider_id}':
+    post:
+      tags:
+        - Patient
+      summary: Assign a Provider to a Patient
+      description: Assign a single Provider record to a single Patient record.
+      operationId: hca.patients.patient_api.post_patient_provider
+      parameters:
+        - description: Patient unique identifier
+          explode: false
+          in: path
+          name: patient_uuid
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Provider identifier
+          explode: false
+          in: path
+          name: provider_id
+          required: true
+          schema:
+            type: integer
+          style: simple
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientProviderBase'
+      responses:
+        '201':
+          description: Return the set of PatientProvider records, including the newly inserted PatientProvider.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PatientProvider'
   '/providers':
     get:
       tags:
@@ -262,9 +300,9 @@ components:
   schemas:
     PatientBase:
       x-tags:
-        - Provider
-      title: Provider (Create)
-      description: Base Provider schema for new record createion via POST.
+        - Patient
+      title: Patient (Create)
+      description: Base Patient schema for new record createion via POST.
       type: object
       properties:
         first_name:
@@ -304,8 +342,52 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/PatientDiagnosis'
-            clinical_details:
-              $ref: '#/components/schemas/PatientClinicalDetails'
+            syndrome_notes:
+              type: string
+            patient_contact_notes:
+              type: string
+            provider:
+              type: array
+              items:
+                $ref: '#/components/schemas/Provider'
+            patient_phone:
+              type: array
+              items:
+                $ref: '#/components/schemas/PatientPhone'
+            patient_email:
+              type: array
+              items:
+                $ref: '#/components/schemas/PatientEmail'
+            clinical_encounter:
+              type: array
+              items:
+                $ref: '#/components/schemas/ClinicalEncounter'
+            surgery_encounter:
+              type: array
+              items:
+                $ref: '#/components/schemas/SurgeryEncounter'
+            social_encounter:
+              type: array
+              items:
+                $ref: '#/components/schemas/SocialEncounter'
+            travel_document_event:
+              type: array
+              items:
+                $ref: '#/components/schemas/TravelDocumentEvent'
+            travel_document:
+              type: array
+              items:
+                $ref: '#/components/schemas/TravelDocument'
+            syndrome:
+              $ref: '#/components/schemas/PatientSyndrome'
+            status:
+              $ref: '#/components/schemas/PatientStatus'
+            urgency:
+              $ref: '#/components/schemas/PatientUrgency'
+            patient_address:
+              $ref: '#/components/schemas/PatientAddress'
+            passport_priority:
+              $ref: '#/components/schemas/PassportPriority'
     PatientDiagnosisBase:
       x-tags:
         - Patient
@@ -337,9 +419,19 @@ components:
       description: Base Diagnosis schema for new record creation via POST.
       type: object
       properties:
-        code:
+        icd_cat_code:
           type: string
-        diagnosis:
+        icd_cat_name:
+          type: string
+        icd_subcat_code:
+          type: string
+        icd_subcat_name:
+          type: string
+        icd_dx_code:
+          type: string
+        icd_dx_name:
+          type: string
+        icd_dx_short_name:
           type: string
     Diagnosis:
       x-tags:
@@ -352,20 +444,266 @@ components:
           properties:
             id:
               type: integer
-    PatientClinicalDetails:
+    PatientPhone:
+      x-tags:
+        - Patient Contact
+      title: Patient Phone Numbers
+      description: 'Phone numbers and associated details for each contact card'
+      type: object
+      properties:
+        phone_number:
+          type: string
+        owner:
+          type: string
+        is_primary:
+          type: boolean
+        is_active:
+          type: boolean
+        has_whatsapp:
+          type: boolean
+        notes:
+          type: string
+    PatientEmail:
+      x-tags:
+        - Patient Contact
+      title: Patient Email Addresses
+      description: 'Email addresses and associated details for each contact card'
+      type: object
+      properties:
+        email_address:
+          type: string
+        owner:
+          type: string
+        notes:
+          type: string
+    PatientAddress:
+      x-tags:
+        - Patient Contact
+      title: Patient Residential Address
+      description: 'Patient street address for each contact card'
+      type: object
+      properties:
+        address_line_1:
+          type: string
+        address_line_2:
+          type: string
+        city:
+          type: string
+        state_or_dept:
+          type: string
+        country:
+          type: string
+        notes:
+          type: string
+    PassportPriority:
+      x-tags:
+        - Patient Travel
+      title: Passport Priority
+      description: 'Table of drop-down values for passport priority choices'
+      type: object
+      properties:
+        passport_priority:
+          type: string
+    TravelDocumentEventType:
+      x-tags:
+        - Travel Document Event
+      title: Travel Document Event Type
+      description: 'Table of drop-down values for travel document event type choices'
+      type: object
+      properties:
+        event_type:
+          type: string
+    TravelDocumentDocType:
+      x-tags:
+        - Travel Document Event
+      title: Travel Document Doc Type
+      description: 'Table of drop-down values for travel document choices, including intermediate documents'
+      type: object
+      properties:
+        doc_type:
+          type: string
+    TravelDocumentEvent:
       x-tags:
         - Patient
-      title: Patient Clinical Details
-      description: ''
+      title: Travel Document Event
+      description: 'Records of individual transactions related to travel documents'
+      type: object
+      properties:
+        notes:
+          type: string
+        event_type:
+          $ref: '#/components/schemas/TravelDocumentEventType'
+        task_owner:
+          type: string
+        event_date:
+          type: date
+        doc_type:
+          $ref: '#/components/schemas/TravelDocumentDocType'
+        doc_owner:
+          type: string
+    TravelDocumentType:
+      x-tags:
+        - Travel Document
+      title: Travel Document Type
+      description: 'Table of drop-down values for travel document type choices'
+      type: object
+      properties:
+        travel_document_type:
+          type: string
+    TravelDocument:
+      x-tags:
+        - Patient
+      title: Travel Document
+      description: 'Records and details of specific travel documents'
+      type: object
+      properties:
+        notes:
+          type: string
+        document_type:
+          $ref: '#/components/schemas/TravelDocumentType'
+        country:
+          type: string
+        owner:
+          type: string
+        last_name:
+          type: string
+        first_name:
+          type: string
+        date_of_birth:
+          type: string
+        document_number:
+          type: string
+        issue_date:
+          description: 'Issue date in UTC YYYY-MM-DD'
+          example: '2008-05-24'
+          format: date
+          type: string
+        expiration_date:
+          description: 'Expiration date in UTC YYYY-MM-DD'
+          example: '2008-05-24'
+          format: date
+          type: string
+        entries_allowed:
+          type: string
+        scan_saved:
+          type: boolean
+    PatientSyndrome:
+      x-tags:
+        - Patient
+      title: Patient Syndrome
+      description: 'Optional syndrome associated with each patient'
+      type: object
+      properties:
+        syndrome:
+          type: string
+        syndrome_code:
+          type: string
+    PatientUrgency:
+      x-tags:
+        - Patient
+      title: Patient Syndrome
+      description: 'Optional syndrome associated with each patient'
+      type: object
+      properties:
+        urgency:
+          type: string
+    PatientStatus:
+      x-tags:
+        - Patient
+      title: Patient Syndrome
+      description: 'Optional syndrome associated with each patient'
       type: object
       properties:
         status:
+          type: string
+    SurgeryEncounterBase:
+      x-tags:
+        - Patient
+      title: Surgery Encounter (Create)
+      description: Base Surgery Encounter schema for new record creation via POST.
+      type: object
+      properties:
+        date:
+          type: date
+        in_network:
+          type: boolean
+        lead_surgeon:
+          $ref: '#/components/schemas/Provider'
+        surgical_facility:
+          $ref: '#/components/schemas/Facility'
+        notes:
+          type: string
+    SurgeryEncounter:
+      x-tags:
+        - Patient
+      title: Surgery Encounter
+      description: ''
+      allOf:
+        - $ref: '#/components/schemas/SurgeryEncounterBase'
+        - type: object
+          properties:
+            surgery:
+              $ref: '#/components/schemas/Surgery'
+    SurgeryBase:
+      x-tags:
+        - Patient
+      title: Surgery (Create)
+      description: Base Surgery schema for new record creation via POST.
+      type: object
+      properties:
+        code:
+          type: string
+        surgery_name:
+          type: string
+        rachs_score:
           type: integer
-        urgency:
-          type: integer
-        syndrome:
-          type: integer
-        syndrome_notes:
+    Surgery:
+      x-tags:
+        - Patient
+      title: Surgery
+      description: ''
+      allOf:
+        - $ref: '#/components/schemas/SurgeryBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+    ClinicalEncounterType:
+      x-tags:
+        - Clinical Encounter
+      title: Clinical Encounter Type
+      description: 'Table of drop-down values for clinical encounter type choices'
+      type: object
+      properties:
+        type:
+          type: string
+    ClinicalEncounter:
+      x-tags:
+        - Patient
+      title: Clinical Encounter
+      description: 'Records and details of individual patient clinical encounters'
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/ClinicalEncounterType'
+        date:
+          type: date
+        provider:
+          $ref: '#/components/schemas/Provider'
+        facility:
+          $ref: '#/components/schemas/Facility'
+        notes:
+          type: string
+    SocialEncounter:
+      x-tags:
+        - Patient
+      title: Social Encounter
+      description: 'Records and details of individual patient social encounters'
+      type: object
+      properties:
+        date:
+          type: date
+        notes:
           type: string
     ProviderBase:
       x-tags:
@@ -401,6 +739,30 @@ components:
               type: string
             friendly_id:
               type: string
+    PatientProvider:
+      x-tags:
+        - Patient
+      title: PatientProvider
+      description: ''
+      allOf:
+        - $ref: '#/components/schemas/PatientProviderBase'
+        - type: object
+          properties:
+            diagnosis:
+              $ref: '#/components/schemas/Provider'
+    PatientProviderBase:
+      x-tags:
+        - Patient
+      title: PatientProvider (Create)
+      description: Base PatientProvider schema for new record creation via POST.
+      type: object
+      properties:
+        is_primary:
+          type: boolean
+        is_suspected:
+          type: boolean
+        notes:
+          type: string
     FacilityBase:
       x-tags:
         - Facility

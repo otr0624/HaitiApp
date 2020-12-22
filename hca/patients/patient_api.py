@@ -9,8 +9,12 @@ from hca.patients.patient_model import (
     Diagnosis,
     DiagnosisSchema,
     PatientDiagnosis,
-    PatientDiagnosisSchema
+    PatientDiagnosisSchema,
+    PatientProvider,
+    PatientProviderSchema
 )
+
+from hca.providers.provider_model import Provider, ProviderSchema
 
 
 POST_400_MESSAGE = "Do not specify server-generated identifiers ('id', 'uuid' or 'friendly_id') in resource creation requests"
@@ -115,3 +119,43 @@ def post_patient_diagnosis(patient_uuid, diagnosis_id, body):
     )
 
     return PatientDiagnosisSchema(many=True).dump(all_patient_diagnosis), 201
+
+
+def post_patient_provider(patient_uuid, provider_id, body):
+    patient = (
+        Patient
+        .query
+        .filter(Patient.uuid == patient_uuid)
+        .one_or_none()
+    )
+
+    provider = (
+        Provider
+        .query
+        .filter(Provider.id == provider_id)
+        .one_or_none()
+    )
+
+    if patient is None:
+        abort(404, f'Record not found for Patient: {patient_uuid}')
+
+    if provider is None:
+        abort(404, f'Record not found for Provider: {provider_id}')
+
+    schema = PatientProviderSchema()
+    new_patient_provider = schema.load(body, session=db.session)
+
+    new_patient_provider.patient = patient
+    new_patient_provider.provider = provider
+    db.session.add(new_patient_provider)
+    db.session.commit()
+
+    all_patient_provider = (
+        PatientProvider
+        .query
+        .filter(PatientProvider.patient_id == patient.id)
+        .order_by(PatientProvider.provider_id)
+        .all()
+    )
+
+    return PatientProviderSchema(many=True).dump(all_patient_provider), 201
