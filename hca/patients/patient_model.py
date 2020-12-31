@@ -48,6 +48,24 @@ class Patient(db.Model):
         index=True,
         unique=True
         )
+
+    #
+    # For records imported from the legacy HCA master spreadsheet,
+    # import_id is the Id of the incoming record. May (eventually)
+    # be blank when system is fully migrated
+    #
+    import_id = db.Column(db.Integer)
+
+    #
+    # For records imported from the legacy HCA master spreadsheet,
+    # import_hash is SHA1 hash of the full incoming record. 
+    # 
+    # Since the legacy spreadsheet is one patient record per line,
+    # we use this hash to determine if any fields have changed since
+    # the last import.
+    #
+    import_hash = db.Column(db.String(64))
+
     first_name = db.Column(db.String(64))
     last_name = db.Column(db.String(64))
     date_of_birth = db.Column(db.Date)
