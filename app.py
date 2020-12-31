@@ -1,8 +1,7 @@
 import connexion
 
 from database import db, ma
-import sample_data
-import data_csv_report, hca_master_import
+import hca_master_import as importer
 
 import os
 import config
@@ -53,19 +52,17 @@ else:
     with connex.app.app_context():
         # Create non-existent tables
         db.create_all()
+
         # Populate with sample Patient data
         # sample_data.initialize_sample_data(db)
-        # Export CSV of social encounters due
-        # conn = db.engine.connect().connection
-        # data_csv_report.export_social_encounters_due(conn)
-        # conn.close()
-        # Create raw patient data table
-        conn = db.engine.connect().connection
-        hca_master_import.import_hca_master_file(conn)
-        conn.close()
-        # Parse data from raw data table and insert into destination patient table
-        conn = db.engine.connect().connection
-        hca_master_import.parse_master_file_data(conn)
-        conn.close()
+        
+        table_name = importer.generate_table_name()
+
+        importer.import_master_spreadsheet(
+            db,
+            r'./resources/hca_master_fake.xlsx',
+            table_name)
+        
+        importer.process_import(db, table_name)
 
 connex.run()
