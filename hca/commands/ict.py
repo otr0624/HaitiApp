@@ -2,6 +2,7 @@ import click
 import xml.etree.ElementTree as et
 from pathlib import Path
 from database import db
+
 from hca.patients.patient_model import (
     Diagnosis,
     DiagnosisSchema
@@ -16,18 +17,18 @@ def register(app):
         pass
 
     @ict.command()
-    @click.argument('filename')
+    @click.argument('filename', type=click.Path(exists=True))
     def load(filename):
         """ Load ICD-10 data downloaded from https://www.cms.gov/Medicare/Coding/ICD10 """
 
-        # Verify the file exists
-        p = Path(filename)
-        if not p.exists():
-            print(f'File not found: {filename}')
-            return
+        # # Verify the file exists
+        # p = Path(filename)
+        # if not p.exists():
+        #     print(f'File not found: {filename}')
+        #     return
 
         # Load the ICT-10 XML file
-        print(f'Loading ICT-10 date from {p.resolve()}')
+        print(f'Loading ICT-10 data from {filename}')
         tree = et.parse(filename)
         root_node = tree.getroot()
         

@@ -1,6 +1,8 @@
+import click
 import pandas as pd
 import datetime as dt
 import hashlib
+from database import db
 
 from hca.patients.patient_model import (
     Patient,
@@ -48,6 +50,7 @@ from hca.facilities.facility_model import (
     f. Persist to database
 '''
 
+
 def generate_table_name():
     today = dt.date.today()
     return f'raw_patient_data_{today.year}_{today.month}_{today.day}'
@@ -62,150 +65,170 @@ def hash(s):
     return sha_1.hexdigest()
 
 
-def import_master_spreadsheet(db, master_spreadsheet, table_name):
+def register(app):
 
-    '''Import and ingest patient records from a raw HCA spreadsheet'''
+    @app.cli.group()
+    def hca():
+        """Load and manipulate master HCA Spreadsheet"""
+        pass
 
-    # Load the Master HCA spreadsheet into a Pandas DataFrame
-    df = pd.read_excel(master_spreadsheet)
+    @hca.command()
+    @click.argument('filename', type=click.Path(exists=True))
+    def load(filename):
 
-    # Concatenate all fields in a single record (row) then generate a 
-    # SHA1 hash from the concatenated values. Write this hash to a new
-    # column.
-    # 
-    # This hash value can be used to check if any record has changed
-    # since a previous import.
-    df['hash'] = pd.Series(
-        df.fillna('').values.tolist(), index=df.index).map(
-            lambda values: hash(concat_iterable_as_string(values)))
+        table = generate_table_name()
 
-    # Persist the DataFrame into a raw SQL Table
-    try:
-        conn = db.engine.connect().connection
-        df.to_sql(table_name, conn, if_exists='replace', index=False)
-    finally:
-        conn.close()
+        # Load raw data into a single table
+        print(f'Loading raw data from {filename} into {table}')
+        import_master_spreadsheet(
+            db,
+            filename,
+            table)
 
+        # Process the imported raw data and build
+        # the necessary database objects
+        process_import(db, table)
 
-def generate_import_sql(table_name):
+    def import_master_spreadsheet(db, master_spreadsheet, table_name):
 
-    #
-    # For clarity:
-    #   - Map Column names to Model fields
-    #   - Rename columns with whitespace, non-alpha chars to 
-    #     make it easy to work with NamedTuple
-    #
-    return(f'''SELECT
-            "Id" AS import_id,
-            "hash" AS import_hash,
-            "Status" AS status,
-            "Last" AS last_name,
-            "First" AS first_name,
-            "DOB" AS date_of_birth,
-            "Sex" AS sex,
-            "Diagnosis" AS diagnosis,
-            "Diagnosis comments" AS diagnosis_comments
-        FROM {table_name}''')
+        '''Import and ingest patient records from a raw HCA spreadsheet'''
 
+        # Load the Master HCA spreadsheet into a Pandas DataFrame
+        df = pd.read_excel(master_spreadsheet)
 
-def process_import(db, table_name):
+        # Concatenate all fields in a single record (row) then generate a 
+        # SHA1 hash from the concatenated values. Write this hash to a new
+        # column.
+        # 
+        # This hash value can be used to check if any record has changed
+        # since a previous import.
+        df['hash'] = pd.Series(
+            df.fillna('').values.tolist(), index=df.index).map(
+                lambda values: hash(concat_iterable_as_string(values)))
 
-    #
-    # Load the raw import via SQL into a DataFame. This
-    # two-pass approach allows us to perform some basic
-    # cleanup and preprecessing via SQL prior to importing
-    # into the new data model
-    #
-    try:
-        conn = db.engine.connect().connection
-        df = pd.read_sql_query(
-                generate_import_sql(table_name),
-                conn,
-                # Which columns to parse as Python datetimes
-                parse_dates=('date_of_birth'))
-    finally:
-        conn.close()
-
-    for record in df.itertuples():
+        # Persist the DataFrame into a raw SQL Table
         try:
-            load_patient(db, record)
-        except Exception as e:
-            print(e)
-            print(record)
+            conn = db.engine.connect().connection
+            df.to_sql(table_name, conn, if_exists='replace', index=False)
+        finally:
+            conn.close()
 
+    def generate_import_sql(table_name):
 
-def load_patient(db, record):
+        #
+        # For clarity:
+        #   - Map Column names to Model fields
+        #   - Rename columns with whitespace, non-alpha chars to 
+        #     make it easy to work with NamedTuple
+        #
+        return(f'''SELECT
+                "Id" AS import_id,
+                "hash" AS import_hash,
+                "Status" AS status,
+                "Last" AS last_name,
+                "First" AS first_name,
+                "DOB" AS date_of_birth,
+                "Sex" AS sex,
+                "Diagnosis" AS diagnosis,
+                "Diagnosis comments" AS diagnosis_comments
+            FROM {table_name}''')
 
-    #
-    # record is a NamedTuple where every field corresponds
-    # to a column name of the raw input spreadsheet
-    #
+    def process_import(db, table_name):
 
-    # Check to see if this patient record already exists
-    patient = (
-        Patient
-        .query
-        .filter(Patient.import_id == record.import_id)
-        .one_or_none()
-    )
+        #
+        # Load the raw import via SQL into a DataFame. This
+        # two-pass approach allows us to perform some basic
+        # cleanup and preprecessing via SQL prior to importing
+        # into the new data model
+        #
+        try:
+            conn = db.engine.connect().connection
+            df = pd.read_sql_query(
+                    generate_import_sql(table_name),
+                    conn,
+                    # Which columns to parse as Python datetimes
+                    parse_dates=('date_of_birth'))
+        finally:
+            conn.close()
 
-    if patient:
-        # This patient record already exists, check import_hash
-        # to see if the record has changed at all
-        if patient.import_hash == record.import_hash:
-            # Nothing to do
-            print(f'Skipped: #{record.import_id}'
-                  f' {record.first_name} {record.last_name}'
-                  f' no changes since last import')
-            return
-    else:
-        patient = Patient()
+        for record in df.itertuples():
+            try:
+                load_patient(db, record)
+            except Exception as e:
+                print(e)
+                print(record)
 
-    patient.import_id = record.import_id
-    patient.import_hash = record.import_hash
+    def load_patient(db, record):
 
-    patient.first_name = record.first_name
-    patient.last_name = record.last_name
-
-    # If the incoming SQL field could not be parsed as a dateime
-    # (i.e. null or missing) the dataframe uses the Numpy value 'NaT',
-    # which cannot be assigned to as SQLAlchemy db.Date column type.
-    #
-    # https://stackoverflow.com/a/42103441
-    #
-    if not pd.isnull(record.date_of_birth):
-        patient.date_of_birth = record.date_of_birth
-
-    patient.is_date_of_birth_estimate = False
-    patient.sex = record.sex
-    db.session.add(patient)
-
-    db.session.commit()
-
-    #
-    # Now that we have the Patient record created, build the related records
-    #
-    load_diagnosis(db, record, patient)
-
-    print(f'Imported: #{record.import_id}'
-          f' {record.first_name} {record.last_name}')
-
-
-def load_diagnosis(db, record, patient):
-
-    diagnosis_list = record.diagnosis.split(",")
-
-    for diagnosis in diagnosis_list:
-        # Clean leading and trailing whitespace
-        diagnosis = diagnosis.strip()
+        #
+        # record is a NamedTuple where every field corresponds
+        # to a column name of the raw input spreadsheet
+        #
 
         # Check to see if this patient record already exists
-        # patient = (
-        #     Patient
-        #     .query
-        #     .filter(Patient.import_id == record.import_id)
-        #     .one_or_none()
-        # )
+        patient = (
+            Patient
+            .query
+            .filter(Patient.import_id == record.import_id)
+            .one_or_none()
+        )
+
+        if patient:
+            # This patient record already exists, check import_hash
+            # to see if the record has changed at all
+            if patient.import_hash == record.import_hash:
+                # Nothing to do
+                print(f'Skipped: #{record.import_id}'
+                    f' {record.first_name} {record.last_name}'
+                    f' no changes since last import')
+                return
+        else:
+            patient = Patient()
+
+        patient.import_id = record.import_id
+        patient.import_hash = record.import_hash
+
+        patient.first_name = record.first_name
+        patient.last_name = record.last_name
+
+        # If the incoming SQL field could not be parsed as a dateime
+        # (i.e. null or missing) the dataframe uses the Numpy value 'NaT',
+        # which cannot be assigned to as SQLAlchemy db.Date column type.
+        #
+        # https://stackoverflow.com/a/42103441
+        #
+        if not pd.isnull(record.date_of_birth):
+            patient.date_of_birth = record.date_of_birth
+
+        patient.is_date_of_birth_estimate = False
+        patient.sex = record.sex
+        db.session.add(patient)
+
+        db.session.commit()
+
+        #
+        # Now that we have the Patient record created, build the related records
+        #
+        load_diagnosis(db, record, patient)
+
+        print(f'Imported: #{record.import_id}'
+              f' {record.first_name} {record.last_name}')
+
+    def load_diagnosis(db, record, patient):
+
+        diagnosis_list = record.diagnosis.split(",")
+
+        for diagnosis in diagnosis_list:
+            # Clean leading and trailing whitespace
+            diagnosis = diagnosis.strip()
+
+            # Check to see if this patient record already exists
+            # patient = (
+            #     Patient
+            #     .query
+            #     .filter(Patient.import_id == record.import_id)
+            #     .one_or_none()
+            # )
 
 
-        # print(diagnosis_list)
+            # print(diagnosis_list)

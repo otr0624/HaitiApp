@@ -1,7 +1,6 @@
 import connexion
 
 from database import db, ma
-import hca_master_import as importer
 
 import os
 import config
@@ -13,6 +12,7 @@ from hca.providers.provider_views import providers
 from hca.facilities.facility_views import facilities
 
 from hca.commands import ict
+from hca.commands import hca
 
 
 # Create the Connexion application instance, which wraps
@@ -40,8 +40,23 @@ connex.app.register_blueprint(patients, url_prefix='/patients')
 connex.app.register_blueprint(providers, url_prefix='/providers')
 connex.app.register_blueprint(facilities, url_prefix='/facilities')
 
-# Register the custom command-line commands
+# Register the custom command-line commands.
+# View commands with:
+#
+#   > flask --help
+#
+
+# Load and manipulate ICT-10 dataset
+#
+#   > flask ict load ./resources/ICD-10/icd10cm_tabular_2021.xml
+#
 ict.register(connex.app)
+
+# Load and manipulate HCA Master Spreadsheet
+#
+#   > flask hca load ./resources/hca_master_fake.xlsx
+#
+hca.register(connex.app)
 
 
 if 'ENV' in os.environ and os.environ['ENV'] == 'prod':
@@ -61,15 +76,6 @@ else:
 
         # Populate with sample Patient data
         # sample_data.initialize_sample_data(db)
-
-        # table_name = importer.generate_table_name()
-
-        # importer.import_master_spreadsheet(
-        #     db,
-        #     r'./resources/hca_master_fake.xlsx',
-        #     table_name)
-
-        # importer.process_import(db, table_name)
 
 if __name__ == '__main__':
     connex.run()
