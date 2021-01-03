@@ -147,13 +147,12 @@ class Patient(db.Model):
 
 class Diagnosis(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    icd_cat_code = db.Column(db.String(8))
-    icd_cat_name = db.Column(db.String(128))
-    icd_subcat_code = db.Column(db.String(8))
-    icd_subcat_name = db.Column(db.String(128))
-    icd_dx_code = db.Column(db.String(8))
-    icd_dx_name = db.Column(db.String(128))
-    icd_dx_short_name = db.Column(db.String(32))
+    depth = db.Column(db.Integer)
+    icd_section_name = db.Column(db.String(32))
+    icd_section_desc = db.Column(db.Text())
+    icd_diagnosis_name = db.Column(db.String(32))
+    icd_diagnosis_desc = db.Column(db.Text())
+
 
 #
 # The 'Schema' definitions have to come after the SQL Alchemy Model definitions
