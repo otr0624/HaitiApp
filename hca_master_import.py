@@ -33,6 +33,20 @@ from hca.facilities.facility_model import (
     Facility,
     FacilityCategory)
 
+''' Import data from the master HCA patient tracking spreadsheet. Done in multiple steps:
+    
+    Phase 1: Save XLSX to Database as raw data
+
+    a. Use Pandas read_excel() to load all records into a DataFrame
+    b. Enrich DataFrame (i.e. Add hash of each row contents to track modifications)
+    c. Write to database via Pandas to_sql()
+
+    Phase 2: Load raw data and build domain models
+
+    d. Load to new DataFrame via read_sql_query(); Cleanup column titles
+    e. Loop through every modified record and build domain model
+    f. Persist to database
+'''
 
 def generate_table_name():
     today = dt.date.today()
@@ -74,6 +88,13 @@ def import_master_spreadsheet(db, master_spreadsheet, table_name):
 
 
 def generate_import_sql(table_name):
+
+    #
+    # For clarity:
+    #   - Map Column names to Model fields
+    #   - Rename columns with whitespace, non-alpha chars to 
+    #     make it easy to work with NamedTuple
+    #
     return(f'''SELECT
             "Id" AS import_id,
             "hash" AS import_hash,
@@ -81,7 +102,9 @@ def generate_import_sql(table_name):
             "Last" AS last_name,
             "First" AS first_name,
             "DOB" AS date_of_birth,
-            "Sex" AS sex
+            "Sex" AS sex,
+            "Diagnosis" AS diagnosis,
+            "Diagnosis comments" AS diagnosis_comments
         FROM {table_name}''')
 
 
@@ -105,13 +128,13 @@ def process_import(db, table_name):
 
     for record in df.itertuples():
         try:
-            process_record(db, record)
+            load_patient(db, record)
         except Exception as e:
             print(e)
             print(record)
 
 
-def process_record(db, record):
+def load_patient(db, record):
 
     #
     # record is a NamedTuple where every field corresponds
@@ -158,5 +181,31 @@ def process_record(db, record):
     db.session.add(patient)
 
     db.session.commit()
+
+    #
+    # Now that we have the Patient record created, build the related records
+    #
+    load_diagnosis(db, record, patient)
+
     print(f'Imported: #{record.import_id}'
           f' {record.first_name} {record.last_name}')
+
+
+def load_diagnosis(db, record, patient):
+
+    diagnosis_list = record.diagnosis.split(",")
+
+    for diagnosis in diagnosis_list:
+        # Clean leading and trailing whitespace
+        diagnosis = diagnosis.strip()
+
+        # Check to see if this patient record already exists
+        # patient = (
+        #     Patient
+        #     .query
+        #     .filter(Patient.import_id == record.import_id)
+        #     .one_or_none()
+        # )
+
+
+        # print(diagnosis_list)

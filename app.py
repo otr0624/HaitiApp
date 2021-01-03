@@ -12,11 +12,13 @@ from hca.patients.patient_views import patients
 from hca.providers.provider_views import providers
 from hca.facilities.facility_views import facilities
 
+from hca.commands import ict
+
 
 # Create the Connexion application instance, which wraps
 # the underlying Flask application.
 #
-# Connexion is a framework on top of Flask that automagically 
+# Connexion is a framework on top of Flask that automagically
 # handles HTTP requests defined using OpenAPI (formerly known
 # as Swagger)
 connex = connexion.FlaskApp(__name__, specification_dir='./api')
@@ -38,6 +40,10 @@ connex.app.register_blueprint(patients, url_prefix='/patients')
 connex.app.register_blueprint(providers, url_prefix='/providers')
 connex.app.register_blueprint(facilities, url_prefix='/facilities')
 
+# Register the custom command-line commands
+ict.register(connex.app)
+
+
 if 'ENV' in os.environ and os.environ['ENV'] == 'prod':
     connex.app.config.from_object('config.ProductionConfig')
 
@@ -55,14 +61,15 @@ else:
 
         # Populate with sample Patient data
         # sample_data.initialize_sample_data(db)
-        
-        table_name = importer.generate_table_name()
 
-        importer.import_master_spreadsheet(
-            db,
-            r'./resources/hca_master_fake.xlsx',
-            table_name)
-        
-        importer.process_import(db, table_name)
+        # table_name = importer.generate_table_name()
 
-connex.run()
+        # importer.import_master_spreadsheet(
+        #     db,
+        #     r'./resources/hca_master_fake.xlsx',
+        #     table_name)
+
+        # importer.process_import(db, table_name)
+
+if __name__ == '__main__':
+    connex.run()
