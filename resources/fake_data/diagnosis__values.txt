@@ -1,0 +1,112 @@
+VSD
+RHD
+PDA
+TOF
+ASD
+PS
+PFO
+AVC (complete)
+Cardiomyopathy
+Murmur
+VSD, PDA
+DORV
+DCM
+PDA, PFO
+VSD, PFO
+Complex CHD
+VSD, ASD
+TGA
+AVC (transitional)
+MR
+Cardiopathy
+PFO, PDA
+AVC
+ASD, PS
+PPCM
+VSD, PDA, PFO
+TOF, PA
+PDA, VSD
+ASD, VSD
+TAPVR
+CoA
+ASD, PDA
+VSD, PS
+VSD, PHT
+VSD, AR
+Single ventricle
+PA atresia
+Myocarditis
+DORV, VSD
+VSD, ASD, PHT
+TGA, VSD
+AVC, PDA
+VSD, DCRV
+Truncus arteriosus
+Tricuspid atresia
+Subaortic membrane
+PS, ASD
+PDA, PHT
+VSD, ASD, PDA
+TR
+RHD, PDA
+PHT
+PDA, ASD
+PAPVR
+Marfan syndrome
+MV prolapse
+MR, TR
+LVH
+LV dysfunction
+Cadiomyopathy
+VSD, PFO, PDA
+VSD, PDA, PHT
+VSD, MAPCAs
+TOF, ASD
+TA
+SVT
+RHD, MR
+PS, PFO
+PFO, VSD
+PDA, PFO, PHT
+MR, MS
+Infundibular stenosis
+Dextrocardia
+AVC, VSD, ASD
+AVC, ASD, PDA
+AVC, ASD
+VSD, TR, PHT
+VSD, RVOTO
+VSD, PFO, PHT
+VSD, PDA, PFO, PHT
+VSD, PDA, ASD
+VSD, MR
+Tricuspid atresia, VSD, ASD
+Tricuspid atresia, VSD
+TGA, VSD, PFO, PDA
+Subaortic stenosis
+Single ventricle, PA
+RPAs
+Pericardial effusion
+PS, PDA
+PHTN (primary)
+PFO, RPAs
+PFO, PS
+PFO, PHT
+PFO, PDA, PHT
+PDA, PFO, VSD
+Normal heart
+LVM
+Hypoplastic right heart
+DORV, TGA, VSD
+Coronary fistula
+Cor triatriatum
+Cardiomegaly
+CHF
+CCAVC
+Abnormal coronaries
+AVC, ASD, VSD
+ASD, PHT
+ASD, PAPVR
+AS
+AR
+AP window
