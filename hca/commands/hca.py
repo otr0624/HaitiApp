@@ -73,6 +73,30 @@ def register(app):
         pass
 
     @hca.command()
+    def init():
+        """Initialize default db values and enumerations"""
+
+        # Patient Urgency list
+        urg1 = PatientUrgency()
+        urg1.urgency = "ASAP"
+
+        urg2 = PatientUrgency()
+        urg2.urgency = "<6 months"
+
+        urg3 = PatientUrgency()
+        urg3.urgency = "6-12 months"
+
+        urg4 = PatientUrgency()
+        urg4.urgency = "12-24 months"
+
+        urg5 = PatientUrgency()
+        urg5.urgency = ">24 months"
+
+        db.session.add_all([urg1, urg2, urg3, urg4, urg5])
+        db.session.commit()
+
+
+    @hca.command()
     @click.argument('filename', type=click.Path(exists=True))
     def load(filename):
 
@@ -130,7 +154,10 @@ def register(app):
                 "DOB" AS date_of_birth,
                 "Sex" AS sex,
                 "Diagnosis" AS diagnosis,
-                "Diagnosis comments" AS diagnosis_comments
+                "Diagnosis comments" AS diagnosis_comments,
+                "Contact Notes/Issues" AS patient_contact_notes,
+                "Urgency" AS patient_urgency
+
             FROM {table_name}''')
 
     def process_import(db, table_name):
@@ -191,6 +218,8 @@ def register(app):
         patient.first_name = record.first_name
         patient.last_name = record.last_name
 
+        patient.patient_contact_notes = record.patient_contact_notes
+
         # If the incoming SQL field could not be parsed as a dateime
         # (i.e. null or missing) the dataframe uses the Numpy value 'NaT',
         # which cannot be assigned to as SQLAlchemy db.Date column type.
@@ -201,7 +230,12 @@ def register(app):
             patient.date_of_birth = record.date_of_birth
 
         patient.is_date_of_birth_estimate = False
+
         patient.sex = record.sex
+
+        if not pd.isnull(record.patient_urgency):
+            patient.patient_urgency_id = 1
+
         db.session.add(patient)
 
         db.session.commit()
