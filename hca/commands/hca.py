@@ -4,36 +4,15 @@ import datetime as dt
 import hashlib
 from database import db
 
-from hca.patients.patient_model import (
-    Patient,
-    Diagnosis,
-    PatientDiagnosis,
-    PatientProvider,
-    PatientPhone,
-    PatientSyndrome,
-    PatientUrgency,
-    PatientStatus,
-    PatientEmail,
-    PatientAddress,
-    PassportPriority,
-    TravelDocument,
-    TravelDocumentEvent,
-    TravelDocumentType,
-    TravelDocumentEventType,
-    TravelDocumentDocType,
-    ClinicalEncounter,
-    ClinicalEncounterType,
-    Surgery,
-    SurgeryEncounter,
-    SocialEncounter)
+from hca.patients.patient_model import *
+from hca.patients.submodels.clinical_detail_model import *
+from hca.patients.submodels.contact_detail_model import *
+from hca.patients.submodels.encounter_detail_model import *
+from hca.patients.submodels.travel_detail_model import *
 
-from hca.providers.provider_model import (
-    Provider,
-    ProviderCategory)
+from hca.providers.provider_model import *
 
-from hca.facilities.facility_model import (
-    Facility,
-    FacilityCategory)
+from hca.facilities.facility_model import *
 
 ''' Import data from the master HCA patient tracking spreadsheet. Done in multiple steps:
     
@@ -73,32 +52,45 @@ def register(app):
         pass
 
     @hca.command()
-    def init():
-        """Initialize default db values and enumerations"""
+    @click.argument('filename', type=click.Path(exists=True))
+    def init(filename):
 
-        # Patient Urgency list
-        urg1 = PatientUrgency()
-        urg1.urgency = "ASAP"
+        """Initialize default categories from spreadsheet"""
 
-        urg2 = PatientUrgency()
-        urg2.urgency = "<6 months"
+        # Iterate through all the sheets in the Categories spreadsheet
+        with pd.ExcelFile(filename) as xlsx:
+            for sheet in xlsx.sheet_names:
 
-        urg3 = PatientUrgency()
-        urg3.urgency = "6-12 months"
+                # The sheet name corresponds to the SQLAlchemy model name
+                print(f'Loading {sheet}')
 
-        urg4 = PatientUrgency()
-        urg4.urgency = "12-24 months"
+                # Get a DataFrame of that sheet
+                df = pd.read_excel(xlsx, sheet)
 
-        urg5 = PatientUrgency()
-        urg5.urgency = ">24 months"
+                # Iterate through the DataFrame line-by-line; build a dict
+                # for each line to load into the database
+                df.apply(lambda x: init_category(sheet, x.to_dict()), axis=1)
 
-        db.session.add_all([urg1, urg2, urg3, urg4, urg5])
+    def init_category(category_model_name, record):
+
+        # Get the corresponing name of the Marshmallow serialization schema
+        schema_name = f'{category_model_name}Schema'
+        print(f'{schema_name} :: {record}')
+
+        # Using reflection we'll create an instance of the schmea class
+        # See: https://stackoverflow.com/a/22959003
+        klass = globals()[schema_name]
+        schema = klass()
+        new_category_object = schema.load(record, session=db.session)
+
+        db.session.add(new_category_object)
         db.session.commit()
-
 
     @hca.command()
     @click.argument('filename', type=click.Path(exists=True))
     def load(filename):
+
+        """Load patient records from master spreadsheet"""
 
         table = generate_table_name()
 
@@ -233,8 +225,15 @@ def register(app):
 
         patient.sex = record.sex
 
-        if not pd.isnull(record.patient_urgency):
-            patient.patient_urgency_id = 1
+        # if not pd.isnull(record.patient_urgency):
+            
+        #     if (record.patient_urgency == "ASAP")
+        #         patient.patient_urgency_id = 1
+        #     else if ()(record.patient_urgency == "6 mos")
+        #         patient.patient_urgency_id = 2
+
+        #     patient.patient_urgency_id = 1
+        #     patient.urgency = urg1 
 
         db.session.add(patient)
 
