@@ -6,6 +6,7 @@ from database import db
 
 from hca.patients.patient_model import *
 from hca.patients.submodels.clinical_detail_model import *
+from hca.patients.submodels.clinical_detail_api import *
 from hca.patients.submodels.contact_detail_model import *
 from hca.patients.submodels.encounter_detail_model import *
 from hca.patients.submodels.travel_detail_model import *
@@ -73,11 +74,11 @@ def register(app):
 
     def init_category(category_model_name, record):
 
-        # Get the corresponing name of the Marshmallow serialization schema
+        # Get the corresponding name of the Marshmallow serialization schema
         schema_name = f'{category_model_name}Schema'
         print(f'{schema_name} :: {record}')
 
-        # Using reflection we'll create an instance of the schmea class
+        # Using reflection we'll create an instance of the schema class
         # See: https://stackoverflow.com/a/22959003
         klass = globals()[schema_name]
         schema = klass()
@@ -140,7 +141,7 @@ def register(app):
         return(f'''SELECT
                 "Id" AS import_id,
                 "hash" AS import_hash,
-                "Status" AS status,
+                "Status" AS patient_status,
                 "Last" AS last_name,
                 "First" AS first_name,
                 "DOB" AS date_of_birth,
@@ -157,7 +158,7 @@ def register(app):
         #
         # Load the raw import via SQL into a DataFame. This
         # two-pass approach allows us to perform some basic
-        # cleanup and preprecessing via SQL prior to importing
+        # cleanup and preprocessing via SQL prior to importing
         # into the new data model
         #
         try:
@@ -225,8 +226,12 @@ def register(app):
 
         patient.sex = record.sex
 
-        # if not pd.isnull(record.patient_urgency):
-            
+        if not pd.isnull(record.patient_status):
+            print(record.patient_status)
+            patient_status = get_patient_status_text(record.patient_status)
+            patient.status = patient_status
+            print(patient_status)
+
         #     if (record.patient_urgency == "ASAP")
         #         patient.patient_urgency_id = 1
         #     else if ()(record.patient_urgency == "6 mos")

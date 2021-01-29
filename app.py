@@ -56,6 +56,9 @@ ict.register(connex.app)
 #
 #   > flask hca load ./resources/hca_master_fake.xlsx
 #
+# Load pre-defined categories
+#
+#   > flask hca init ./resources/hca_category_codes.xlsx
 hca.register(connex.app)
 
 
@@ -66,8 +69,8 @@ else:
     connex.app.config.from_object('config.DevelopmentConfig')
 
     # Delete and recreate the development database on launch
-    if os.path.exists(connex.app.config['DATABASE_FILENAME']):
-        os.remove(connex.app.config['DATABASE_FILENAME'])
+    # if os.path.exists(connex.app.config['DATABASE_FILENAME']):
+    #     os.remove(connex.app.config['DATABASE_FILENAME'])
 
     # Setup development database
     with connex.app.app_context():
