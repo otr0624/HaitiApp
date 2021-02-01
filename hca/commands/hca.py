@@ -89,7 +89,12 @@ def register(app):
 
     @hca.command()
     @click.argument('filename', type=click.Path(exists=True))
-    def load(filename):
+    @click.option(
+        '--refresh',
+        required=False,
+        is_flag=True,
+        help='Force refresh of patient record')
+    def load(filename, refresh):
 
         """Load patient records from master spreadsheet"""
 
@@ -104,7 +109,7 @@ def register(app):
 
         # Process the imported raw data and build
         # the necessary database objects
-        process_import(db, table)
+        process_import(db, table, refresh)
 
     def import_master_spreadsheet(db, master_spreadsheet, table_name):
 
@@ -153,7 +158,7 @@ def register(app):
 
             FROM {table_name}''')
 
-    def process_import(db, table_name):
+    def process_import(db, table_name, refresh):
 
         #
         # Load the raw import via SQL into a DataFame. This
@@ -173,12 +178,12 @@ def register(app):
 
         for record in df.itertuples():
             try:
-                load_patient(db, record)
+                load_patient(db, record, refresh)
             except Exception as e:
                 print(e)
                 print(record)
 
-    def load_patient(db, record):
+    def load_patient(db, record, refresh):
 
         #
         # record is a NamedTuple where every field corresponds
@@ -196,7 +201,7 @@ def register(app):
         if patient:
             # This patient record already exists, check import_hash
             # to see if the record has changed at all
-            if patient.import_hash == record.import_hash:
+            if not refresh and patient.import_hash == record.import_hash:
                 # Nothing to do
                 print(f'Skipped: #{record.import_id}'
                     f' {record.first_name} {record.last_name}'
