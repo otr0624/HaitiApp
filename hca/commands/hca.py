@@ -154,7 +154,8 @@ def register(app):
                 "Diagnosis" AS diagnosis,
                 "Diagnosis comments" AS diagnosis_comments,
                 "Contact Notes/Issues" AS patient_contact_notes,
-                "Urgency" AS patient_urgency
+                "Urgency" AS patient_urgency,
+                "Syndrome status" AS patient_syndrome
 
             FROM {table_name}''')
 
@@ -237,13 +238,17 @@ def register(app):
             patient.status = patient_status
             print(patient_status)
 
-        #     if (record.patient_urgency == "ASAP")
-        #         patient.patient_urgency_id = 1
-        #     else if ()(record.patient_urgency == "6 mos")
-        #         patient.patient_urgency_id = 2
+        if not pd.isnull(record.patient_urgency):
+            print(record.patient_urgency)
+            patient_urgency = get_patient_urgency_text(record.patient_urgency)
+            patient.urgency = patient_urgency
+            print(patient_urgency)
 
-        #     patient.patient_urgency_id = 1
-        #     patient.urgency = urg1 
+        if not pd.isnull(record.patient_syndrome):
+            print(record.patient_syndrome)
+            patient_syndrome = get_patient_syndrome_text(record.patient_syndrome)
+            patient.syndrome = patient_syndrome
+            print(patient_syndrome)
 
         db.session.add(patient)
 
