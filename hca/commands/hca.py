@@ -7,6 +7,7 @@ from database import db
 from hca.patients.patient_model import *
 from hca.patients.submodels.clinical_detail_model import *
 from hca.patients.submodels.clinical_detail_api import *
+from hca.patients.submodels.travel_detail_api import *
 from hca.patients.submodels.contact_detail_model import *
 from hca.patients.submodels.encounter_detail_model import *
 from hca.patients.submodels.travel_detail_model import *
@@ -155,7 +156,8 @@ def register(app):
                 "Diagnosis comments" AS diagnosis_comments,
                 "Contact Notes/Issues" AS patient_contact_notes,
                 "Urgency" AS patient_urgency,
-                "Syndrome status" AS patient_syndrome
+                "Syndrome status" AS patient_syndrome,
+                "PP Priority" AS passport_priority
 
             FROM {table_name}''')
 
@@ -233,22 +235,22 @@ def register(app):
         patient.sex = record.sex
 
         if not pd.isnull(record.patient_status):
-            print(record.patient_status)
             patient_status = get_patient_status_text(record.patient_status)
             patient.status = patient_status
-            print(patient_status)
 
         if not pd.isnull(record.patient_urgency):
-            print(record.patient_urgency)
             patient_urgency = get_patient_urgency_text(record.patient_urgency)
             patient.urgency = patient_urgency
-            print(patient_urgency)
 
         if not pd.isnull(record.patient_syndrome):
-            print(record.patient_syndrome)
             patient_syndrome = get_patient_syndrome_text(record.patient_syndrome)
             patient.syndrome = patient_syndrome
-            print(patient_syndrome)
+
+        if not pd.isnull(record.passport_priority):
+            print(record.passport_priority)
+            passport_priority = get_passport_priority_text(record.passport_priority)
+            patient.passport_priority = passport_priority
+            print(passport_priority)
 
         db.session.add(patient)
 
