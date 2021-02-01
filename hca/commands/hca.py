@@ -157,7 +157,8 @@ def register(app):
                 "Contact Notes/Issues" AS patient_contact_notes,
                 "Urgency" AS patient_urgency,
                 "Syndrome status" AS patient_syndrome,
-                "PP Priority" AS passport_priority
+                "PP Priority" AS passport_priority,
+                "Passport notes/issues" as passport_priority_notes
 
             FROM {table_name}''')
 
@@ -247,10 +248,12 @@ def register(app):
             patient.syndrome = patient_syndrome
 
         if not pd.isnull(record.passport_priority):
-            print(record.passport_priority)
             passport_priority = get_passport_priority_text(record.passport_priority)
             patient.passport_priority = passport_priority
-            print(passport_priority)
+
+        if not pd.isnull(record.passport_priority_notes):
+            patient.passport_priority_notes = record.passport_priority_notes
+            print(patient.passport_priority_notes)
 
         db.session.add(patient)
 

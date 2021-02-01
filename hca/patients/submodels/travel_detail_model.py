@@ -4,6 +4,7 @@ from database import db, ma
 class PassportPriority(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     passport_priority = db.Column(db.String(32))
+    passport_priority_notes = db.Column(db.String(128))
 
 
 # This class includes a list of intermediate documents (birth certs, etc) not directly used for travel
