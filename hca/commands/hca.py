@@ -158,8 +158,11 @@ def register(app):
                 "Urgency" AS patient_urgency,
                 "Syndrome status" AS patient_syndrome,
                 "PP Priority" AS passport_priority,
-                "Passport notes/issues" as passport_priority_notes
-
+                "Passport notes/issues" as passport_priority_notes,
+                "Surgery Date" as surgery_date,
+                "Surgery Location" as surgery_location,
+                "Surgeon" as surgeon,
+                "Surgery Note" as surgery_note
             FROM {table_name}''')
 
     def process_import(db, table_name, refresh):
@@ -176,7 +179,7 @@ def register(app):
                     generate_import_sql(table_name),
                     conn,
                     # Which columns to parse as Python datetimes
-                    parse_dates=('date_of_birth'))
+                    parse_dates=['date_of_birth', 'surgery_date'])
         finally:
             conn.close()
 
@@ -253,7 +256,15 @@ def register(app):
 
         if not pd.isnull(record.passport_priority_notes):
             patient.passport_priority_notes = record.passport_priority_notes
-            print(patient.passport_priority_notes)
+
+        if not pd.isnull(record.surgery_date):
+            psurg1 = SurgeryEncounter()
+            psurg1.surgery_id = 1
+            psurg1.lead_surgeon_id = 1
+            psurg1.surgical_facility_id = 1
+            psurg1.date = record.surgery_date
+            patient.surgery_encounter.append(psurg1)
+            db.session.add(psurg1)
 
         db.session.add(patient)
 
