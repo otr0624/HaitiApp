@@ -263,6 +263,7 @@ def register(app):
             psurg1.lead_surgeon_id = 1
             psurg1.surgical_facility_id = 1
             psurg1.date = record.surgery_date
+            psurg1.notes = record.surgery_note
             patient.surgery_encounter.append(psurg1)
             db.session.add(psurg1)
 
