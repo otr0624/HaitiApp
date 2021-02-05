@@ -162,7 +162,8 @@ def register(app):
                 "Surgery Date" as surgery_date,
                 "Surgery Location" as surgery_location,
                 "Surgeon" as surgeon,
-                "Surgery Note" as surgery_note
+                "Surgery Note" as surgery_note,
+                "Hometown" as address_city
             FROM {table_name}''')
 
     def process_import(db, table_name, refresh):
@@ -266,6 +267,12 @@ def register(app):
             psurg1.notes = record.surgery_note
             patient.surgery_encounter.append(psurg1)
             db.session.add(psurg1)
+
+        # if not pd.isnull(record.address_city):
+        #     paddr1 = PatientAddress()
+        #     paddr1.city = record.address_city
+        #     patient.patient_address.append(paddr1)
+        #     db.session.add(paddr1)
 
         db.session.add(patient)
 
